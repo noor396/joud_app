@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "99724757209",
+    "project_id": "joud-2d598",
+    "storage_bucket": "joud-2d598.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:99724757209:android:07444ba1a3b53d2ffad6c8",
+        "android_client_info": {
+          "package_name": "com.example.joud_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "99724757209-pbvis1vtlsvtqiogsajg9ih5pg0u8j54.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCB4q6dFoUOty4ZcyBiMqVLi6IJS55Ti9g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "99724757209-pbvis1vtlsvtqiogsajg9ih5pg0u8j54.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
