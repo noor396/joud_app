@@ -21,40 +21,37 @@ class _RegisterState extends State<Register> {
         ),
         body: Stack(
           children: [
-            RaisedButton(
-              onPressed: () {
-                Register_B();
-              },
-              color: Colors.green,
-              child: Text(
-                "Business Account",
-                style: TextStyle(
-                  color: Color.fromRGBO(215, 204, 200, 1.0),
-                ),
+            Container(
+              margin: EdgeInsets.all(10),
+              height: 50.0,
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(color: Color.fromRGBO(0, 160, 227, 1))),
+                onPressed: () {
+                  Register_B();
+                },
+                padding: EdgeInsets.all(10.0),
+                color: Color.fromRGBO(0, 160, 227, 1),
+                textColor: Colors.white,
+                child: Text("Business Account", style: TextStyle(fontSize: 15)),
               ),
-            ),
-            SizedBox(
-              height: 30.0,
-            ),
-            RaisedButton(
-              onPressed: () {
-                Register_P();
-              },
-              color: Colors.green,
-              child: Text(
-                "Private Account",
-                style: TextStyle(
-                  color: Color.fromRGBO(215, 204, 200, 1.0),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 30.0,
             ),
             Container(
-              height: 4.0,
-              // width: screenWidth * 0.8,
-              color: Colors.green,
+              margin: EdgeInsets.all(10),
+              height: 50.0,
+              child: RaisedButton(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(color: Color.fromRGBO(0, 160, 227, 1))),
+                onPressed: () {
+                  Register_P();
+                },
+                padding: EdgeInsets.all(10.0),
+                color: Colors.white,
+                textColor: Color.fromRGBO(0, 160, 227, 1),
+                child: Text("Private Account", style: TextStyle(fontSize: 15)),
+              ),
             ),
           ],
         ));
