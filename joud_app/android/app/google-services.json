@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "99724757209-al033nvpgmfs5g073o03m1f8u06bil13.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.joud_app",
+            "certificate_hash": "c717ce4daaedb0fd72e07c1be15c2faa96e87052"
+          }
+        },
+        {
           "client_id": "99724757209-pbvis1vtlsvtqiogsajg9ih5pg0u8j54.apps.googleusercontent.com",
           "client_type": 3
         }

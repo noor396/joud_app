@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:joud_app/pages/joudApp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginSc extends StatefulWidget {
   @override
@@ -26,6 +27,8 @@ class LogInScreen extends State<LoginSc> {
   final TextEditingController pass_wordtextEditingController =
       TextEditingController();
   final GlobalKey<FormState> from_key = GlobalKey<FormState>();
+
+  //GoogleAuthProvider googleAuthProvider = new GoogleAuthProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -83,16 +86,29 @@ class LogInScreen extends State<LoginSc> {
                           );
                         });
               },
-              color: Colors.green,
+              color: Color.fromRGBO(215, 204, 200, 1.0),
               child: Text(
                 "Login",
                 style: TextStyle(
-                  color: Color.fromRGBO(215, 204, 200, 1.0),
+                  color: Colors.black,
                 ),
               ),
             ),
             SizedBox(
               height: 50.0,
+            ),
+            RaisedButton(
+              color: Color.fromRGBO(215, 204, 200, 1.0),
+              child: Text(
+                "Sign in with Google",
+                style: TextStyle(
+                  color: Colors.black,
+                ),
+              ),
+              elevation: 7.0,
+              onPressed: () {
+                //  googleAuthProvider.
+              },
             ),
             Container(
               height: 4.0,
@@ -136,18 +152,12 @@ class LogInScreen extends State<LoginSc> {
       email: emailtextEditingController.text.trim(),
       password: pass_wordtextEditingController.text.trim(),
     )
-        .then((authUser) {
-      firebaseuser = authUser.user;
+        .then((authuser) {
+      firebaseuser = authuser.user;
+      Navigator.of(context)
+          .pushReplacementNamed('/home'); // the name of home page
     }).catchError((error) {
-      Navigator.pop(context);
-      // showAboutDialog(
-      //     context: context,
-      //     builder: (c) {
-      //       return ErrorAlertDialog(
-      //         msg: error.message.toString(),
-      //       );
-      //     }
-      //     );
+      //print(error);
       showDialog(
           context: context,
           builder: (c) {
@@ -156,6 +166,7 @@ class LogInScreen extends State<LoginSc> {
             );
           });
     });
+    // be sure this is true or no ???? and the next function
     if (firebaseuser != null) {
       readData(firebaseuser);
       // to move to home page
