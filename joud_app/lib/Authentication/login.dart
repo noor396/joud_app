@@ -29,6 +29,8 @@ class LogInScreen extends State<LoginSc> {
   final GlobalKey<FormState> from_key = GlobalKey<FormState>();
 
   //GoogleAuthProvider googleAuthProvider = new GoogleAuthProvider();
+  GoogleSingIn googleSingIn = new GoogleSignIn();
+  //GoogleAuthProvider googleAuthCredential = new GoogleAuthProvider();
 
   @override
   Widget build(BuildContext context) {
@@ -107,7 +109,25 @@ class LogInScreen extends State<LoginSc> {
               ),
               elevation: 7.0,
               onPressed: () {
-                //  googleAuthProvider.
+                googleSingIn.signIn().then((result) {
+                  result.authentication.then((googlekey) {
+                    FirebaseAuth.instance
+                        .signInWithGoogle(
+                            IdToken: googlekey.idToken,
+                            accessToken: googlekey.accessToken)
+                        .then((signInUser) {
+                      print('Signed in as ${signInUser.displayName}');
+                      Navigator.of(context).pushReplacementNamed(
+                          '/home'); //  the name of home page
+                    }).catchError((e) {
+                      print(e);
+                    });
+                  }).catchError((e) {
+                    print(e);
+                  });
+                }).catchError((e) {
+                  print(e);
+                });
               },
             ),
             Container(
@@ -206,3 +226,20 @@ class LogInScreen extends State<LoginSc> {
     });
   }
 }
+
+// Future<User> signInWithGoogle() async {
+//   final GoogleSignInAccount googleSignInAccount =
+//       await googleSignInAccount.signIn();
+
+//   final GoogleSignInAuthentication googleSign = await googleSign.authentication;
+// }
+
+///////////////////////////////////// sign out code .....
+/*
+
+void signOutGoogle() async{
+  await _googleSignIn.signOut();
+  print("User Sign Out");
+}
+
+ */
