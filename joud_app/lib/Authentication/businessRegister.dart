@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:joud_app/Authentication/uploadFile.dart';
 import 'package:joud_app/Widgets/customTextField.dart';
 import 'package:joud_app/Widgets/errorAlertDialog.dart';
 import 'package:joud_app/Widgets/loadAlertDialog.dart';
@@ -28,6 +29,7 @@ class _RegisterState_B extends State<Register_B> {
       TextEditingController();
   final TextEditingController conform_passwordtextEditingController =
       TextEditingController();
+  //   final text
   final GlobalKey<FormState> from_key = GlobalKey<FormState>();
   String userImgUrl = "";
   File imgFile;
@@ -38,6 +40,7 @@ class _RegisterState_B extends State<Register_B> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width,
         screenHeight = MediaQuery.of(context).size.height;
+
     return SingleChildScrollView(
       child: Container(
         child: Column(
@@ -48,6 +51,7 @@ class _RegisterState_B extends State<Register_B> {
             ),
             InkWell(
               onTap: _selectAndPickImg,
+              onDoubleTap: _selectAndPickImg,
               child: CircleAvatar(
                 radius: screenWidth * 0.15,
                 backgroundColor: Color.fromRGBO(230, 238, 156, 1.0),
@@ -91,6 +95,13 @@ class _RegisterState_B extends State<Register_B> {
                   hintText: "Confirm Password",
                   isObsecure: true,
                 ),
+                 FloatingActionButton(onPressed: () async {
+                   file1 = (await ImagePicker.pickImage(source: ImageSource.gallery)) as File;
+                 }),
+                // FlatButton(
+                //   onPressed: ,
+                //  child: Text("Upload a File" , style: TextStyle())
+                //  ),
                 FlatButton(
                     onPressed: uploading ? null : () => UploadandSaveFile(),
                     child: Text("Add", style: TextStyle())),
@@ -137,6 +148,24 @@ class _RegisterState_B extends State<Register_B> {
           builder: (c) {
             return ErrorAlertDialog(msg: "Please select an image file.");
           });
+     } //else {
+    //   pass_wordtextEditingController.text ==
+    //           conform_passwordtextEditingController.text
+    //       ? emailtextEditingController.text.isNotEmpty &&
+    //               pass_wordtextEditingController.text.isNotEmpty &&
+    //               conform_passwordtextEditingController.text.isNotEmpty &&
+    //               nametextEditingController.text.isNotEmpty
+    //           ? uploadToStorge()
+    //           : displayDialog(
+    //               "Please fill up the registration complete form...")
+    //       : displayDialog("Password do not match.");
+    // }
+    else if (file1 == null) {
+      showDialog(
+          context: context,
+          builder: (c) {
+            return ErrorAlertDialog(msg: "Please select an image file.");
+          });
     } else {
       pass_wordtextEditingController.text ==
               conform_passwordtextEditingController.text
@@ -176,6 +205,17 @@ class _RegisterState_B extends State<Register_B> {
     // UploadTask uploadTask = FirebaseStorage.putFile(imgFile);
     TaskSnapshot taskSnapshot; //= await uploadTask.
     await taskSnapshot.ref.getDownloadURL().then((userImgUrl) {
+      //userImageUrl = userImgUrl;
+     // registerUser();
+    });
+
+    String imageFileName2 = DateTime.now().microsecondsSinceEpoch.toString();
+
+    Reference reference2 = FirebaseStorage.instance.ref().child(imageFileName2);
+
+    // UploadTask uploadTask = FirebaseStorage.putFile(imgFile);
+    TaskSnapshot taskSnapshot2; //= await uploadTask.
+    await taskSnapshot.ref.getDownloadURL().then((file1) {
       //userImageUrl = userImgUrl;
       registerUser();
     });
