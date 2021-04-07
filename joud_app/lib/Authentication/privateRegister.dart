@@ -1,15 +1,17 @@
-import 'dart:developer';
+import 'dart:developer'; //rama
 import 'dart:html';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:joud_app/Widgets/customTextField.dart';
-import 'package:joud_app/Widgets/errorAlertDialog.dart';
-import 'package:joud_app/Widgets/loadAlertDialog.dart';
+import 'package:joud_app/lang/language_provider.dart';
+import 'package:joud_app/widgets/customTextField.dart';
+import 'package:joud_app/widgets/errorAlertDialog.dart';
+import 'package:joud_app/widgets/loadAlertDialog.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:joud_app/pages/joudApp.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -36,87 +38,91 @@ class _RegisterState extends State<Register_P> {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width,
         screenHeight = MediaQuery.of(context).size.height;
-    return SingleChildScrollView(
-      child: Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            SizedBox(
-              height: 10.0,
-            ),
-            InkWell(
-              onTap: _selectAndPickImg,
-              child: CircleAvatar(
-                radius: screenWidth * 0.15,
-                backgroundColor: Color.fromRGBO(230, 238, 156, 1.0),
-                //  backgroundImage: imgFile == null ? null : FileImage(imgFile),
-                child: imgFile == null
-                    ? Icon(
-                        Icons.add_photo_alternate,
-                        size: screenWidth * 0.15,
-                        color: Colors.grey,
-                      )
-                    : null,
+    var lan = Provider.of<LanguageProvider>(context, listen: true);
+    return Directionality(
+      textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
+      child: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              SizedBox(
+                height: 10.0,
               ),
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            Form(
-              key: from_key,
-              child: Column(
-                children: [
-                  CustomTextFiled(
-                    controllr: nametextEditingController,
-                    data: Icons.person,
-                    hintText: "Name",
-                    isObsecure: false,
-                  ),
-                  CustomTextFiled(
-                    controllr: emailtextEditingController,
-                    data: Icons.email,
-                    hintText: "Email",
-                    isObsecure: false,
-                  ),
-                  CustomTextFiled(
-                    controllr: pass_wordtextEditingController,
-                    data: Icons.person,
-                    hintText: "Password",
-                    isObsecure: true,
-                  ),
-                  CustomTextFiled(
-                    controllr: conform_passwordtextEditingController,
-                    data: Icons.person,
-                    hintText: "Confirm Password",
-                    isObsecure: true,
-                  ),
-                ],
-              ),
-            ),
-            RaisedButton(
-              onPressed: () {
-                uploadAndSaveImg();
-              },
-              color: Colors.green,
-              child: Text(
-                "sign up",
-                style: TextStyle(
-                  color: Color.fromRGBO(215, 204, 200, 1.0),
+              InkWell(
+                onTap: _selectAndPickImg,
+                child: CircleAvatar(
+                  radius: screenWidth * 0.15,
+                  backgroundColor: Color.fromRGBO(230, 238, 156, 1.0),
+                  //  backgroundImage: imgFile == null ? null : FileImage(imgFile),
+                  child: imgFile == null
+                      ? Icon(
+                          Icons.add_photo_alternate,
+                          size: screenWidth * 0.15,
+                          color: Colors.grey,
+                        )
+                      : null,
                 ),
               ),
-            ),
-            SizedBox(
-              height: 30.0,
-            ),
-            Container(
-              height: 4.0,
-              width: screenWidth * 0.8,
-              color: Colors.green,
-            ),
-            SizedBox(
-              height: 15.0,
-            ),
-          ],
+              SizedBox(
+                height: 8.0,
+              ),
+              Form(
+                key: from_key,
+                child: Column(
+                  children: [
+                    CustomTextFiled(
+                      controllr: nametextEditingController,
+                      data: Icons.person,
+                      hintText: lan.getTexts('privateRegister_hintText1'),
+                      isObsecure: false,
+                    ),
+                    CustomTextFiled(
+                      controllr: emailtextEditingController,
+                      data: Icons.email,
+                      hintText: lan.getTexts('privateRegister_hintText2'),
+                      isObsecure: false,
+                    ),
+                    CustomTextFiled(
+                      controllr: pass_wordtextEditingController,
+                      data: Icons.person,
+                      hintText: lan.getTexts('privateRegister_hintText3'),
+                      isObsecure: true,
+                    ),
+                    CustomTextFiled(
+                      controllr: conform_passwordtextEditingController,
+                      data: Icons.person,
+                      hintText: lan.getTexts('privateRegister_hintText4'),
+                      isObsecure: true,
+                    ),
+                  ],
+                ),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  uploadAndSaveImg(lan);
+                },
+                color: Colors.green,
+                child: Text(
+                  lan.getTexts('privateRegister_Text1'),
+                  style: TextStyle(
+                    color: Color.fromRGBO(215, 204, 200, 1.0),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30.0,
+              ),
+              Container(
+                height: 4.0,
+                width: screenWidth * 0.8,
+                color: Colors.green,
+              ),
+              SizedBox(
+                height: 15.0,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -127,12 +133,13 @@ class _RegisterState extends State<Register_P> {
         (await ImagePicker.pickImage(source: ImageSource.gallery)) as File;
   }
 
-  Future<void> uploadAndSaveImg() async {
+  Future<void> uploadAndSaveImg(lan) async {
     if (imgFile == null) {
       showDialog(
           context: context,
           builder: (c) {
-            return ErrorAlertDialog(msg: "Please select an image file.");
+            return ErrorAlertDialog(
+                msg: lan.getTexts('privateRegister_AlertDialog_msg1'));
           });
     } else {
       pass_wordtextEditingController.text ==
@@ -141,14 +148,13 @@ class _RegisterState extends State<Register_P> {
                   pass_wordtextEditingController.text.isNotEmpty &&
                   conform_passwordtextEditingController.text.isNotEmpty &&
                   nametextEditingController.text.isNotEmpty
-              ? uploadToStorge()
-              : displayDialog(
-                  "Please fill up the registration complete form...")
-          : displayDialog("Password do not match.");
+              ? uploadToStorge(lan)
+              : displayDialog(lan.getTexts('privateRegister_AlertDialog_msg2'))
+          : displayDialog(lan.getTexts('privateRegister_AlertDialog_msg3'));
     }
   }
 
-  displayDialog(String msg1) {
+  displayDialog(msg1) {
     showDialog(
         context: context,
         builder: (c) {
@@ -158,12 +164,12 @@ class _RegisterState extends State<Register_P> {
         });
   }
 
-  Future<void> uploadToStorge() async {
+  Future<void> uploadToStorge(lan) async {
     showDialog(
         context: context,
         builder: (c) {
           return LoadAlertDialog(
-            message: "Registring, Please wait.....",
+            message: lan.getTexts('privateRegister_LoadAlertDialog_msg1'),
           );
         });
     String imageFileName = DateTime.now().microsecondsSinceEpoch.toString();
