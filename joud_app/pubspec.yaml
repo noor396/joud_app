@@ -40,16 +40,16 @@ dependencies:
   fluttertoast: ^8.0.3
   flutter_staggered_grid_view: ^0.3.4
   provider: ^5.0.0
+  carousel_slider: ^3.0.0
   path_provider:  ^1.6.10 #^2.0.1
   firebase_storage:  ^7.0.0 #^8.0.1 #^3.1.1
   cloud_functions: ^1.0.2
   firebase_auth:  ^1.0.1 #^0.20.0+1
-  firebase_core: ^1.0.1 ##
-  google_sign_in: #^4.4.4
-  cloud_firestore: ^1.0.3 #^0.16.0+1   #^1.0.1
+  firebase_core:  ^1.0.1  #^0.7.0
+  google_sign_in: ^5.0.0
+  cloud_firestore: ^1.0.3 #^0.16.0+1     #^1.0.1
   image: ^2.0.7
-  graphql_flutter: ^4.0.1 #^2.0.0 
-  flutter_login_facebook: ^1.0.1
+  graphql_flutter: ^4.0.1 #^2.0.0
 
   
 
@@ -71,6 +71,13 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
    - assets/app_jo.png
+   - assets/update_profile_page.jpg
+   - assets/blank-profile-picture.png
+   - assets/Joud_Logo.png
+   - assets/Intro1_background.png
+   - assets/loading.gif
+   - assets/About.png
+   - assets/Intro2_background.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
@@ -87,6 +94,16 @@ flutter:
     - family: Schyler
       fonts:
         - asset: fonts/Schyler-Regular.ttf
+
+    - family: MyFlutterApp
+      fonts:
+        - asset: fonts/MyFlutterApp.ttf
+          #       - asset: fonts/Schyler-Italic.ttf
+          #         style: italic
+    - family: Quicksand
+      fonts:
+        - asset: fonts/Quicksand-Light.ttf
+        - asset: fonts/Quicksand-Bold.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

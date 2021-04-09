@@ -6,11 +6,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:joud_app/Authentication/uploadFile.dart';
-import 'package:joud_app/Widgets/customTextField.dart';
-import 'package:joud_app/Widgets/errorAlertDialog.dart';
-import 'package:joud_app/Widgets/loadAlertDialog.dart';
+import 'package:joud_app/lang/language_provider.dart';
+import 'package:joud_app/widgets/customTextField.dart';
+import 'package:joud_app/widgets/errorAlertDialog.dart';
+import 'package:joud_app/widgets/loadAlertDialog.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:joud_app/pages/joudApp.dart';
+import 'package:joud_app/screens/joudApp.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -35,102 +37,112 @@ class _RegisterState_B extends State<Register_B> {
   File imgFile;
   File file1;
   bool uploading = true;
+  @override
+  void initState() {
+    Provider.of<LanguageProvider>(context, listen: false).getLan();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width,
         screenHeight = MediaQuery.of(context).size.height;
-
-    return SingleChildScrollView(
-      child: Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            SizedBox(
-              height: 10.0,
-            ),
-            InkWell(
-              onTap: _selectAndPickImg,
-              onDoubleTap: _selectAndPickImg,
-              child: CircleAvatar(
-                radius: screenWidth * 0.15,
-                backgroundColor: Color.fromRGBO(230, 238, 156, 1.0),
-                //  backgroundImage: imgFile == null ? null : FileImage(imgFile),
-                child: imgFile == null
-                    ? Icon(
-                        Icons.add_photo_alternate,
-                        size: screenWidth * 0.15,
-                        color: Colors.grey,
-                      )
-                    : null,
+    var lan = Provider.of<LanguageProvider>(context, listen: true);
+    return Directionality(
+      textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
+      child: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              SizedBox(
+                height: 10.0,
               ),
-            ),
-            SizedBox(
-              height: 8.0,
-            ),
-            Form(
-              key: from_key,
-              child: Column(children: [
-                CustomTextFiled(
-                  controllr: nametextEditingController,
-                  data: Icons.person,
-                  hintText: "Name",
-                  isObsecure: false,
-                ),
-                CustomTextFiled(
-                  controllr: emailtextEditingController,
-                  data: Icons.email,
-                  hintText: "Email",
-                  isObsecure: false,
-                ),
-                CustomTextFiled(
-                  controllr: pass_wordtextEditingController,
-                  data: Icons.person,
-                  hintText: "Password",
-                  isObsecure: true,
-                ),
-                CustomTextFiled(
-                  controllr: conform_passwordtextEditingController,
-                  data: Icons.person,
-                  hintText: "Confirm Password",
-                  isObsecure: true,
-                ),
-                 FloatingActionButton(onPressed: () async {
-                   file1 = (await ImagePicker.pickImage(source: ImageSource.gallery)) as File;
-                 }),
-                // FlatButton(
-                //   onPressed: ,
-                //  child: Text("Upload a File" , style: TextStyle())
-                //  ),
-                FlatButton(
-                    onPressed: uploading ? null : () => UploadandSaveFile(),
-                    child: Text("Add", style: TextStyle())),
-              ]),
-            ),
-            RaisedButton(
-              onPressed: () {
-                uploadAndSaveImg();
-              },
-              color: Colors.green,
-              child: Text(
-                "sign up",
-                style: TextStyle(
-                  color: Color.fromRGBO(215, 204, 200, 1.0),
+              InkWell(
+                onTap: _selectAndPickImg,
+                onDoubleTap: _selectAndPickImg,
+                child: CircleAvatar(
+                  radius: screenWidth * 0.15,
+                  backgroundColor: Color.fromRGBO(230, 238, 156, 1.0),
+                  //  backgroundImage: imgFile == null ? null : FileImage(imgFile),
+                  child: imgFile == null
+                      ? Icon(
+                          Icons.add_photo_alternate,
+                          size: screenWidth * 0.15,
+                          color: Colors.grey,
+                        )
+                      : null,
                 ),
               ),
-            ),
-            SizedBox(
-              height: 30.0,
-            ),
-            Container(
-              height: 4.0,
-              width: screenWidth * 0.8,
-              color: Colors.green,
-            ),
-            SizedBox(
-              height: 15.0,
-            ),
-          ],
+              SizedBox(
+                height: 8.0,
+              ),
+              Form(
+                key: from_key,
+                child: Column(children: [
+                  CustomTextFiled(
+                    controllr: nametextEditingController,
+                    data: Icons.person,
+                    hintText: lan.getTexts('bussRegister_hintText1'),
+                    isObsecure: false,
+                  ),
+                  CustomTextFiled(
+                    controllr: emailtextEditingController,
+                    data: Icons.email,
+                    hintText: lan.getTexts('bussRegister_hintText2'),
+                    isObsecure: false,
+                  ),
+                  CustomTextFiled(
+                    controllr: pass_wordtextEditingController,
+                    data: Icons.person,
+                    hintText: lan.getTexts('bussRegister_hintText3'),
+                    isObsecure: true,
+                  ),
+                  CustomTextFiled(
+                    controllr: conform_passwordtextEditingController,
+                    data: Icons.person,
+                    hintText: lan.getTexts('bussRegister_hintText4'),
+                    isObsecure: true,
+                  ),
+                  FloatingActionButton(onPressed: () async {
+                    file1 = (await ImagePicker.pickImage(
+                        source: ImageSource.gallery)) as File;
+                  }),
+                  // FlatButton(
+                  //   onPressed: ,
+                  //  child: Text("Upload a File" , style: TextStyle())
+                  //  ),
+                  FlatButton(
+                      onPressed: uploading ? null : () => UploadandSaveFile(),
+                      child: Text(lan.getTexts('buss_Screen_FlatButton_Text'),
+                          style: TextStyle())),
+                ]),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  uploadAndSaveImg(lan);
+                },
+                color: Colors.green,
+                child: Text(
+                  lan.getTexts('bussRegister_Text1'),
+                  style: TextStyle(
+                    color: Color.fromRGBO(215, 204, 200, 1.0),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30.0,
+              ),
+              Container(
+                height: 4.0,
+                width: screenWidth * 0.8,
+                color: Colors.green,
+              ),
+              SizedBox(
+                height: 15.0,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -141,14 +153,15 @@ class _RegisterState_B extends State<Register_B> {
         (await ImagePicker.pickImage(source: ImageSource.gallery)) as File;
   }
 
-  Future<void> uploadAndSaveImg() async {
+  Future<void> uploadAndSaveImg(lan) async {
     if (imgFile == null) {
       showDialog(
           context: context,
           builder: (c) {
-            return ErrorAlertDialog(msg: "Please select an image file.");
+            return ErrorAlertDialog(
+                msg: lan.getTexts('bussRegister_AlertDialog_msg1'));
           });
-     } //else {
+    } //else {
     //   pass_wordtextEditingController.text ==
     //           conform_passwordtextEditingController.text
     //       ? emailtextEditingController.text.isNotEmpty &&
@@ -164,7 +177,8 @@ class _RegisterState_B extends State<Register_B> {
       showDialog(
           context: context,
           builder: (c) {
-            return ErrorAlertDialog(msg: "Please select an image file.");
+            return ErrorAlertDialog(
+                msg: lan.getTexts('bussRegister_AlertDialog_msg1'));
           });
     } else {
       pass_wordtextEditingController.text ==
@@ -173,10 +187,11 @@ class _RegisterState_B extends State<Register_B> {
                   pass_wordtextEditingController.text.isNotEmpty &&
                   conform_passwordtextEditingController.text.isNotEmpty &&
                   nametextEditingController.text.isNotEmpty
-              ? uploadToStorge()
+              ? uploadToStorge(lan)
               : displayDialog(
-                  "Please fill up the registration complete form...")
-          : displayDialog("Password do not match.");
+                  lan.getTexts('bussRegister_AlertDialog_msg2'),
+                )
+          : displayDialog(lan.getTexts('bussRegister_AlertDialog_msg3'));
     }
   }
 
@@ -190,12 +205,12 @@ class _RegisterState_B extends State<Register_B> {
         });
   }
 
-  Future<void> uploadToStorge() async {
+  Future<void> uploadToStorge(lan) async {
     showDialog(
         context: context,
         builder: (c) {
           return LoadAlertDialog(
-            message: "Registring, Please wait.....",
+            message: lan.getTexts('bussRegister_LoadAlertDialog_msg1'),
           );
         });
     String imageFileName = DateTime.now().microsecondsSinceEpoch.toString();
@@ -206,7 +221,7 @@ class _RegisterState_B extends State<Register_B> {
     TaskSnapshot taskSnapshot; //= await uploadTask.
     await taskSnapshot.ref.getDownloadURL().then((userImgUrl) {
       //userImageUrl = userImgUrl;
-     // registerUser();
+      // registerUser();
     });
 
     String imageFileName2 = DateTime.now().microsecondsSinceEpoch.toString();

@@ -6,11 +6,13 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:joud_app/Admin/adminlogin.dart';
-import 'package:joud_app/Widgets/customTextField.dart';
-import 'package:joud_app/Widgets/errorAlertDialog.dart';
-import 'package:joud_app/Widgets/loadAlertDialog.dart';
+import 'package:joud_app/lang/language_provider.dart';
+import 'package:joud_app/widgets/customTextField.dart';
+import 'package:joud_app/widgets/errorAlertDialog.dart';
+import 'package:joud_app/widgets/loadAlertDialog.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:joud_app/pages/joudApp.dart';
+import 'package:joud_app/screens/joudApp.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:google_sign_in/google_sign_in.dart';
@@ -35,30 +37,33 @@ class LogInScreen extends State<LoginSc> {
   //GoogleAuthProvider googleAuthProvider = new GoogleAuthProvider();
 
   //GoogleAuthProvider googleAuthCredential = new GoogleAuthProvider();
+  @override
+  void initState() {
+    Provider.of<LanguageProvider>(context, listen: false).getLan();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     double _screenWidth = MediaQuery.of(context).size.width;
     double _screenHeight = MediaQuery.of(context).size.height;
-    return SingleChildScrollView(
-      child: Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Container(
-              alignment: Alignment.bottomCenter,
-              child: Image.asset(
-                "app_jo.png",
-                height: 240.0,
-                width: 240.0,
+    var lan = Provider.of<LanguageProvider>(context, listen: true);
+    return Directionality(
+      textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
+      child: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                alignment: Alignment.bottomCenter,
+                child: Image.asset(
+                  "assets/app_jo.png",
+                  height: 240.0,
+                  width: 240.0,
+                ),
               ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Text(
-                "Login to your account",
-                style: TextStyle(color: Colors.white),
-              ),
+<<<<<<< HEAD
             ),
             Form(
               key: from_key,
@@ -215,26 +220,125 @@ class LogInScreen extends State<LoginSc> {
               icon: Icon(
                 Icons.nature_people,
                 color: Colors.lime[400],
+=======
+              Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Text(
+                  lan.getTexts('login_Text_screen1'),
+                  style: TextStyle(color: Colors.white),
+                ),
               ),
-              label: Text(
-                "I'm Admin",
-                style: TextStyle(
-                    color: Color.fromRGBO(215, 204, 200, 1.0),
-                    fontWeight: FontWeight.bold),
+              Form(
+                key: from_key,
+                child: Column(
+                  children: [
+                    CustomTextFiled(
+                      controllr: emailtextEditingController,
+                      data: Icons.email,
+                      hintText: lan.getTexts('Login_hintText1'),
+                      isObsecure: false,
+                    ),
+                    CustomTextFiled(
+                      controllr: pass_wordtextEditingController,
+                      data: Icons.person,
+                      hintText: lan.getTexts('Login_hintText2'),
+                      isObsecure: true,
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+              RaisedButton(
+                onPressed: () {
+                  emailtextEditingController.text.isNotEmpty &&
+                          pass_wordtextEditingController.text.isNotEmpty
+                      ? loginUser(lan) //Rama I add lan here
+                      : showDialog(
+                          context: context,
+                          builder: (c) {
+                            return ErrorAlertDialog(
+                              msg: lan.getTexts('Login_AlertDialog_msg1'),
+                            );
+                          });
+                },
+                color: Color.fromRGBO(215, 204, 200, 1.0),
+                child: Text(
+                  lan.getTexts('Login_Text_screen2'),
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 50.0,
+              ),
+              RaisedButton(
+                color: Color.fromRGBO(215, 204, 200, 1.0),
+                child: Text(
+                  lan.getTexts('Login_Text_screen3'),
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+                elevation: 7.0,
+                onPressed: () {
+                  googleSingIn.signIn().then((result) {
+                    result.authentication.then((googlekey) {
+                      FirebaseAuth.instance
+                          .signInWithGoogle(
+                              IdToken: googlekey.idToken,
+                              accessToken: googlekey.accessToken)
+                          .then((signInUser) {
+                        print('Signed in as ${signInUser.displayName}');
+                        Navigator.of(context).pushReplacementNamed(
+                            '/home'); //  the name of home page
+                      }).catchError((e) {
+                        print(e);
+                      });
+                    }).catchError((e) {
+                      print(e);
+                    });
+                  }).catchError((e) {
+                    print(e);
+                  });
+                },
+              ),
+              Container(
+                height: 4.0,
+                width: _screenWidth * 0.8,
+                color: Colors.green,
+>>>>>>> d086244aedabed570bd20123d67a53d4a08abea9
+              ),
+              SizedBox(
+                height: 10.0,
+              ),
+              FlatButton.icon(
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => AdminSignInPage())),
+                icon: Icon(
+                  Icons.nature_people,
+                  color: Colors.lime[400],
+                ),
+                label: Text(
+                  lan.getTexts('Login_Text_screen4'),
+                  style: TextStyle(
+                      color: Color.fromRGBO(215, 204, 200, 1.0),
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-  void loginUser() async {
+  void loginUser(lan) async {
+    //Rama I add lan her
     showDialog(
         context: context,
         builder: (c) {
           return LoadAlertDialog(
-            message: "Authenticating, Please wait...",
+            message: lan.getTexts('Login_AlertDialog_msg2'),
           );
         });
     User firebaseuser;
@@ -297,7 +401,6 @@ class LogInScreen extends State<LoginSc> {
     });
   }
 }
-
 // Future<User> signInWithGoogle() async {
 //   final GoogleSignInAccount googleSignInAccount =
 //       await googleSignInAccount.signIn();
