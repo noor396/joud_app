@@ -13,12 +13,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:joud_app/pages/joudApp.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
+//import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginSc extends StatefulWidget {
   @override
   LogInScreen createState() => LogInScreen();
 }
+
+final GoogleSingIn googleSingIn = new GoogleSignIn();
+final FirebaseAuth _fauth = FirebaseAuth.instance;
+User usernew;
 
 class LogInScreen extends State<LoginSc> {
   //StatefulWidget {
@@ -29,7 +33,7 @@ class LogInScreen extends State<LoginSc> {
   final GlobalKey<FormState> from_key = GlobalKey<FormState>();
 
   //GoogleAuthProvider googleAuthProvider = new GoogleAuthProvider();
-  GoogleSingIn googleSingIn = new GoogleSignIn();
+
   //GoogleAuthProvider googleAuthCredential = new GoogleAuthProvider();
 
   @override
@@ -68,12 +72,24 @@ class LogInScreen extends State<LoginSc> {
                   ),
                   CustomTextFiled(
                     controllr: pass_wordtextEditingController,
-                    data: Icons.person,
+                    data: Icons.lock,
                     hintText: "Password",
                     isObsecure: true,
+                    // icon : Icon(pass_wordtextEditingController != null
+                    //  ? Icons.visibility
+                    //  : Icons.visibility_off, color: Color(0xFFE6E6E6),
+                    // ),
+                    // onPressed: () {
+                    //           model.passwordVisible =
+                    //           !model
+                    //               .passwordVisible;
+                    //         }),),
                   ),
                 ],
               ),
+            ),
+            SizedBox(
+              height: 16,
             ),
             RaisedButton(
               onPressed: () {
@@ -99,37 +115,92 @@ class LogInScreen extends State<LoginSc> {
             SizedBox(
               height: 50.0,
             ),
-            RaisedButton(
-              color: Color.fromRGBO(215, 204, 200, 1.0),
-              child: Text(
-                "Sign in with Google",
-                style: TextStyle(
-                  color: Colors.black,
+            InkWell(
+              child: Container(
+                width: _screenWidth / 2,
+                height: _screenHeight / 18,
+                margin: EdgeInsets.only(top: 25),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.black),
+                child: Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Container(
+                        height: 30.0,
+                        width: 30.0,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('assets/google.jpg'),
+                              fit: BoxFit.cover),
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      Text(
+                        'Sign in with Google',
+                        style: TextStyle(
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              elevation: 7.0,
-              onPressed: () {
-                googleSingIn.signIn().then((result) {
-                  result.authentication.then((googlekey) {
-                    FirebaseAuth.instance
-                        .signInWithGoogle(
-                            IdToken: googlekey.idToken,
-                            accessToken: googlekey.accessToken)
-                        .then((signInUser) {
-                      print('Signed in as ${signInUser.displayName}');
-                      Navigator.of(context).pushReplacementNamed(
-                          '/home'); //  the name of home page
-                    }).catchError((e) {
-                      print(e);
-                    });
+              onTap: googleSingIn.signIn().then((result) {
+                result.authentication.then((googlekey) {
+                  FirebaseAuth.instance
+                      .signInWithGoogle(
+                          //signInWithGoogle signInWithGoogle
+                          IdToken: googlekey.idToken,
+                          accessToken: googlekey.accessToken)
+                      .then((signInUser) {
+                    print('Signed in as ${signInUser.displayName}');
+                    Navigator.of(context).pushReplacementNamed(
+                        '/home'); //  the name of home page
                   }).catchError((e) {
                     print(e);
                   });
                 }).catchError((e) {
                   print(e);
                 });
-              },
+              }).catchError((e) {
+                print(e);
+              }),
             ),
+
+            // RaisedButton(
+            //   color: Color.fromRGBO(215, 204, 200, 1.0),
+            //   child: Text(
+            //     "Sign in with Google",
+            //     style: TextStyle(
+            //       color: Colors.black,
+            //     ),
+            //   ),
+            //   elevation: 7.0,
+            // onPressed: () {
+            //   googleSingIn.signIn().then((result) {
+            //     result.authentication.then((googlekey) {
+            //       FirebaseAuth.instance
+            //           .signInWithGoogle(
+            //               IdToken: googlekey.idToken,
+            //               accessToken: googlekey.accessToken)
+            //           .then((signInUser) {
+            //         print('Signed in as ${signInUser.displayName}');
+            //         Navigator.of(context).pushReplacementNamed(
+            //             '/home'); //  the name of home page
+            //       }).catchError((e) {
+            //         print(e);
+            //       });
+            //       }).catchError((e) {
+            //         print(e);
+            //       });
+            //     }).catchError((e) {
+            //       print(e);
+            //     });
+            //   },
+            // ),
             Container(
               height: 4.0,
               width: _screenWidth * 0.8,
@@ -233,6 +304,30 @@ class LogInScreen extends State<LoginSc> {
 
 //   final GoogleSignInAuthentication googleSign = await googleSign.authentication;
 // }
+Future<User> signInWithGoogle() async {
+  GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+
+  GoogleSignInAuthentication googleSignInAuthentication =
+      await googleSignInAccount.authentication;
+
+  AuthCredential credential = GoogleAuthProvider.credential(
+    accessToken: googleSignInAuthentication.accessToken,
+    idToken: googleSignInAuthentication.idToken,
+  );
+  UserCredential authResult = await _fauth.signInWithCredential(credential);
+
+  usernew = authResult.user;
+
+  assert(!usernew.isAnonymous);
+
+  assert(await usernew.getIdToken() != null);
+
+  User currentUser = await _fauth.currentUser;
+
+  assert(usernew.uid == currentUser.uid);
+  print("User Name: ${usernew.displayName}");
+  print("User Email ${usernew.email}");
+}
 
 ///////////////////////////////////// sign out code .....
 /*
