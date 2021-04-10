@@ -75,50 +75,51 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         //Stack(
-         // children: [
-            CarouselSlider(
-              items: resImageAndNameList.map((resInfo) {
-                return Stack(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 186.0,
-                      padding: EdgeInsets.only(top: 7),
-                      child: Image.asset(
-                        resInfo['pic'],
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                     Positioned(
-                        bottom: 20,
-                        right: 10,
-                        child: Container(
-                          width: 300,
-                          color: Colors.black54,
-                          padding: EdgeInsets.symmetric(vertical: 5,horizontal: 35),
-                          child: Text(resInfo["text"],
-                            style: TextStyle(fontSize: 26,
-                                color: Colors.white),
-                            softWrap: true,overflow: TextOverflow.fade,
-                          ),
+        // children: [
+        CarouselSlider(
+          items: resImageAndNameList.map((resInfo) {
+            return Stack(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 186.0,
+                  padding: EdgeInsets.only(top: 7),
+                  child: Image.asset(
+                    resInfo['pic'],
+                    fit: BoxFit.fill,
                   ),
-                      ),
-                ],
-                );
-              }).toList(),
-              options: CarouselOptions(
-                onPageChanged: (int index, CarouselPageChangedReason reason) {
-                  setState(() {
-                    _currentIndex = index;
-                  });
-                },
-                height: 186,
-                initialPage: 0,
-                enlargeCenterPage: true,
-                autoPlay: true,
-                autoPlayInterval: Duration(seconds: 3),
-              ),
-            ),
+                ),
+                Positioned(
+                  bottom: 20,
+                  right: 10,
+                  child: Container(
+                    width: 300,
+                    color: Colors.black54,
+                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 35),
+                    child: Text(
+                      resInfo["text"],
+                      style: TextStyle(fontSize: 26, color: Colors.white),
+                      softWrap: true,
+                      overflow: TextOverflow.fade,
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }).toList(),
+          options: CarouselOptions(
+            onPageChanged: (int index, CarouselPageChangedReason reason) {
+              setState(() {
+                _currentIndex = index;
+              });
+            },
+            height: 186,
+            initialPage: 0,
+            enlargeCenterPage: true,
+            autoPlay: true,
+            autoPlayInterval: Duration(seconds: 3),
+          ),
+        ),
         SizedBox(
           height: 10,
         ),
