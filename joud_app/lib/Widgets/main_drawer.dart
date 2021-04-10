@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:joud_app/Authentication/login.dart';
 import '../lang/language_provider.dart';
 import 'package:provider/provider.dart';
 import '../screens/update_profile_screen.dart';
@@ -18,7 +19,7 @@ class MainDrawer extends StatefulWidget {
 class _MainDrawerState extends State<MainDrawer> {
   File _image;
   final picker = ImagePicker();
-
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   Future getImage(ImageSource src) async {
     final pickedFile = await picker.getImage(source: src);
     setState(() {
@@ -73,7 +74,6 @@ class _MainDrawerState extends State<MainDrawer> {
                                   : TextDirection.rtl),
                           content: Container(
                             height: 150,
-
                             child: Column(
                               children: [
                                 Divider(
@@ -190,14 +190,14 @@ class _MainDrawerState extends State<MainDrawer> {
               Divider(
                 color: Colors.black12,
               ),
-            /*  bulidListTile(lan.getTexts('drawer_item3'), Icons.history, () {
+              /*  bulidListTile(lan.getTexts('drawer_item3'), Icons.history, () {
                 Navigator.of(context).pushNamed(HistoryScreen.routeName);
               }),
               Divider(
                 color: Colors.black12,
               ),*/
               bulidListTile(lan.getTexts('drawer_item3'), Icons.translate, () {
-               /* Navigator.of(context).pushNamed(LanguageScreen.routeName);*/
+                /* Navigator.of(context).pushNamed(LanguageScreen.routeName);*/
               }),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -236,7 +236,10 @@ class _MainDrawerState extends State<MainDrawer> {
               Divider(
                 color: Colors.black12,
               ),
-              bulidListTile(lan.getTexts('drawer_item7'), Icons.question_answer/*IconData(0xf29c, fontFamily:'_kFontFam')*/ ,
+              bulidListTile(
+                  lan.getTexts('drawer_item7'),
+                  Icons
+                      .question_answer /*IconData(0xf29c, fontFamily:'_kFontFam')*/,
                   () {
                 Navigator.of(context).pushNamed(AboutScreen.routeName);
               }),
@@ -244,7 +247,16 @@ class _MainDrawerState extends State<MainDrawer> {
                 color: Colors.black12,
               ),
               bulidListTile(lan.getTexts('drawer_item8'), Icons.logout, () {
-                Navigator.of(context).pushNamed(SignOutScreen.routeName);
+                RaisedButton(
+                  onPressed: () {
+                    signOutGoogle();
+                    Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (context) {
+                      return LoginSc();
+                    }), ModalRoute.withName('/'));
+                    //Navigator.of(context).pushNamed(LogInScreen.routeName);
+                  },
+                );
               }),
               Divider(
                 color: Colors.black12,
@@ -254,5 +266,10 @@ class _MainDrawerState extends State<MainDrawer> {
         ),
       ),
     );
+  }
+
+  void signOutGoogle() async {
+    await _googleSignIn.signOut();
+    print("User Sign Out");
   }
 }

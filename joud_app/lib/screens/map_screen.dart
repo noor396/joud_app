@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-//import 'package:joud_app/lang/language_provider.dart';
+import 'package:joud_app/lang/language_provider.dart';
 import 'package:provider/provider.dart';
 
 class MapScreen extends StatefulWidget {
