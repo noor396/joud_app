@@ -34,6 +34,21 @@ class _RegisterState extends State<Register_P> {
   final GlobalKey<FormState> from_key = GlobalKey<FormState>();
   String userImgUrl = "";
   File imgFile;
+  String uid = '';
+
+  @override
+  void initState() {
+    uid = '';
+
+    FirebaseAuth.instance.currentUser.then((val) { //reload()
+      setState(() {
+        uid = val;
+      });
+    }).catchError((e) {
+      print(e);
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -181,7 +196,7 @@ class _RegisterState extends State<Register_P> {
         FirebaseFirestore.instance.collection('/users').add({
           'email': emailtextEditingController,
           //????? password where ???
-          'uid': User_obj.userId,
+          'uid': uid,
         }).then((value) {
           // the user cant go back to log in page
           Navigator.of(context).pop();

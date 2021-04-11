@@ -1,19 +1,13 @@
-import 'dart:developer';
-import 'dart:html';
-import 'dart:js';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:joud_app/Admin/adminlogin.dart';
 import 'package:joud_app/Authentication/register.dart';
 import 'package:joud_app/lang/language_provider.dart';
-import 'package:joud_app/screens/home_screen.dart';
 import 'package:joud_app/widgets/customTextField.dart';
 import 'package:joud_app/widgets/errorAlertDialog.dart';
-import 'package:joud_app/widgets/loadAlertDialog.dart';
-import 'package:joud_app/screens/joudApp.dart';
 import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/rendering.dart';
 
 final FirebaseAuth _fauth = FirebaseAuth.instance;
 User usernew;
@@ -22,17 +16,104 @@ final TextEditingController emailtextEditingController =
 final TextEditingController pass_wordtextEditingController =
     TextEditingController();
 final GlobalKey<FormState> from_key = GlobalKey<FormState>();
+String phoneNo;
+String smsCode;
+String verificationId;
 
 class LoginSc extends StatefulWidget {
   @override
-  LogInScreen createState() => LogInScreen();
+  _LogInScreen createState() => _LogInScreen();
 }
 
-class LogInScreen extends State<LoginSc> {
+class _LogInScreen extends State<LoginSc> {
   @override
   void initState() {
     Provider.of<LanguageProvider>(context, listen: false).getLan();
     super.initState();
+  }
+
+  final PhoneCodeAutoRetrievalTimeout phoneCodeAutoRetrievalTimeout =
+      (String verId) {
+    verificationId = verId;
+  };
+
+  final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeRe]) {
+    verificationId = verId;
+    // smsCodeDialog(context).then((value) {
+    //   print('sign in');
+    // });
+  };
+  final PhoneVerificationCompleted verifiedSuccess = (u) {
+    print('verified');
+  };
+
+  final PhoneVerificationFailed verifiedFailed = (e) {
+    // FirebaseAuthException exception;
+    print('not verified');
+  };
+  lSignIn() {
+    FirebaseAuth.instance
+        .signInWithPhoneNumber(
+      verificationId, //: verificationId,
+      //smsCode: smsCode
+    )
+        .then((value) {
+      Navigator.of(context).pushReplacementNamed('/HomePage');
+    }).catchError((e) {
+      print(e);
+    });
+  }
+
+  Future<void> verfiyPhone() async {
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: phoneNo,
+        codeSent: smsCodeSent,
+        timeout: const Duration(seconds: 5),
+        verificationCompleted: verifiedSuccess,
+        verificationFailed: verifiedFailed,
+        codeAutoRetrievalTimeout: phoneCodeAutoRetrievalTimeout);
+  }
+
+  Future<void> /*<bool>*/ smsCodeDialog(BuildContext cont) {
+    return showDialog(
+        context: cont,
+        barrierDismissible: false,
+        builder: (BuildContext cont) {
+          return new AlertDialog(
+            title: Text('Enter the sms code'),
+            content: TextField(
+              onChanged: (value) {
+                smsCode = value;
+              },
+            ),
+            contentPadding: EdgeInsets.all(10.0),
+            actions: <Widget>[
+              new FlatButton(
+                  child: Text('Done'),
+                  onPressed: () {
+                    FirebaseAuth.instance.currentUser.reload().then((user) {
+                      //if (user != null) {
+                      if (FirebaseAuth.instance.currentUser != null) {
+                        Navigator.of(cont).pop();
+                        Navigator.of(cont).pushReplacementNamed('/HomePage');
+                      } else {
+                        Navigator.of(cont).pop();
+                        lSignIn();
+                      }
+                    });
+                    // FirebaseAuth.instance.currentUser.then((u) {
+                    //   if (u != null) {
+                    //     Navigator.of(cont).pop();
+                    //     Navigator.of(cont).pushReplacementNamed('/HomePage');
+                    //   } else {
+                    //     Navigator.of(cont).pop();
+                    //     lSignIn();
+                    //   }
+                    // });
+                  })
+            ],
+          );
+        });
   }
 
   @override
