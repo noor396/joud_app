@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:joud_app/Authentication/login.dart';
@@ -19,7 +20,6 @@ class MainDrawer extends StatefulWidget {
 class _MainDrawerState extends State<MainDrawer> {
   File _image;
   final picker = ImagePicker();
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
   Future getImage(ImageSource src) async {
     final pickedFile = await picker.getImage(source: src);
     setState(() {
@@ -249,12 +249,18 @@ class _MainDrawerState extends State<MainDrawer> {
               bulidListTile(lan.getTexts('drawer_item8'), Icons.logout, () {
                 RaisedButton(
                   onPressed: () {
-                    signOutGoogle();
-                    Navigator.of(context).pushAndRemoveUntil(
-                        MaterialPageRoute(builder: (context) {
-                      return LoginSc();
-                    }), ModalRoute.withName('/'));
-                    //Navigator.of(context).pushNamed(LogInScreen.routeName);
+                    //signOutGoogle();
+                    FirebaseAuth.instance.signOut().then((value) {
+                      Navigator.of(context)
+                          .pushReplacementNamed('/IntroScreen');
+                    }).catchError((e) {
+                      print(e);
+                    });
+                    //  Navigator.of(context).pushAndRemoveUntil(
+                    //     MaterialPageRoute(builder: (context) {
+                    //   return LoginSc();
+                    //}), ModalRoute.withName('/'));
+                    // Navigator.of(context).pushNamed(LogInScreen.routeName);
                   },
                 );
               }),
@@ -266,10 +272,5 @@ class _MainDrawerState extends State<MainDrawer> {
         ),
       ),
     );
-  }
-
-  void signOutGoogle() async {
-    await _googleSignIn.signOut();
-    print("User Sign Out");
   }
 }

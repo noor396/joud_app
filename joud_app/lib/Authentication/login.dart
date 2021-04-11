@@ -5,27 +5,16 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:joud_app/Admin/adminlogin.dart';
+import 'package:joud_app/Authentication/register.dart';
 import 'package:joud_app/lang/language_provider.dart';
+import 'package:joud_app/screens/home_screen.dart';
 import 'package:joud_app/widgets/customTextField.dart';
 import 'package:joud_app/widgets/errorAlertDialog.dart';
 import 'package:joud_app/widgets/loadAlertDialog.dart';
 import 'package:joud_app/screens/joudApp.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:google_sign_in/google_sign_in.dart';
 
-class LoginSc extends StatefulWidget {
-  @override
-  LogInScreen createState() => LogInScreen();
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   // TODO: implement build
-  //   throw UnimplementedError();
-  // }
-}
-
-final GoogleSingIn googleSingIn = new GoogleSignIn();
 final FirebaseAuth _fauth = FirebaseAuth.instance;
 User usernew;
 final TextEditingController emailtextEditingController =
@@ -33,6 +22,11 @@ final TextEditingController emailtextEditingController =
 final TextEditingController pass_wordtextEditingController =
     TextEditingController();
 final GlobalKey<FormState> from_key = GlobalKey<FormState>();
+
+class LoginSc extends StatefulWidget {
+  @override
+  LogInScreen createState() => LogInScreen();
+}
 
 class LogInScreen extends State<LoginSc> {
   @override
@@ -76,15 +70,16 @@ class LogInScreen extends State<LoginSc> {
                       data: Icons.lock,
                       hintText: "Password",
                       isObsecure: true,
-                      // icon : Icon(pass_wordtextEditingController != null
+                      // data : pass_wordtextEditingController != null
                       //  ? Icons.visibility
-                      //  : Icons.visibility_off, color: Color(0xFFE6E6E6),
+                      //  : Icons.visibility_off, //color: Color(0xFFE6E6E6),
                       // ),
-                      // onPressed: () {
+                      // onP: () {
                       //           model.passwordVisible =
                       //           !model
                       //               .passwordVisible;
-                      //         }),),
+                      //         }),
+                      //),
                     ),
                   ],
                 ),
@@ -96,7 +91,16 @@ class LogInScreen extends State<LoginSc> {
                 onPressed: () {
                   emailtextEditingController.text.isNotEmpty &&
                           pass_wordtextEditingController.text.isNotEmpty
-                      ? loginUser(lan)
+                      ? (FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                              email: emailtextEditingController.text,
+                              password: pass_wordtextEditingController.text)
+                          .then((value) {
+                          Navigator.of(context)
+                              .pushReplacementNamed('/HomePage');
+                        }).catchError((e) {
+                          print(e);
+                        })) //loginUser(lan)
                       : showDialog(
                           context: context,
                           builder: (c) {
@@ -116,7 +120,7 @@ class LogInScreen extends State<LoginSc> {
               SizedBox(
                 height: 50.0,
               ),
-              InkWell(
+              RaisedButton(
                 child: Container(
                   width: _screenWidth / 2,
                   height: _screenHeight / 18,
@@ -132,14 +136,11 @@ class LogInScreen extends State<LoginSc> {
                           height: 30.0,
                           width: 30.0,
                           decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage('assets/google.jpg'),
-                                fit: BoxFit.cover),
                             shape: BoxShape.circle,
                           ),
                         ),
                         Text(
-                          'Sign in with Google',
+                          'Do\'nt have an account',
                           style: TextStyle(
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,
@@ -149,59 +150,17 @@ class LogInScreen extends State<LoginSc> {
                     ),
                   ),
                 ),
-                onTap: googleSingIn.signIn().then((result) {
-                  result.authentication.then((googlekey) {
-                    FirebaseAuth.instance
-                        .signInWithGoogle(
-                            //signInWithGoogle signInWithGoogle
-                            IdToken: googlekey.idToken,
-                            accessToken: googlekey.accessToken)
-                        .then((signInUser) {
-                      print('Signed in as ${signInUser.displayName}');
-                      Navigator.of(context).pushReplacementNamed(
-                          '/home'); //  the name of home page
-                    }).catchError((e) {
-                      print(e);
-                    });
-                  }).catchError((e) {
-                    print(e);
-                  });
-                }).catchError((e) {
-                  print(e);
-                }),
+                onPressed: () {
+                  // test the 2 statments
+                  //1
+                  ////  Navigator.of(context).pushNamed('/Register');
+                  //or
+                  //2
+                  Navigator.pop(context);
+                  Route route = MaterialPageRoute(builder: (c) => Register());
+                  Navigator.pushReplacement(context, route);
+                },
               ),
-
-              // RaisedButton(
-              //   color: Color.fromRGBO(215, 204, 200, 1.0),
-              //   child: Text(
-              //     "Sign in with Google",
-              //     style: TextStyle(
-              //       color: Colors.black,
-              //     ),
-              //   ),
-              //   elevation: 7.0,
-              // onPressed: () {
-              //   googleSingIn.signIn().then((result) {
-              //     result.authentication.then((googlekey) {
-              //       FirebaseAuth.instance
-              //           .signInWithGoogle(
-              //               IdToken: googlekey.idToken,
-              //               accessToken: googlekey.accessToken)
-              //           .then((signInUser) {
-              //         print('Signed in as ${signInUser.displayName}');
-              //         Navigator.of(context).pushReplacementNamed(
-              //             '/home'); //  the name of home page
-              //       }).catchError((e) {
-              //         print(e);
-              //       });
-              //       }).catchError((e) {
-              //         print(e);
-              //       });
-              //     }).catchError((e) {
-              //       print(e);
-              //     });
-              //   },
-              // ),
               Container(
                 height: 4.0,
                 width: _screenWidth * 0.8,
@@ -225,7 +184,6 @@ class LogInScreen extends State<LoginSc> {
                   style: TextStyle(color: Colors.white),
                 ),
               ),
-
               Form(
                 key: from_key,
                 child: Column(
@@ -249,7 +207,16 @@ class LogInScreen extends State<LoginSc> {
                 onPressed: () {
                   emailtextEditingController.text.isNotEmpty &&
                           pass_wordtextEditingController.text.isNotEmpty
-                      ? loginUser(lan) //Rama I add lan here
+                      ? (FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                              email: emailtextEditingController.text,
+                              password: pass_wordtextEditingController.text)
+                          .then((value) {
+                          Navigator.of(context)
+                              .pushReplacementNamed('/HomePage');
+                        }).catchError((e) {
+                          print(e);
+                        })) //loginUser(lan) //Rama I add lan here
                       : showDialog(
                           context: context,
                           builder: (c) {
@@ -268,45 +235,6 @@ class LogInScreen extends State<LoginSc> {
               ),
               SizedBox(
                 height: 50.0,
-              ),
-              RaisedButton(
-                color: Color.fromRGBO(215, 204, 200, 1.0),
-                child: Text(
-                  lan.getTexts('Login_Text_screen3'),
-                  style: TextStyle(
-                    color: Colors.black,
-                  ),
-                ),
-                elevation: 7.0,
-                onPressed: () {
-                  googleSingIn.signIn().then((result) {
-                    result.authentication.then((googlekey) {
-                      FirebaseAuth.instance
-                          .signInWithGoogle(
-                              IdToken: googlekey.idToken,
-                              accessToken: googlekey.accessToken)
-                          .then((signInUser) {
-                        print('Signed in as ${signInUser.displayName}');
-                        Navigator.of(context).pushReplacementNamed(
-                            '/home'); //  the name of home page
-                      }).catchError((e) {
-                        print(e);
-                      });
-                    }).catchError((e) {
-                      print(e);
-                    });
-                  }).catchError((e) {
-                    print(e);
-                  });
-                },
-              ),
-              Container(
-                height: 4.0,
-                width: _screenWidth * 0.8,
-                color: Colors.green,
-              ),
-              SizedBox(
-                height: 10.0,
               ),
               FlatButton.icon(
                 onPressed: () => Navigator.push(context,
@@ -330,113 +258,99 @@ class LogInScreen extends State<LoginSc> {
   }
 }
 
-void loginUser(lan) async {
-  //Rama I add lan her
-  showDialog(
-      context: context,
-      builder: (c) {
-        return LoadAlertDialog(
-          message: lan.getTexts('Login_AlertDialog_msg2'),
-        );
-      });
-  User firebaseuser;
-  await User_obj.auth
-      .signInWithEmailAndPassword(
-    email: emailtextEditingController.text.trim(),
-    password: pass_wordtextEditingController.text.trim(),
-  )
-      .then((authuser) {
-    firebaseuser = authuser.user;
-    Navigator.of(context)
-        .pushReplacementNamed('/home'); // the name of home page
-  }).catchError((error) {
-    //print(error);
-    showDialog(
-        context: context,
-        builder: (c) {
-          return ErrorAlertDialog(
-            msg: error.message.toString(),
-          );
-        });
-  });
-  // be sure this is true or no ???? and the next function
-  if (firebaseuser != null) {
-    readData(firebaseuser);
-    // to move to home page
-    // Navigator.pop(context);
-    // Route route = MaterialPageRoute(builder: (c) => homePage());
-    //  Navigator.pushReplacement(context, route);
-  }
-}
+// void loginUser(lan) async {
+//   //Rama I add lan her
+//   showDialog(
+//       context: context,
+//       builder: (c) {
+//         return LoadAlertDialog(
+//           message: lan.getTexts('Login_AlertDialog_msg2'),
+//         );
+//       });
+//   User firebaseuser;
+//   await User_obj.auth
+//       .signInWithEmailAndPassword(
+//     email: emailtextEditingController.text.trim(),
+//     password: pass_wordtextEditingController.text.trim(),
+//   )
+//       .then((authuser) {
+//     firebaseuser = authuser.user;
+//     Navigator.of(context)
+//         .pushReplacementNamed('/HomeScreen'); // the name of home page
+//   }).catchError((error) {
+//     //print(error);
+//     showDialog(
+//         context: context,
+//         builder: (c) {
+//           return ErrorAlertDialog(
+//             msg: error.message.toString(),
+//           );
+//         });
+//   });
+//   // be sure this is true or no ???? and the next function
+//   if (firebaseuser != null) {
+//     readData(firebaseuser);
+//     // to move to home page
+//     Navigator.pop(context);
+//     Route route = MaterialPageRoute(builder: (c) => HomeScreen());
+//     Navigator.pushReplacement(context, route);
+//   }
+// }
 
-Future readData(User fuser) async {
-  // ignore: unnecessary_statements
-  FirebaseFirestore.instance
-      .collection("users")
-      .doc(fuser.uid)
-      .get()
-      .then((dataSnapShot) async {
-    await User_obj.sharedPreferences.setString(
-        "uid", dataSnapShot.data().update("uid", (value) => User_obj.userId));
-    await User_obj.sharedPreferences.setString(
-        User_obj.userEmail,
-        dataSnapShot
-            .data()
-            .update(User_obj.userEmail, (value) => User_obj.userEmail));
-    await User_obj.sharedPreferences.setString(
-        User_obj.userName,
-        dataSnapShot
-            .data()
-            .update(User_obj.userName, (value) => User_obj.userName));
-    await User_obj.sharedPreferences.setString(
-        User_obj.userAvaterUrl,
-        dataSnapShot
-            .data()
-            .update(User_obj.userAvaterUrl, (value) => User_obj.userAvaterUrl));
-    // await User_obj.sharedPreferences.setString("uid", dataSnapShot.data().update("uid", (value) =>User_obj.userId));
-    //     await User_obj.sharedPreferences.setString(User_obj.userEmail,dataSnapShot.data().update("userEmail", (value) => User_obj.userEmail));
-    //     await User_obj.sharedPreferences.setString(User_obj.userName, dataSnapShot.data().update("User_obj."userName", (value) => User_obj.userName));
-    //     await User_obj.sharedPreferences.setString(User_obj.userAvaterUrl, dataSnapShot.data().update("userAvaterUrl", (value) => User_obj.userAvaterUrl));
-  });
-}
+// Future readData(User fuser) async {
+//   // ignore: unnecessary_statements
+//   FirebaseFirestore.instance
+//       .collection("users")
+//       .doc(fuser.uid)
+//       .get()
+//       .then((dataSnapShot) async {
+//     await User_obj.sharedPreferences.setString(
+//         "uid", dataSnapShot.data().update("uid", (value) => User_obj.userId));
+//     await User_obj.sharedPreferences.setString(
+//         User_obj.userEmail,
+//         dataSnapShot
+//             .data()
+//             .update(User_obj.userEmail, (value) => User_obj.userEmail));
+//     await User_obj.sharedPreferences.setString(
+//         User_obj.userName,
+//         dataSnapShot
+//             .data()
+//             .update(User_obj.userName, (value) => User_obj.userName));
+//     await User_obj.sharedPreferences.setString(
+//         User_obj.userAvaterUrl,
+//         dataSnapShot
+//             .data()
+//             .update(User_obj.userAvaterUrl, (value) => User_obj.userAvaterUrl));
+//     // await User_obj.sharedPreferences.setString("uid", dataSnapShot.data().update("uid", (value) =>User_obj.userId));
+//     //     await User_obj.sharedPreferences.setString(User_obj.userEmail,dataSnapShot.data().update("userEmail", (value) => User_obj.userEmail));
+//     //     await User_obj.sharedPreferences.setString(User_obj.userName, dataSnapShot.data().update("User_obj."userName", (value) => User_obj.userName));
+//     //     await User_obj.sharedPreferences.setString(User_obj.userAvaterUrl, dataSnapShot.data().update("userAvaterUrl", (value) => User_obj.userAvaterUrl));
+//   });
+// }
+
+// also we dont need it
 
 // Future<User> signInWithGoogle() async {
-//   final GoogleSignInAccount googleSignInAccount =
-//       await googleSignInAccount.signIn();
+//   GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
 
-//   final GoogleSignInAuthentication googleSign = await googleSign.authentication;
+//   GoogleSignInAuthentication googleSignInAuthentication =
+//       await googleSignInAccount.authentication;
+
+//   AuthCredential credential = GoogleAuthProvider.credential(
+//     accessToken: googleSignInAuthentication.accessToken,
+//     idToken: googleSignInAuthentication.idToken,
+//   );
+//   UserCredential authResult = await _fauth.signInWithCredential(credential);
+
+//   usernew = authResult.user;
+
+//   assert(!usernew.isAnonymous);
+
+//   assert(await usernew.getIdToken() != null);
+
+//   User currentUser = await _fauth.currentUser;
+
+//   assert(usernew.uid == currentUser.uid);
+//   print("User Name: ${usernew.displayName}");
+//   print("User Email ${usernew.email}");
 // }
-Future<User> signInWithGoogle() async {
-  GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-
-  GoogleSignInAuthentication googleSignInAuthentication =
-      await googleSignInAccount.authentication;
-
-  AuthCredential credential = GoogleAuthProvider.credential(
-    accessToken: googleSignInAuthentication.accessToken,
-    idToken: googleSignInAuthentication.idToken,
-  );
-  UserCredential authResult = await _fauth.signInWithCredential(credential);
-
-  usernew = authResult.user;
-
-  assert(!usernew.isAnonymous);
-
-  assert(await usernew.getIdToken() != null);
-
-  User currentUser = await _fauth.currentUser;
-
-  assert(usernew.uid == currentUser.uid);
-  print("User Name: ${usernew.displayName}");
-  print("User Email ${usernew.email}");
-}
-
-///////////////////////////////////// sign out code .....
-/*
-
-void signOutGoogle() async{
-  await _googleSignIn.signOut();
-  print("User Sign Out");
-}
-
- */

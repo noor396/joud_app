@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:joud_app/Authentication/login.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/screens/joudApp.dart';
 import 'package:joud_app/widgets/customTextField.dart';
@@ -121,6 +122,9 @@ class _RegisterState extends State<Register_P> {
               SizedBox(
                 height: 15.0,
               ),
+              RaisedButton(onPressed: () {
+                uploadToStorge(lan);
+              }),
             ],
           ),
         ),
@@ -128,11 +132,13 @@ class _RegisterState extends State<Register_P> {
     );
   }
 
+//1
   Future<void> _selectAndPickImg() async {
     imgFile =
         (await ImagePicker.pickImage(source: ImageSource.gallery)) as File;
   }
 
+//2
   Future<void> uploadAndSaveImg(lan) async {
     if (imgFile == null) {
       showDialog(
@@ -165,23 +171,47 @@ class _RegisterState extends State<Register_P> {
   }
 
   Future<void> uploadToStorge(lan) async {
-    showDialog(
-        context: context,
-        builder: (c) {
-          return LoadAlertDialog(
-            message: lan.getTexts('privateRegister_LoadAlertDialog_msg1'),
-          );
+    User_obj.counter++;
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+            email: emailtextEditingController.text.trim(),
+            password: pass_wordtextEditingController.text.trim())
+        .then((signedInUser) {
+      storeNewUser(user) {
+        FirebaseFirestore.instance.collection('/users').add({
+          'email': emailtextEditingController,
+          //????? password where ???
+          'uid': User_obj.userId,
+        }).then((value) {
+          // the user cant go back to log in page
+          Navigator.of(context).pop();
+          Navigator.of(context).pushReplacementNamed('/HomePage');
+        }).catchError((e) {
+          print(e);
         });
-    String imageFileName = DateTime.now().microsecondsSinceEpoch.toString();
-
-    Reference reference = FirebaseStorage.instance.ref().child(imageFileName);
-
-    // UploadTask uploadTask = FirebaseStorage.putFile(imgFile);
-    TaskSnapshot taskSnapshot; //= await uploadTask.
-    await taskSnapshot.ref.getDownloadURL().then((userImgUrl) {
-      //userImageUrl = userImgUrl;
-      registerUser();
+      }
+    }).catchError((e) {
+      print(e);
     });
+    registerUser();
+    // we dont need it
+    //   showDialog(
+    //       context: context,
+    //       builder: (c) {
+    //         return LoadAlertDialog(
+    //           message: lan.getTexts('privateRegister_LoadAlertDialog_msg1'),
+    //         );
+    //       });
+    //   String imageFileName = DateTime.now().microsecondsSinceEpoch.toString();
+
+    //   Reference reference = FirebaseStorage.instance.ref().child(imageFileName);
+
+    //   UploadTask uploadTask = FirebaseStorage.instanceFor()..putFile(imgFile);
+    //   TaskSnapshot taskSnapshot; //= await uploadTask.
+    //   await taskSnapshot.ref.getDownloadURL().then((userImgUrl) {
+    //     //userImageUrl = userImgUrl;
+    //
+    //   });
   }
 
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -208,11 +238,9 @@ class _RegisterState extends State<Register_P> {
     });
     if (firebaseUser != null) {
       saveUserInfoToFireStore(firebaseUser);
-      Navigator.pop(context);
-      // to move to home page
-      // Navigator.pop(context);
-      // Route route = MaterialPageRoute(builder: (c) => homePage());
-      //  Navigator.pushReplacement(context, route);
+      //  Navigator.pop(context);
+      //   Navigator.of(context).pop();
+      //  Navigator.of(context).pushReplacementNamed('/HomePage');
     }
   }
 
