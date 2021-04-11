@@ -1,3 +1,5 @@
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:joud_app/lang/language_provider.dart';
@@ -77,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         //Stack(
         // children: [
-  
+
         CarouselSlider(
           items: resImageAndNameList.map((resInfo) {
             return Stack(

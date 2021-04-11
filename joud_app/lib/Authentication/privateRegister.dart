@@ -1,19 +1,14 @@
 import 'dart:developer'; //rama
 import 'dart:html';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:joud_app/Authentication/login.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/screens/joudApp.dart';
 import 'package:joud_app/widgets/customTextField.dart';
 import 'package:joud_app/widgets/errorAlertDialog.dart';
-import 'package:joud_app/widgets/loadAlertDialog.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 // ignore: camel_case_types
@@ -40,9 +35,11 @@ class _RegisterState extends State<Register_P> {
   void initState() {
     uid = '';
 
-    FirebaseAuth.instance.currentUser.then((val) { //reload()
+    FirebaseAuth.instance.currentUser.reload().then((val) {
+      //reload()
       setState(() {
-        uid = val;
+        //  uid = val;//.uid;
+        //uid = val;
       });
     }).catchError((e) {
       print(e);
