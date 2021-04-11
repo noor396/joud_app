@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:joud_app/Admin/adminlogin.dart';
@@ -92,26 +93,37 @@ class _LogInScreen extends State<LoginSc> {
               new FlatButton(
                   child: Text('Done'),
                   onPressed: () {
-                    FirebaseAuth.instance.currentUser.reload().then((user) {
-                      //if (user != null) {
-                      if (FirebaseAuth.instance.currentUser != null) {
-                        Navigator.of(cont).pop();
-                        Navigator.of(cont).pushReplacementNamed('/HomePage');
-                      } else {
-                        Navigator.of(cont).pop();
-                        lSignIn();
-                      }
-                    });
-                    // FirebaseAuth.instance.currentUser.then((u) {
-                    //   if (u != null) {
-                    //     Navigator.of(cont).pop();
-                    //     Navigator.of(cont).pushReplacementNamed('/HomePage');
-                    //   } else {
-                    //     Navigator.of(cont).pop();
-                    //     lSignIn();
-                    //   }
-                    // });
-                  })
+                    var user = FirebaseAuth.instance.currentUser;
+                    var uid;
+                    if (user != null) {
+                      uid = user.uid;
+                      Navigator.of(cont).pop();
+                      Navigator.of(cont).pushReplacementNamed('/HomePage');
+                    } else {
+                      Navigator.of(cont).pop();
+                      lSignIn();
+                    }
+                  }
+                  // FirebaseAuth.instance.currentUser.reload().then((user) {
+                  //   //if (user != null) {
+                  //   if (FirebaseAuth.instance.currentUser != null) {
+                  //     Navigator.of(cont).pop();
+                  //     Navigator.of(cont).pushReplacementNamed('/HomePage');
+                  //   } else {
+                  //     Navigator.of(cont).pop();
+                  //     lSignIn();
+                  //   }
+                  // });
+                  // FirebaseAuth.instance.currentUser.then((u) {
+                  //   if (u != null) {
+                  //     Navigator.of(cont).pop();
+                  //     Navigator.of(cont).pushReplacementNamed('/HomePage');
+                  //   } else {
+                  //     Navigator.of(cont).pop();
+                  //     lSignIn();
+                  //   }
+                  // });
+                  ),
             ],
           );
         });
