@@ -5,6 +5,8 @@ import 'package:flutter/rendering.dart';
 import 'package:joud_app/Authentication/login.dart';
 import 'dart:developer';
 
+import '../Authentication/login.dart';
+
 class SignOutScreen extends StatelessWidget {
   static const routeName = '/sign_out';
   // double _screenWidth = MediaQuery.of(context).size.width;
@@ -27,11 +29,11 @@ class SignOutScreen extends StatelessWidget {
             onPressed: () {
               //signOutGoogle();
 
-              //  Navigator.of(context).pushAndRemoveUntil(
-              //     MaterialPageRoute(builder: (context) {
-              //   return LoginSc();
-              //}), ModalRoute.withName('/'));
-              // Navigator.of(context).pushNamed(LogInScreen.routeName);
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) {
+                return LoginSc();
+              }), ModalRoute.withName('/'));
+              Navigator.of(context).pushNamed(LoginSc.routeName);
             },
           ),
           RaisedButton(

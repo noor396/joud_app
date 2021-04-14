@@ -10,6 +10,7 @@ import 'package:joud_app/widgets/customTextField.dart';
 import 'package:joud_app/widgets/errorAlertDialog.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
+import '../screens/home_screen.dart';
 
 final FirebaseAuth _fauth = FirebaseAuth.instance;
 User usernew;
@@ -23,12 +24,13 @@ String smsCode;
 String verificationId;
 
 class LoginSc extends StatefulWidget {
+  static const routeName = '/login';
   @override
   _LogInScreen createState() => _LogInScreen();
 }
 
 class _LogInScreen extends State<LoginSc> {
-  @override
+  // @override
   void initState() {
     Provider.of<LanguageProvider>(context, listen: false).getLan();
     super.initState();
@@ -60,7 +62,7 @@ class _LogInScreen extends State<LoginSc> {
       //smsCode: smsCode
     )
         .then((value) {
-      Navigator.of(context).pushReplacementNamed('/HomePage');
+      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
     }).catchError((e) {
       print(e);
     });
@@ -98,7 +100,8 @@ class _LogInScreen extends State<LoginSc> {
                     if (user != null) {
                       uid = user.uid;
                       Navigator.of(cont).pop();
-                      Navigator.of(cont).pushReplacementNamed('/HomePage');
+                      Navigator.of(cont)
+                          .pushReplacementNamed(HomeScreen.routeName);
                     } else {
                       Navigator.of(cont).pop();
                       lSignIn();
@@ -191,7 +194,7 @@ class _LogInScreen extends State<LoginSc> {
                               password: pass_wordtextEditingController.text)
                           .then((value) {
                           Navigator.of(context)
-                              .pushReplacementNamed('/HomePage');
+                              .pushReplacementNamed(HomeScreen.routeName);
                         }).catchError((e) {
                           print(e);
                         })) //loginUser(lan)
@@ -307,7 +310,7 @@ class _LogInScreen extends State<LoginSc> {
                               password: pass_wordtextEditingController.text)
                           .then((value) {
                           Navigator.of(context)
-                              .pushReplacementNamed('/HomePage');
+                              .pushReplacementNamed(HomeScreen.routeName);
                         }).catchError((e) {
                           print(e);
                         })) //loginUser(lan) //Rama I add lan here
