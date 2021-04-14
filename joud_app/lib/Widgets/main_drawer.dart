@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:joud_app/Authentication/login.dart';
 import '../lang/language_provider.dart';
 import 'package:provider/provider.dart';
+import '../screens/sign_out_screen.dart';
 import '../screens/update_profile_screen.dart';
 import '../screens/about_screen.dart';
 import '../screens/delete_account_screen.dart';
@@ -281,7 +282,9 @@ class _MainDrawerState extends State<MainDrawer> {
               Divider(
                 color: Colors.black12,
               ),
-              bulidListTile(lan.getTexts('drawer_item8'), Icons.logout, () {}),
+              bulidListTile(lan.getTexts('drawer_item8'), Icons.logout, () {
+                Navigator.of(context).pushNamed(SignOutScreen.routeName);
+              }),
               Divider(
                 color: Colors.black12,
               ),

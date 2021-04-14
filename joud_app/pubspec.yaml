@@ -31,30 +31,6 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  #nefal
-  # cupertino_icons: ^1.0.0
-  # google_maps_flutter: ^0.5.27+3
-  # geocoder: ^0.2.1
-  # geolocator: ^6.1.1
-  # image_picker: ^0.6.1+4
-  # shared_preferences: ^2.0.5
-  # fluttertoast: ^8.0.3
-  # flutter_staggered_grid_view: ^0.3.4
-  # provider: ^5.0.0
-  # carousel_slider: ^3.0.0
-  # path_provider:  ^1.6.10 #^2.0.1
-  # firebase_storage:  ^7.0.0 #^8.0.1 #^3.1.1
-  # cloud_functions: ^1.0.2
-  # firebase_auth:  ^1.0.1 #^0.20.0+1
-  # firebase_core:  ^1.0.1  #^0.7.0
-  # google_sign_in: ^5.0.0
-  # cloud_firestore: ^1.0.3 #^0.16.0+1     #^1.0.1
-  # image: ^2.0.7
-  # graphql_flutter: ^4.0.1 #^2.0.0
-  
-
-
-  #rama
   cupertino_icons: ^1.0.0
   google_maps_flutter: ^0.5.27+3
   geocoder: ^0.2.1
@@ -74,6 +50,7 @@ dependencies:
   cloud_firestore: 0.16.0+1 #rama ^1.0.3  #^0.16.0+1     #^1.0.1
   image: ^2.0.7
   graphql_flutter: ^2.0.0 #rama^4.0.1 #^2.0.0
+  
 
 dev_dependencies:
   flutter_test:
@@ -113,9 +90,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: Schyler
-      fonts:
-        - asset: fonts/Schyler-Regular.ttf
+   # - family: Schyler
+     # fonts:
+      #  - asset: fonts/Schyler-Regular.ttf
 
     - family: MyFlutterApp
       fonts:
