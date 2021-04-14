@@ -1,10 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:joud_app/Admin/adminlogin.dart';
 import 'package:joud_app/Authentication/privateRegister.dart';
-import 'package:joud_app/Authentication/register.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/widgets/customTextField.dart';
 import 'package:joud_app/widgets/errorAlertDialog.dart';
@@ -264,6 +262,8 @@ class _LogInScreen extends State<LoginSc> {
                 height: 10.0,
               ),
               FlatButton.icon(
+                // i am add label here i will test the code if its not nesseccary i will clear it.
+                label: widget,
                 onPressed: () => Navigator.push(context,
                     MaterialPageRoute(builder: (context) => AdminSignInPage())),
                 icon: Icon(

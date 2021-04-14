@@ -23,17 +23,17 @@ class SignOutScreen extends StatelessWidget {
       // child: Text("Sign Out"),
       body: Column(
         children: [
-          RaisedButton(
-            onPressed: () {
-              //signOutGoogle();
+          //  RaisedButton(
+          //  onPressed: () {
+          //signOutGoogle();
 
-              //  Navigator.of(context).pushAndRemoveUntil(
-              //     MaterialPageRoute(builder: (context) {
-              //   return LoginSc();
-              //}), ModalRoute.withName('/'));
-              // Navigator.of(context).pushNamed(LogInScreen.routeName);
-            },
-          ),
+          //  Navigator.of(context).pushAndRemoveUntil(
+          //     MaterialPageRoute(builder: (context) {
+          //   return LoginSc();
+          //}), ModalRoute.withName('/'));
+          // Navigator.of(context).pushNamed(LogInScreen.routeName);
+          //},
+          //),
           RaisedButton(
             child: Container(
               // width: _screenWidth / 2,

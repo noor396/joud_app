@@ -231,7 +231,42 @@ class _MainDrawerState extends State<MainDrawer> {
                 color: Colors.black12,
               ),
               bulidListTile(lan.getTexts('drawer_item6'), Icons.delete, () {
-                Navigator.of(context).pushNamed(DeleteAccountScreen.routeName);
+                RaisedButton(
+                  child: Container(
+                    // width: _screenWidth / 2,
+                    //height: _screenHeight / 18,
+                    margin: EdgeInsets.only(top: 25),
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.black),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Container(
+                            height: 30.0,
+                            width: 30.0,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  onPressed: () {
+                    FirebaseAuth.instance.currentUser.delete().then((value) {
+                      Navigator.pop(context);
+                      Route route =
+                          MaterialPageRoute(builder: (c) => LoginSc());
+                      Navigator.pushReplacement(context, route);
+                    }).catchError((e) {
+                      print(e);
+                    });
+                  },
+                );
+
+                // Navigator.of(context).pushNamed(DeleteAccountScreen.routeName);
               }),
               Divider(
                 color: Colors.black12,
@@ -246,9 +281,7 @@ class _MainDrawerState extends State<MainDrawer> {
               Divider(
                 color: Colors.black12,
               ),
-              bulidListTile(lan.getTexts('drawer_item8'), Icons.logout, () {
-                
-              }),
+              bulidListTile(lan.getTexts('drawer_item8'), Icons.logout, () {}),
               Divider(
                 color: Colors.black12,
               ),
