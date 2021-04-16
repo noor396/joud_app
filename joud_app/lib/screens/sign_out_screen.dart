@@ -9,8 +9,8 @@ import '../Authentication/login.dart';
 
 class SignOutScreen extends StatelessWidget {
   static const routeName = '/sign_out';
-  // double _screenWidth = MediaQuery.of(context).size.width;
-  //double _screenHeight = MediaQuery.of(context).size.height;
+  double _screenWidth = MediaQuery.of(context).size.width;
+  double _screenHeight = MediaQuery.of(context).size.height;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,23 +38,33 @@ class SignOutScreen extends StatelessWidget {
           // ),
           RaisedButton(
             child: Container(
-              // width: _screenWidth / 2,
-              //height: _screenHeight / 18,
+              color: Color.fromRGBO(215, 204, 200, 1.0),
+              width: _screenWidth / 2,
+              height: _screenHeight / 18,
               margin: EdgeInsets.only(top: 25),
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20), color: Colors.black),
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                      height: 30.0,
-                      width: 30.0,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                      ),
-                    ),
-                  ],
+              // child: Center(
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //     children: <Widget>[
+              //       Container(
+              //         height: 30.0,
+              //         width: 30.0,
+              //         decoration: BoxDecoration(
+              //           shape: BoxShape.circle,
+              //         ),
+              //       ),
+
+              //     ],
+
+              //   ),
+
+              // ),
+              child: Text(
+                'Sign Out',
+                style: TextStyle(
+                  color: Colors.black,
                 ),
               ),
             ),
