@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:joud_app/Admin/adminlogin.dart';
+import 'package:joud_app/Authentication/login_by_phone.dart';
 import 'package:joud_app/Authentication/privateRegister.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/widgets/customTextField.dart';
@@ -17,9 +18,6 @@ final TextEditingController emailtextEditingController =
 final TextEditingController pass_wordtextEditingController =
     TextEditingController();
 final GlobalKey<FormState> from_key = GlobalKey<FormState>();
-String phoneNo;
-String smsCode;
-String verificationId;
 
 class LoginSc extends StatefulWidget {
   static const routeName = '/login';
@@ -32,102 +30,6 @@ class _LogInScreen extends State<LoginSc> {
   void initState() {
     Provider.of<LanguageProvider>(context, listen: false).getLan();
     super.initState();
-  }
-
-  final PhoneCodeAutoRetrievalTimeout phoneCodeAutoRetrievalTimeout =
-      (String verId) {
-    verificationId = verId;
-  };
-
-  final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeRe]) {
-    verificationId = verId;
-    // smsCodeDialog(context).then((value) {
-    //   print('sign in');
-    // });
-  };
-  final PhoneVerificationCompleted verifiedSuccess = (u) {
-    print('verified');
-  };
-
-  final PhoneVerificationFailed verifiedFailed = (e) {
-    // FirebaseAuthException exception;
-    print('not verified');
-  };
-  lSignIn() {
-    FirebaseAuth.instance
-        .signInWithPhoneNumber(
-      verificationId, //: verificationId,
-      //smsCode: smsCode
-    )
-        .then((value) {
-      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
-    }).catchError((e) {
-      print(e);
-    });
-  }
-
-  Future<void> verfiyPhone() async {
-    await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: phoneNo,
-        codeSent: smsCodeSent,
-        timeout: const Duration(seconds: 5),
-        verificationCompleted: verifiedSuccess,
-        verificationFailed: verifiedFailed,
-        codeAutoRetrievalTimeout: phoneCodeAutoRetrievalTimeout);
-  }
-
-  Future<void> /*<bool>*/ smsCodeDialog(BuildContext cont) {
-    return showDialog(
-        context: cont,
-        barrierDismissible: false,
-        builder: (BuildContext cont) {
-          return new AlertDialog(
-            title: Text('Enter the sms code'),
-            content: TextField(
-              onChanged: (value) {
-                smsCode = value;
-              },
-            ),
-            contentPadding: EdgeInsets.all(10.0),
-            actions: <Widget>[
-              new FlatButton(
-                  child: Text('Done'),
-                  onPressed: () {
-                    var user = FirebaseAuth.instance.currentUser;
-                    var uid;
-                    if (user != null) {
-                      uid = user.uid;
-                      Navigator.of(cont).pop();
-                      Navigator.of(cont)
-                          .pushReplacementNamed(HomeScreen.routeName);
-                    } else {
-                      Navigator.of(cont).pop();
-                      lSignIn();
-                    }
-                  }
-                  // FirebaseAuth.instance.currentUser.reload().then((user) {
-                  //   //if (user != null) {
-                  //   if (FirebaseAuth.instance.currentUser != null) {
-                  //     Navigator.of(cont).pop();
-                  //     Navigator.of(cont).pushReplacementNamed('/HomePage');
-                  //   } else {
-                  //     Navigator.of(cont).pop();
-                  //     lSignIn();
-                  //   }
-                  // });
-                  // FirebaseAuth.instance.currentUser.then((u) {
-                  //   if (u != null) {
-                  //     Navigator.of(cont).pop();
-                  //     Navigator.of(cont).pushReplacementNamed('/HomePage');
-                  //   } else {
-                  //     Navigator.of(cont).pop();
-                  //     lSignIn();
-                  //   }
-                  // });
-                  ),
-            ],
-          );
-        });
   }
 
   @override
@@ -342,6 +244,23 @@ class _LogInScreen extends State<LoginSc> {
                 ),
                 label: Text(
                   lan.getTexts('Login_Text_screen4'),
+                  style: TextStyle(
+                      color: Color.fromRGBO(215, 204, 200, 1.0),
+                      fontWeight: FontWeight.bold),
+                ),
+              ),
+              SizedBox(
+                height: 50.0,
+              ),
+              FlatButton.icon(
+                onPressed: () => Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => phoneP())),
+                icon: Icon(
+                  Icons.nature_people,
+                  color: Colors.lime[400],
+                ),
+                label: Text(
+                  lan.getTexts('Login by Phone number'),
                   style: TextStyle(
                       color: Color.fromRGBO(215, 204, 200, 1.0),
                       fontWeight: FontWeight.bold),
