@@ -110,6 +110,22 @@ class _LogInScreen extends State<LoginSc> {
                             },
                           ),
                         )),
+                    // other way to log in
+                    // InkWell(
+                    //         onTap: () {
+                    //           if (checkFields()) {
+                    //             AuthService().signInV2(email, password);
+                    //           }
+                    //         },
+                    //         child: Container(
+                    //             height: 40.0,
+                    //             width: 100.0,
+                    //             decoration: BoxDecoration(
+                    //               color: Colors.green.withOpacity(0.2),
+                    //             ),
+                    //             child: Center(child: Text('Sign in'))))
+
+                    // other design
                     // children: [
                     //   CustomTextFiled(
                     //     controllr: emailtextEditingController,

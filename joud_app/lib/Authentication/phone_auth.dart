@@ -34,4 +34,16 @@ class AuthService {
         smsCode: smsCode);
     signIn(authCreds);
   }
+
+  //Sign in
+  signInV2(email, password) {
+    FirebaseAuth.instance
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((user) {
+      print('Signed in');
+    }).catchError((e) {
+      print(e);
+    });
+  }
+  
 }

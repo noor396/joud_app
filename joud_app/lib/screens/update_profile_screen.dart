@@ -9,12 +9,12 @@ import 'package:joud_app/Authentication/login.dart';
 import 'package:joud_app/screens/selectProfileImg.dart';
 
 class updateProfile extends StatefulWidget {
+  static const routeName = '/update_profile';
   @override
   UpdateProfileScreen createState() => UpdateProfileScreen();
 }
 
 class UpdateProfileScreen extends State<updateProfile> {
-  static const routeName = '/update_profile';
   var profilePicUrl;
 
   @override

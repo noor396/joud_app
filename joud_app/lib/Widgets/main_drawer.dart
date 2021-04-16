@@ -186,7 +186,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     )),
               ),
               bulidListTile(lan.getTexts('drawer_item2'), Icons.sync, () {
-                Navigator.of(context).pushNamed(UpdateProfileScreen.routeName);
+                Navigator.of(context).pushNamed(updateProfile.routeName);
               }),
               Divider(
                 color: Colors.black12,

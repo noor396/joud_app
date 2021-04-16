@@ -35,7 +35,8 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/',
       routes: {
         '/': (context) => LogoScreen(),
-        UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
+        updateProfile.routeName: (context) => updateProfile(),
+        //UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
         StatisticsScreen.routeName: (context) => StatisticsScreen(),
         DeleteAccountScreen.routeName: (context) => DeleteAccountScreen(),
         AboutScreen.routeName: (context) =>
