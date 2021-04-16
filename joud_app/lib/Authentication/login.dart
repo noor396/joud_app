@@ -17,7 +17,7 @@ final TextEditingController emailtextEditingController =
     TextEditingController();
 final TextEditingController pass_wordtextEditingController =
     TextEditingController();
-final GlobalKey<FormState> from_key = GlobalKey<FormState>();
+//final GlobalKey<FormState> from_key = GlobalKey<FormState>();
 
 class LoginSc extends StatefulWidget {
   static const routeName = '/login';
@@ -25,11 +25,34 @@ class LoginSc extends StatefulWidget {
   _LogInScreen createState() => _LogInScreen();
 }
 
+final formKey = new GlobalKey<FormState>();
+
 class _LogInScreen extends State<LoginSc> {
+  String email, password;
   // @override
   void initState() {
     Provider.of<LanguageProvider>(context, listen: false).getLan();
     super.initState();
+  }
+
+  checkFields() {
+    final form = formKey.currentState;
+
+    if (form.validate()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  String validateEmail(String value) {
+    Pattern pattern =
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(value))
+      return 'Enter Valid Email';
+    else
+      return null;
   }
 
   @override
@@ -53,31 +76,64 @@ class _LogInScreen extends State<LoginSc> {
                 ),
               ),
               Form(
-                key: from_key,
+                key: formKey,
                 child: Column(
-                  children: [
-                    CustomTextFiled(
-                      controllr: emailtextEditingController,
-                      data: Icons.email,
-                      hintText: "Email",
-                      isObsecure: false,
-                    ),
-                    CustomTextFiled(
-                      controllr: pass_wordtextEditingController,
-                      data: Icons.lock,
-                      hintText: "Password",
-                      isObsecure: true,
-                      // data : pass_wordtextEditingController != null
-                      //  ? Icons.visibility
-                      //  : Icons.visibility_off, //color: Color(0xFFE6E6E6),
-                      // ),
-                      // onP: () {
-                      //           model.passwordVisible =
-                      //           !model
-                      //               .passwordVisible;
-                      //         }),
-                      //),
-                    ),
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Padding(
+                        padding: EdgeInsets.only(
+                            left: 25.0, right: 25.0, top: 20.0, bottom: 5.0),
+                        child: Container(
+                          height: 50.0,
+                          child: TextFormField(
+                            decoration: InputDecoration(hintText: 'Email'),
+                            validator: (value) => value.isEmpty
+                                ? 'Email is required'
+                                : validateEmail(value.trim()),
+                            onChanged: (value) {
+                              this.email = value;
+                            },
+                          ),
+                        )),
+                    Padding(
+                        padding: EdgeInsets.only(
+                            left: 25.0, right: 25.0, top: 20.0, bottom: 5.0),
+                        child: Container(
+                          height: 50.0,
+                          child: TextFormField(
+                            obscureText: true,
+                            decoration: InputDecoration(hintText: 'Password'),
+                            validator: (value) =>
+                                value.isEmpty ? 'Password is required' : null,
+                            onChanged: (value) {
+                              this.password = value;
+                            },
+                          ),
+                        )),
+                    // children: [
+                    //   CustomTextFiled(
+                    //     controllr: emailtextEditingController,
+                    //     data: Icons.email,
+                    //     hintText: "Email",
+                    //     isObsecure: false,
+
+                    //   ),
+                    //   CustomTextFiled(
+                    //     controllr: pass_wordtextEditingController,
+                    //     data: Icons.lock,
+                    //     hintText: "Password",
+                    //     isObsecure: true,
+                    //     // data : pass_wordtextEditingController != null
+                    //     //  ? Icons.visibility
+                    //     //  : Icons.visibility_off, //color: Color(0xFFE6E6E6),
+                    //     // ),
+                    //     // onP: () {
+                    //     //           model.passwordVisible =
+                    //     //           !model
+                    //     //               .passwordVisible;
+                    //     //         }),
+                    //     //),
+                    //   ),
                   ],
                 ),
               ),
@@ -184,7 +240,7 @@ class _LogInScreen extends State<LoginSc> {
                 ),
               ),
               Form(
-                key: from_key,
+                key: formKey,
                 child: Column(
                   children: [
                     CustomTextFiled(
