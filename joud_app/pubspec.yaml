@@ -103,7 +103,7 @@ flutter:
       fonts:
         - asset: fonts/Quicksand-Light.ttf
         - asset: fonts/Quicksand-Bold.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+    #    - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
   #     fonts:

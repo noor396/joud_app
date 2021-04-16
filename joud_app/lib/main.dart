@@ -43,7 +43,8 @@ class _MyAppState extends State<MyApp> {
               create: (ctx) => LanguageProvider(),
               child: AboutScreen(),
             ),
-        SignOutScreen.routeName: (context) => SignOutScreen(),
+        // nefal
+        //SignOutScreen.routeName: (context) => SignOutScreen(),
       },
     );
   }

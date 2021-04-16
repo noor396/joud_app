@@ -283,7 +283,15 @@ class _MainDrawerState extends State<MainDrawer> {
                 color: Colors.black12,
               ),
               bulidListTile(lan.getTexts('drawer_item8'), Icons.logout, () {
-                Navigator.of(context).pushNamed(SignOutScreen.routeName);
+                // Navigator.of(context).pushNamed(SignOutScreen.routeName);
+                FirebaseAuth.instance.signOut().then((value) {
+                  Navigator.of(context).pushReplacementNamed('/LoginSc');
+                  Navigator.pop(context);
+                  Route route = MaterialPageRoute(builder: (c) => LoginSc());
+                  Navigator.pushReplacement(context, route);
+                }).catchError((e) {
+                  print(e);
+                });
               }),
               Divider(
                 color: Colors.black12,
