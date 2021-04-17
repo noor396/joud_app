@@ -4,9 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:provider/provider.dart';
-import 'dart:html';
-
-//import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';

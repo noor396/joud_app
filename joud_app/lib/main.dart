@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:joud_app/Authentication/login.dart';
+import 'package:joud_app/Authentication/login_by_phone.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/screens/about_screen.dart';
 import 'package:joud_app/screens/delete_account_screen.dart';
-import 'package:joud_app/screens/logo_screen.dart';
-import 'package:joud_app/screens/map_screen.dart';
-import 'package:joud_app/screens/sign_out_screen.dart';
 import 'package:joud_app/screens/statistics_screen.dart';
 import 'package:joud_app/screens/update_profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'Authentication/register.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,7 +35,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => LogoScreen(),
+        '/': (context) => Register() , // LogoScreen(),
         updateProfile.routeName: (context) => updateProfile(),
         //UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
         StatisticsScreen.routeName: (context) => StatisticsScreen(),

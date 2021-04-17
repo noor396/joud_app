@@ -92,7 +92,11 @@ class UpdateProfileScreen extends State<updateProfile> {
                           elevation: 7.0,
                           child: GestureDetector(
                             onTap: () {
-                              FirebaseAuth.instance.currentUser.updateProfile();
+                              // FirebaseAuth.instance.currentUser
+                              //     .updateProfile()
+                              //     .then((value) {
+
+                              //     });
                             },
                             child: Center(
                               child: Text(

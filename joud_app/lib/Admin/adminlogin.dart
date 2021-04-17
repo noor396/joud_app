@@ -1,12 +1,10 @@
 import 'dart:developer';
-import 'dart:html';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:joud_app/Authentication/authintication.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/widgets/customTextField.dart';
 import 'package:joud_app/widgets/errorAlertDialog.dart';
-import 'package:joud_app/widgets/loadAlertDialog.dart';
 import 'package:provider/provider.dart';
 
 class AdminSignInPage extends StatefulWidget {

@@ -4,10 +4,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:joud_app/Authentication/phone_auth.dart';
 import '../screens/home_screen.dart';
+import '_auth_serv.dart';
 
 class phoneP extends StatefulWidget {
+    static const routeName = '/phone';
   @override
   _phoneLog createState() => _phoneLog();
 }
@@ -141,7 +142,7 @@ class _phoneLog extends State<phoneP> {
               ),
               contentPadding: EdgeInsets.all(10.0),
               actions: <Widget>[
-                new FlatButton(
+                new TextButton(
                     child: Text('Done'),
                     onPressed: () {
                       var user = FirebaseAuth.instance.currentUser;

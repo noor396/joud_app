@@ -5,6 +5,8 @@ import 'package:joud_app/Authentication/privateRegister.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:provider/provider.dart';
 
+import 'login.dart';
+
 class Register extends StatefulWidget {
   @override
   _RegisterState createState() => _RegisterState();
@@ -29,44 +31,43 @@ class _RegisterState extends State<Register> {
             //shadowColor: Colors.green,
             backgroundColor: Color.fromRGBO(230, 238, 156, 1.0),
           ),
-          body: Stack(
-            children: [
-              Container(
-                margin: EdgeInsets.all(10),
-                height: 50.0,
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                      side: BorderSide(color: Color.fromRGBO(0, 160, 227, 1))),
-                  onPressed: () {
-                    Register_B();
-                  },
-                  padding: EdgeInsets.all(10.0),
-                  color: Color.fromRGBO(0, 160, 227, 1),
-                  textColor: Colors.white,
-                  child: Text(lan.getTexts('register_Screen_Text1'),
-                      style: TextStyle(fontSize: 15)),
-                ),
-              ),
-              Container(
-                margin: EdgeInsets.all(10),
-                height: 50.0,
-                child: RaisedButton(
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(18.0),
-                      side: BorderSide(color: Color.fromRGBO(0, 160, 227, 1))),
-                  onPressed: () {
-                    //rama  Register_P();
-                  },
-                  padding: EdgeInsets.all(10.0),
-                  color: Colors.white,
-                  textColor: Color.fromRGBO(0, 160, 227, 1),
-                  child: Text(lan.getTexts('register_Screen_Text2'),
-                      style: TextStyle(fontSize: 15)),
-                ),
-              ),
-            ],
-          )),
+          body: Container(
+            decoration: BoxDecoration(
+                gradient: new LinearGradient(
+              colors: [Colors.greenAccent, Colors.green],
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+            )),
+            child: TabBarView(
+              children: [
+                LoginSc(),
+                Register_P(),
+              ],
+            ),
+          ),
+          // body: Stack(
+          //   children: [
+             
+          //     Container(
+          //       margin: EdgeInsets.all(10),
+          //       height: 50.0,
+          //       child: RaisedButton(
+          //         shape: RoundedRectangleBorder(
+          //             borderRadius: BorderRadius.circular(18.0),
+          //             side: BorderSide(color: Color.fromRGBO(0, 160, 227, 1))),
+          //         onPressed: () {
+          //           //rama  Register_P();
+          //         },
+          //         padding: EdgeInsets.all(10.0),
+          //         color: Colors.white,
+          //         textColor: Color.fromRGBO(0, 160, 227, 1),
+          //         child: Text(lan.getTexts('register_Screen_Text2'),
+          //             style: TextStyle(fontSize: 15)),
+          //       ),
+          //     ),
+          //   ],
+          // )
+          ),
     );
   }
 }
