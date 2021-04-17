@@ -192,15 +192,6 @@ class _LoginPageState extends State<LoginSc> {
               child: Text(loggedIn ? 'Login' : 'Sign up'),
               color: Color.fromRGBO(215, 204, 200, 1.0),
               onPressed: submit),
-          // SizedBox(height: 20.0),
-          // RaisedButton(
-          //     child: Text('Login with phone number'),
-          //     color: Color.fromRGBO(215, 204, 200, 1.0),
-          //     onPressed: () {
-          //       Navigator.of(context).pushReplacementNamed('/phone');
-          //        Navigator.of(context).push(
-          //          MaterialPageRoute(builder: (context) => phoneP() ));
-          //     }),
                SizedBox(height: 20.0),
           GestureDetector(
               onTap: () {
