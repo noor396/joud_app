@@ -1,13 +1,12 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:joud_app/Admin/adminlogin.dart';
 import 'package:joud_app/Authentication/register.dart';
 import 'package:joud_app/Authentication/rest.dart';
-
 import '_auth_serv.dart';
 
 class LoginSc extends StatefulWidget {
-  static const routeName = '/loginSc';
+  static const routeName = '/login';
   final void Function(String email, String password, String userName,
       File image, bool loggedIn, BuildContext ctx) userAuth;
   LoginSc(this.userAuth);
@@ -20,10 +19,17 @@ class LoginSc extends StatefulWidget {
 
 class _LoginPageState extends State<LoginSc> {
   final formKey = new GlobalKey<FormState>();
-  bool loggedIn= true;
-  String email, password;
+  bool loggedIn = true;
+  String email = "";
+  String userName = "";
+  String password = "";
+  File userImageFile;
 
-  Color greenColor = Color(0xFF00AF19);
+  void pickedImageFun(File pickedImage) {
+    userImageFile = pickedImage;
+  }
+
+  Color greenColor = Color.fromRGBO(215, 204, 200, 1.0); //Color(0xFF00AF19);
 
   //To check fields during submit
   checkFields() {
@@ -46,9 +52,52 @@ class _LoginPageState extends State<LoginSc> {
       return null;
   }
 
+  void submit() {
+    final isValid = formKey.currentState.validate();
+    FocusScope.of(context).unfocus();
+
+    if (!loggedIn && userImageFile == null) {
+      // ignore: deprecated_member_use
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text('Please pick an image'),
+        backgroundColor: Theme.of(context).errorColor,
+      ));
+      return;
+    }
+
+    if (isValid) {
+      formKey.currentState.save();
+      widget.userAuth(email.trim(), password.trim(), userName.trim(),
+          userImageFile, loggedIn, context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.teal, //Color.fromRGBO(230, 238, 156, 1.0),
+          flexibleSpace: Container(
+            decoration: new BoxDecoration(
+                gradient: new LinearGradient(
+              //colors: [Colors.greenAccent , Colors.green],
+              colors: [Colors.black],
+              begin: const FractionalOffset(0.0, 0.0),
+              end: const FractionalOffset(1.0, 0.0),
+              stops: [0.0, 1.0],
+              tileMode: TileMode.clamp,
+            )),
+          ),
+          title: Text(
+            'Registration',
+            // lan.getTexts('Auth_Screen_AppBar'),
+            style: TextStyle(
+                fontSize: 25.0,
+                color: Colors.white,
+                fontFamily: "Schyler-Regular"),
+          ),
+          centerTitle: true,
+        ),
         body: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -59,8 +108,9 @@ class _LoginPageState extends State<LoginSc> {
     return Padding(
         padding: const EdgeInsets.only(left: 25.0, right: 25.0),
         child: ListView(children: [
-          //SizedBox(height: 15.0),
+          SizedBox(height: 5.0),
           Container(
+              alignment: Alignment.bottomCenter,
               height: 125.0,
               width: 200.0,
               child: Stack(
@@ -84,6 +134,26 @@ class _LoginPageState extends State<LoginSc> {
               },
               validator: (value) =>
                   value.isEmpty ? 'Email is required' : validateEmail(value)),
+          if (!loggedIn)
+            TextFormField(             
+              key: ValueKey('userName'),
+              validator: (val) {
+                if (val.isEmpty || val.length < 5) {
+                  return 'Please enter a username with at least 5 characters';
+                }
+                return null;
+              },
+              onSaved: (val) => userName = val,
+              decoration: InputDecoration(
+                  labelText: 'USERNAME',
+                  labelStyle: TextStyle(
+                      fontFamily: 'Trueno',
+                      fontSize: 12.0,
+                      color: Colors.grey.withOpacity(0.5)),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: greenColor),
+                  )),
+            ),
           TextFormField(
               decoration: InputDecoration(
                   labelText: 'PASSWORD',
@@ -98,8 +168,9 @@ class _LoginPageState extends State<LoginSc> {
               onChanged: (value) {
                 this.password = value;
               },
-              validator: (value) =>
-                  value.isEmpty ? 'Password is required' : null),
+              validator: (value) => value.isEmpty || value.length < 6
+                  ? 'Password is required'
+                  : null),
           SizedBox(height: 5.0),
           GestureDetector(
               onTap: () {
@@ -112,71 +183,60 @@ class _LoginPageState extends State<LoginSc> {
                   child: InkWell(
                       child: Text('Forgot Password',
                           style: TextStyle(
-                              color: greenColor,
+                              color: Colors.teal,
                               fontFamily: 'Trueno',
                               fontSize: 11.0,
                               decoration: TextDecoration.underline))))),
-          SizedBox(height: 35.0),
-          GestureDetector(
-            onTap: () {
-              if (checkFields())
-                AuthService().signInV2(email, password, context);
-            },
-            child: Container(
-                height: 50.0,
-                child: Material(
-                    borderRadius: BorderRadius.circular(25.0),
-                    //shadowColor: Colors.greenAccent,
-                    color: Color.fromRGBO(215, 204, 200, 1.0),
-                    //elevation: 7.0,
-                    child: Center(
-                        child: Text('LOGIN',
-                            style: TextStyle(
-                                color: Colors.black, fontFamily: 'Trueno'))))),
-          ),
+          SizedBox(height: 30.0),
+          RaisedButton(
+              child: Text(loggedIn ? 'Login' : 'Sign up'),
+              color: Color.fromRGBO(215, 204, 200, 1.0),
+              onPressed: submit),
+          SizedBox(height: 20.0),
+          RaisedButton(
+              child: Text('Login with phone number'),
+              color: Color.fromRGBO(215, 204, 200, 1.0),
+              onPressed: () {
+                //Navigator.of(context).pushReplacementNamed('/phone');
+              //   Navigator.of(context).push(
+              //      MaterialPageRoute(builder: (context) =>  ));
+              }),
           SizedBox(height: 20.0),
           GestureDetector(
-            onTap: () {
-              Navigator.of(context).pushReplacementNamed('/phone');
-            },
-            child: Container(
-                height: 50.0,
-                color: Colors.transparent,
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.transparent,
-                        style: BorderStyle.solid,
-                        width: 1.0),
-                    color: Color.fromRGBO(215, 204, 200, 1.0),
-                    borderRadius: BorderRadius.circular(25.0),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(
-                        child: Text('Login with phone number',
-                            style: TextStyle(fontFamily: 'Trueno')),
-                      ),
-                    ],
-                  ),
-                )),
-          ),
-          SizedBox(height: 20.0),
-          Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text('New to Joud ?'),
-            SizedBox(width: 5.0),
-            InkWell(
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => Register()));
-                },
-                child: Text('Register',
-                    style: TextStyle(
-                        color: greenColor,
-                        fontFamily: 'Trueno',
-                        decoration: TextDecoration.underline)))
-          ])
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => AdminSignInPage()));
+              },
+              child: Container(
+                  alignment: Alignment(1.0, 0.0),
+                  padding: EdgeInsets.only(top: 5.0, right: 120.0),
+                  child: InkWell(
+                      child: Text('I am an admin',
+                          style: TextStyle(
+                              color: Colors.teal,
+                              fontFamily: 'Trueno',
+                              fontSize: 11.0,
+                              decoration: TextDecoration.underline))))),
+          SizedBox(height: 5.0),
+          GestureDetector(
+              onTap: () {
+                setState(() {
+                  loggedIn = !loggedIn;
+                });
+              },
+              child: Container(
+                  alignment: Alignment(1.0, 0.0),
+                  padding: EdgeInsets.only(top: 5.0, right: 103.0),
+                  child: InkWell(
+                      child: Text(
+                          loggedIn
+                              ? 'Create a new account'
+                              : 'Already have an account',
+                          style: TextStyle(
+                              color: Colors.teal,
+                              fontFamily: 'Trueno',
+                              fontSize: 11.0,
+                              decoration: TextDecoration.underline))))),
         ]));
   }
 
@@ -191,354 +251,3 @@ class _LoginPageState extends State<LoginSc> {
     );
   }
 }
-
-//
-//                     InkWell(
-//                             onTap: () {
-//                               if (checkFields()) {
-//                                 AuthService().signInV2(email, password);
-//                               }
-//                             },
-//                             child: Container(
-//                                 height: 40.0,
-//                                 width: 100.0,
-//                                 decoration: BoxDecoration(
-//                                   color: Colors.green.withOpacity(0.2),
-//                                 ),
-//                                 child: Center(child: Text('Sign in'))))
-//                   ],
-//                 ),
-//               ),
-//               RaisedButton(
-//                 onPressed: () {
-//                   email.isNotEmpty && password.isNotEmpty
-//                       ? (FirebaseAuth.instance
-//                           .createUserWithEmailAndPassword(
-//                               email: email, password: password)
-//                           .then((value) {
-//                           Navigator.of(context)
-//                               .pushReplacementNamed(HomeScreen.routeName);
-//                         }).catchError((e) {
-//                           print(e);
-//                         })) //loginUser(lan)
-//                       : showDialog(
-//                           context: context,
-//                           builder: (c) {
-//                             return ErrorAlertDialog(
-//                               msg: "Please write email and password",
-//                             );
-//                           });
-//
-//               FlatButton.icon(
-//                 onPressed: () => Navigator.push(
-//                     context, MaterialPageRoute(builder: (context) => phoneP())),
-//                 icon: Icon(
-//                   Icons.nature_people,
-//                   color: Colors.lime[400],
-//                 ),
-//                 label: Text(
-//                   lan.getTexts('Login by Phone number'),
-//                   style: TextStyle(
-//                       color: Color.fromRGBO(215, 204, 200, 1.0),
-//                       fontWeight: FontWeight.bold),
-//                 ),
-//               ),
-//               RaisedButton(
-//                 child: Container(
-//                   width: _screenWidth / 2,
-//                   height: _screenHeight / 18,
-//                   margin: EdgeInsets.only(top: 25),
-//                   decoration: BoxDecoration(
-//                       borderRadius: BorderRadius.circular(20),
-//                       color: Colors.black),
-//                   child: Center(
-//                     child: Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                       children: <Widget>[
-//                         Container(
-//                           height: 30.0,
-//                           width: 30.0,
-//                           decoration: BoxDecoration(
-//                             shape: BoxShape.circle,
-//                           ),
-//                         ),
-//                         Text(
-//                           'Do\'nt have an account',
-//                           style: TextStyle(
-//                               fontSize: 16.0,
-//                               fontWeight: FontWeight.bold,
-//                               color: Colors.white),
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//                 onPressed: () {
-//                   // test the 2 statments
-//                   //1
-//                   ////  Navigator.of(context).pushNamed('/Register');
-//                   //or
-//                   //2
-//                   Navigator.pop(context);
-//                   Route route = MaterialPageRoute(builder: (c) => Register_P());
-//                   Navigator.pushReplacement(context, route);
-//                 },
-//               ),
-//               // Container(
-//               //   height: 4.0,
-//               //   width: _screenWidth * 0.8,
-//               //   color: Colors.green,
-//               // ),
-//               SizedBox(
-//                 height: 10.0,
-//               ),
-
-//               FlatButton.icon(
-//                 // i am add label here i will test the code if its not nesseccary i will clear it.
-//                 label: widget,
-//                 onPressed: () => Navigator.push(context,
-//                     MaterialPageRoute(builder: (context) => AdminSignInPage())),
-//                 icon: Icon(
-//                   Icons.nature_people,
-//                   color: Colors.lime[400],
-//                 ),
-//               ),
-//               Padding(
-//                 padding: EdgeInsets.all(8.0),
-//                 child: Text(
-//                   lan.getTexts('login_Text_screen1'),
-//                   style: TextStyle(color: Colors.white),
-//                 ),
-//               ),
-//               // Form(
-//               //   key: formKey,
-//               //   child: Column(
-//               //     children: [
-//               //       CustomTextFiled(
-//               //         controllr: email,
-//               //         data: Icons.email,
-//               //         hintText: lan.getTexts('Login_hintText1'),
-//               //         isObsecure: false,
-//               //       ),
-//               //       CustomTextFiled(
-//               //         controllr: password,
-//               //         data: Icons.person,
-//               //         hintText: lan.getTexts('Login_hintText2'),
-//               //         isObsecure: true,
-//               //       ),
-//               //     ],
-//               //   ),
-//               // ),
-//               // RaisedButton(
-//               //   onPressed: () {
-//               //     emailtextEditingController.text.isNotEmpty &&
-//               //             pass_wordtextEditingController.text.isNotEmpty
-//               //         ? (FirebaseAuth.instance
-//               //             .createUserWithEmailAndPassword(
-//               //                 email: emailtextEditingController.text,
-//               //                 password: pass_wordtextEditingController.text)
-//               //             .then((value) {
-//               //             Navigator.of(context)
-//               //                 .pushReplacementNamed(HomeScreen.routeName);
-//               //           }).catchError((e) {
-//               //             print(e);
-//               //           })) //loginUser(lan) //Rama I add lan here
-//               //         : showDialog(
-//               //             context: context,
-//               //             builder: (c) {
-//               //               return ErrorAlertDialog(
-//               //                 msg: lan.getTexts('Login_AlertDialog_msg1'),
-//               //               );
-//               //             });
-//               //  },
-//               //  color: Color.fromRGBO(215, 204, 200, 1.0),
-//               //   child: Text(
-//               //     lan.getTexts('Login_Text_screen2'),
-//               //     style: TextStyle(
-//               //       color: Colors.black,
-//               //     ),
-//               //   ),
-//               // ),
-//               // SizedBox(
-//               //   height: 50.0,
-//               // ),
-//               // FlatButton.icon(
-//               //   onPressed: () => Navigator.push(context,
-//               //       MaterialPageRoute(builder: (context) => AdminSignInPage())),
-//               //   icon: Icon(
-//               //     Icons.nature_people,
-//               //     color: Colors.lime[400],
-//               //   ),
-//               //   label: Text(
-//               //     lan.getTexts('Login_Text_screen4'),
-//               //     style: TextStyle(
-//               //         color: Color.fromRGBO(215, 204, 200, 1.0),
-//               //         fontWeight: FontWeight.bold),
-//               //   ),
-//               // ),
-//               // SizedBox(
-//               //   height: 50.0,
-//               // ),
-
-//                Container(
-//                         height: 30.0,
-//                         width: 95.0,
-//                         child: Material(
-//                           borderRadius: BorderRadius.circular(20.0),
-//                           shadowColor: Colors.yellowAccent,
-//                           color: Colors.yellow,
-//                           elevation: 7.0,
-//                           child: GestureDetector(
-//                             onTap: () {
-//                               Navigator.of(context).pop();
-//                               Navigator.of(context)
-//                                   .pushReplacementNamed('/selectImg');
-//                             },
-//                             child: Center(
-//                               child: Text(
-//                                 'Edit Photo',
-//                                 style: TextStyle(
-//                                     color: Colors.white,
-//                                     fontFamily: 'Quicksand'),
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                       //SizedBox(height: 25.0),
-//                       Container(
-//                         height: 30.0,
-//                         width: 95.0,
-//                         child: Material(
-//                           borderRadius: BorderRadius.circular(20.0),
-//                           shadowColor: Colors.yellowAccent,
-//                           color: Colors.yellow,
-//                           //color: Color.fromRgba(215, 204, 200, 1.0),
-//                           elevation: 7.0,
-//                           child: GestureDetector(
-//                               onTap: () {
-//                                 FirebaseAuth.instance.signOut().then((value) {
-//                                   Navigator.of(context)
-//                                       .pushReplacementNamed('/LoginSc');
-//                                   Navigator.pop(context);
-//                                   Route route = MaterialPageRoute(
-//                                       builder: (c) => LoginSc());
-//                                   Navigator.pushReplacement(context, route);
-//                                 }).catchError((e) {
-//                                   print(e);
-//                                 });
-//                               },
-//                               child: Center(
-//                                 child: Text(
-//                                   'Log out',
-//                                   style: TextStyle(
-//                                       color: Colors.white,
-//                                       fontFamily: 'Quicksand'),
-//                                 ),
-//                               )),
-//                         ),
-//                       ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// // void loginUser(lan) async {
-// //   //Rama I add lan her
-// //   showDialog(
-// //       context: context,
-// //       builder: (c) {
-// //         return LoadAlertDialog(
-// //           message: lan.getTexts('Login_AlertDialog_msg2'),
-// //         );
-// //       });
-// //   User firebaseuser;
-// //   await User_obj.auth
-// //       .signInWithEmailAndPassword(
-// //     email: emailtextEditingController.text.trim(),
-// //     password: pass_wordtextEditingController.text.trim(),
-// //   )
-// //       .then((authuser) {
-// //     firebaseuser = authuser.user;
-// //     Navigator.of(context)
-// //         .pushReplacementNamed('/HomeScreen'); // the name of home page
-// //   }).catchError((error) {
-// //     //print(error);
-// //     showDialog(
-// //         context: context,
-// //         builder: (c) {
-// //           return ErrorAlertDialog(
-// //             msg: error.message.toString(),
-// //           );
-// //         });
-// //   });
-// //   // be sure this is true or no ???? and the next function
-// //   if (firebaseuser != null) {
-// //     readData(firebaseuser);
-// //     // to move to home page
-// //     Navigator.pop(context);
-// //     Route route = MaterialPageRoute(builder: (c) => HomeScreen());
-// //     Navigator.pushReplacement(context, route);
-// //   }
-// // }
-
-// // Future readData(User fuser) async {
-// //   // ignore: unnecessary_statements
-// //   FirebaseFirestore.instance
-// //       .collection("users")
-// //       .doc(fuser.uid)
-// //       .get()
-// //       .then((dataSnapShot) async {
-// //     await User_obj.sharedPreferences.setString(
-// //         "uid", dataSnapShot.data().update("uid", (value) => User_obj.userId));
-// //     await User_obj.sharedPreferences.setString(
-// //         User_obj.userEmail,
-// //         dataSnapShot
-// //             .data()
-// //             .update(User_obj.userEmail, (value) => User_obj.userEmail));
-// //     await User_obj.sharedPreferences.setString(
-// //         User_obj.userName,
-// //         dataSnapShot
-// //             .data()
-// //             .update(User_obj.userName, (value) => User_obj.userName));
-// //     await User_obj.sharedPreferences.setString(
-// //         User_obj.userAvaterUrl,
-// //         dataSnapShot
-// //             .data()
-// //             .update(User_obj.userAvaterUrl, (value) => User_obj.userAvaterUrl));
-// //     // await User_obj.sharedPreferences.setString("uid", dataSnapShot.data().update("uid", (value) =>User_obj.userId));
-// //     //     await User_obj.sharedPreferences.setString(User_obj.userEmail,dataSnapShot.data().update("userEmail", (value) => User_obj.userEmail));
-// //     //     await User_obj.sharedPreferences.setString(User_obj.userName, dataSnapShot.data().update("User_obj."userName", (value) => User_obj.userName));
-// //     //     await User_obj.sharedPreferences.setString(User_obj.userAvaterUrl, dataSnapShot.data().update("userAvaterUrl", (value) => User_obj.userAvaterUrl));
-// //   });
-// // }
-
-// // also we dont need it
-
-// // Future<User> signInWithGoogle() async {
-// //   GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-
-// //   GoogleSignInAuthentication googleSignInAuthentication =
-// //       await googleSignInAccount.authentication;
-
-// //   AuthCredential credential = GoogleAuthProvider.credential(
-// //     accessToken: googleSignInAuthentication.accessToken,
-// //     idToken: googleSignInAuthentication.idToken,
-// //   );
-// //   UserCredential authResult = await _fauth.signInWithCredential(credential);
-
-// //   usernew = authResult.user;
-
-// //   assert(!usernew.isAnonymous);
-
-// //   assert(await usernew.getIdToken() != null);
-
-// //   User currentUser = await _fauth.currentUser;
-
-// //   assert(usernew.uid == currentUser.uid);
-// //   print("User Name: ${usernew.displayName}");
-// //   print("User Email ${usernew.email}");
-// // }

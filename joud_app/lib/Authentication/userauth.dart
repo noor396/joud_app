@@ -2,7 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:joud_app/Authentication/login.dart';
 import 'dart:io';
+
+import 'authform.dart';
 
 class UserAuth extends StatefulWidget {
   static const routeName = '/loginSc';
@@ -58,7 +61,7 @@ class UserAuthState extends State<UserAuth> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(189, 193, 146, 1),
-      //body: AuthForm(submitAuthForm),
+      body: LoginSc(submitAuthForm),
     );
   }
 }

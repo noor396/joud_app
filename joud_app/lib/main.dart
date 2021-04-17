@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:joud_app/Authentication/login.dart';
 import 'package:joud_app/Authentication/login_by_phone.dart';
@@ -14,6 +15,7 @@ import 'Authentication/register.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
   // await Firebase.initializeApp();
   runApp(

@@ -29,7 +29,7 @@ class _AdminSignInPageState extends State<AdminSignInPage> {
           flexibleSpace: Container(
             decoration: new BoxDecoration(
                 gradient: new LinearGradient(
-              colors: [Colors.greenAccent, Colors.green],
+              colors: [Colors.teal, Colors.teal],
               begin: const FractionalOffset(0.0, 0.0),
               end: const FractionalOffset(1.0, 0.0),
               stops: [0.0, 1.0],
@@ -49,6 +49,8 @@ class _AdminSignInPageState extends State<AdminSignInPage> {
       ),
     );
   }
+
+  
 }
 
 class AdminSingInScreen extends StatefulWidget {
@@ -68,7 +70,16 @@ class AdminSingInScreenState extends State<AdminSingInScreen> {
     Provider.of<LanguageProvider>(context, listen: false).getLan();
     super.initState();
   }
-
+Widget logo() {
+    return Hero(
+      tag: 'hero',
+      child: CircleAvatar(
+        backgroundColor: Colors.transparent,
+        radius: 110.0,
+        child: Image.asset('assets/Joud_Logo.png'),
+      ),
+    );
+  }
   // double _screenWidth = MediaQuery.of(context).size.width;
   //MediaQuery.of(context).size.width;
   @override
@@ -80,7 +91,7 @@ class AdminSingInScreenState extends State<AdminSingInScreen> {
         child: Container(
           decoration: new BoxDecoration(
               gradient: new LinearGradient(
-            colors: [Colors.greenAccent, Colors.green],
+            colors: [Colors.tealAccent, Colors.transparent],
             begin: const FractionalOffset(0.0, 0.0),
             end: const FractionalOffset(1.0, 0.0),
             stops: [0.0, 1.0],
@@ -89,13 +100,16 @@ class AdminSingInScreenState extends State<AdminSingInScreen> {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
+              SizedBox(height: 15.0,),
               Container(
-                alignment: Alignment.bottomCenter,
-                child: Image.asset(
-                  "assets/app_jo.png",
-                  height: 240.0,
-                  width: 240.0,
-                ),
+                alignment: Alignment.bottomCenter,                 
+              height: 125.0,
+              width: 200.0,
+              child: Stack(
+                children: [
+                  logo(),
+                ],
+              )
               ),
               Padding(
                 padding: EdgeInsets.all(8.0),
@@ -113,7 +127,7 @@ class AdminSingInScreenState extends State<AdminSingInScreen> {
                   children: [
                     CustomTextFiled(
                       controllr: adminIDtextEditingController,
-                      data: Icons.person,
+                      data: Icons.person,                      
                       hintText: lan.getTexts('Admin_hint_Text1'),
                       isObsecure: false,
                     ),
@@ -142,11 +156,11 @@ class AdminSingInScreenState extends State<AdminSingInScreen> {
                             );
                           });
                 },
-                color: Colors.green,
+                color: Color.fromRGBO(215, 204, 200, 1.0),
                 child: Text(
                   lan.getTexts('Admin_login_Text2'),
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Colors.teal,
                   ),
                 ),
               ),
@@ -156,7 +170,7 @@ class AdminSingInScreenState extends State<AdminSingInScreen> {
               Container(
                 height: 4.0,
                 width: MediaQuery.of(context).size.width * 0.8,
-                color: Colors.green,
+                color: Colors.teal,
               ),
               SizedBox(
                 height: 20.0,
@@ -167,13 +181,13 @@ class AdminSingInScreenState extends State<AdminSingInScreen> {
                     MaterialPageRoute(
                         builder: (context) => AuthinticationScreen())),
                 icon: Icon(
-                  Icons.nature_people,
-                  color: Colors.lime[400],
+                  Icons.person_outline,
+                  color: Colors.white,
                 ),
                 label: Text(
                   lan.getTexts('Admin_Flat_button'),
                   style: TextStyle(
-                      color: Colors.pink[100], fontWeight: FontWeight.bold),
+                      color: Colors.teal, fontWeight: FontWeight.bold),
                 ),
               ),
               SizedBox(

@@ -37,6 +37,29 @@ class _ResetPasswordState extends State<ResetPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          backgroundColor: Colors.teal, //Color.fromRGBO(230, 238, 156, 1.0),
+          flexibleSpace: Container(
+            decoration: new BoxDecoration(
+                gradient: new LinearGradient(
+              //colors: [Colors.greenAccent , Colors.green],
+              colors: [Colors.black],
+              begin: const FractionalOffset(0.0, 0.0),
+              end: const FractionalOffset(1.0, 0.0),
+              stops: [0.0, 1.0],
+              tileMode: TileMode.clamp,
+            )),
+          ),
+          title: Text(
+            'Rest Password',
+            // lan.getTexts('Auth_Screen_AppBar'),
+            style: TextStyle(
+                fontSize: 25.0,
+                color: Colors.white,
+                fontFamily: "Schyler-Regular"),
+          ),
+          centerTitle: true,
+        ),
         body: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
@@ -49,6 +72,7 @@ class _ResetPasswordState extends State<ResetPassword> {
         child: ListView(children: [
           SizedBox(height: 75.0),
           Container(
+             alignment: Alignment.bottomCenter,
               height: 125.0,
               width: 200.0,
               child: Stack(
@@ -98,7 +122,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                 },
                 child: Text('Go back',
                     style: TextStyle(
-                        color: greenColor,
+                       color: Colors.teal,
                         fontFamily: 'Trueno',
                         decoration: TextDecoration.underline)))
           ])
