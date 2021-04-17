@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:joud_app/Widgets/errorAlertDialog.dart';
 import 'package:joud_app/screens/home_screen.dart';
 
 class AuthService{
@@ -43,14 +42,7 @@ class AuthService{
         .then((user) {
       print('Signed in');
     }).catchError((e) {
-      print(e);
-          showDialog(
-                          context: context,
-                          builder: (c) {
-                            return ErrorAlertDialog(
-                              msg:('you don\'t have an account'),
-                            );
-                          });
+      print(e);        
     });
   }
 

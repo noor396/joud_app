@@ -5,8 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:joud_app/Authentication/login.dart';
 import 'dart:io';
 
-import 'authform.dart';
-
 class UserAuth extends StatefulWidget {
   static const routeName = '/loginSc';
   @override

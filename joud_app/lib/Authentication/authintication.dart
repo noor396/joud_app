@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:joud_app/Authentication/login.dart';
-import 'package:joud_app/Authentication/privateRegister.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -77,7 +75,7 @@ class _AuthinticationScreenState extends State<AuthinticationScreen> {
             child: TabBarView(
               children: [
            //     LoginSc(),
-                Register_P(),
+              //  Register_P(),
               ],
             ),
           ),

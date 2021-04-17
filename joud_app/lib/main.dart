@@ -11,7 +11,6 @@ import 'package:joud_app/screens/update_profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'Authentication/register.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

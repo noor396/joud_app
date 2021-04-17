@@ -47,7 +47,7 @@ class LanguageProvider with ChangeNotifier {
     "privateRegister_hintText3": "كلمة السر",
     "privateRegister_hintText4": "تأكيد كلمة المرور",
     "privateRegister_Text1": "تسجيل",
-    "privateRegister_AlertDialog_msg1": "الرجاء تحديد ملف صورة.",
+    //"privateRegister_AlertDialog_msg1": "الرجاء تحديد ملف صورة.",
     "privateRegister_AlertDialog_msg2": "يرجى ملء استمارة التسجيل كاملة ...",
     "privateRegister_AlertDialog_msg3": "كلمة السر غير مطابقة.",
     "privateRegister_LoadAlertDialog_msg1": "جاري التسجيل من فضلك انتظر .....",

@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:joud_app/Admin/adminlogin.dart';
-import 'package:joud_app/Authentication/register.dart';
+import 'package:joud_app/Authentication/login_by_phone.dart';
 import 'package:joud_app/Authentication/rest.dart';
-import '_auth_serv.dart';
+
 
 class LoginSc extends StatefulWidget {
   static const routeName = '/login';
@@ -192,15 +192,31 @@ class _LoginPageState extends State<LoginSc> {
               child: Text(loggedIn ? 'Login' : 'Sign up'),
               color: Color.fromRGBO(215, 204, 200, 1.0),
               onPressed: submit),
-          SizedBox(height: 20.0),
-          RaisedButton(
-              child: Text('Login with phone number'),
-              color: Color.fromRGBO(215, 204, 200, 1.0),
-              onPressed: () {
-                //Navigator.of(context).pushReplacementNamed('/phone');
-              //   Navigator.of(context).push(
-              //      MaterialPageRoute(builder: (context) =>  ));
-              }),
+          // SizedBox(height: 20.0),
+          // RaisedButton(
+          //     child: Text('Login with phone number'),
+          //     color: Color.fromRGBO(215, 204, 200, 1.0),
+          //     onPressed: () {
+          //       Navigator.of(context).pushReplacementNamed('/phone');
+          //        Navigator.of(context).push(
+          //          MaterialPageRoute(builder: (context) => phoneP() ));
+          //     }),
+               SizedBox(height: 20.0),
+          GestureDetector(
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => phoneP()));
+              },
+              child: Container(
+                  alignment: Alignment(1.0, 0.0),
+                  padding: EdgeInsets.only(top: 5.0, right: 120.0),
+                  child: InkWell(
+                      child: Text('Login with phone number',
+                          style: TextStyle(
+                              color: Colors.teal,
+                              fontFamily: 'Trueno',
+                              fontSize: 11.0,
+                              decoration: TextDecoration.underline))))),
           SizedBox(height: 20.0),
           GestureDetector(
               onTap: () {
