@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:joud_app/Authentication/login.dart';
+import 'package:joud_app/Authentication/userauth.dart';
 import 'package:joud_app/screens/selectProfileImg.dart';
 
 class updateProfile extends StatefulWidget {
@@ -152,7 +153,7 @@ class UpdateProfileScreen extends State<updateProfile> {
                                       .pushReplacementNamed('/LoginSc');
                                   Navigator.pop(context);
                                   Route route = MaterialPageRoute(
-                                      builder: (c) => LoginSc());
+                                      builder: (c) => UserAuth());
                                   Navigator.pushReplacement(context, route);
                                 }).catchError((e) {
                                   print(e);

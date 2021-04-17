@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:joud_app/Authentication/register.dart';
 import 'package:joud_app/Authentication/rest.dart';
@@ -6,13 +8,19 @@ import '_auth_serv.dart';
 
 class LoginSc extends StatefulWidget {
   static const routeName = '/loginSc';
+  final void Function(String email, String password, String userName,
+      File image, bool loggedIn, BuildContext ctx) userAuth;
+  LoginSc(this.userAuth);
+
   @override
-  _LoginPageState createState() => _LoginPageState();
+  State<StatefulWidget> createState() {
+    return _LoginPageState();
+  }
 }
 
 class _LoginPageState extends State<LoginSc> {
   final formKey = new GlobalKey<FormState>();
-
+  bool loggedIn= true;
   String email, password;
 
   Color greenColor = Color(0xFF00AF19);
@@ -51,21 +59,13 @@ class _LoginPageState extends State<LoginSc> {
     return Padding(
         padding: const EdgeInsets.only(left: 25.0, right: 25.0),
         child: ListView(children: [
-          SizedBox(height: 75.0),
+          //SizedBox(height: 15.0),
           Container(
               height: 125.0,
               width: 200.0,
               child: Stack(
                 children: [
                   logo(),
-                  // Positioned(
-                  //   top: 50.0,
-                  //   // child: Image.asset(
-                  //   //   "assets/Joud_Logo.png",
-                  //   //   // height: 180.0,
-                  //   //   // width: 180.0,
-                  //   // ),
-                  // ),
                 ],
               )),
           SizedBox(height: 25.0),
@@ -116,11 +116,11 @@ class _LoginPageState extends State<LoginSc> {
                               fontFamily: 'Trueno',
                               fontSize: 11.0,
                               decoration: TextDecoration.underline))))),
-          SizedBox(height: 50.0),
+          SizedBox(height: 35.0),
           GestureDetector(
             onTap: () {
               if (checkFields())
-               AuthService().signInV2(email, password , context);
+                AuthService().signInV2(email, password, context);
             },
             child: Container(
                 height: 50.0,
@@ -144,13 +144,13 @@ class _LoginPageState extends State<LoginSc> {
                 color: Colors.transparent,
                 child: Container(
                   decoration: BoxDecoration(
-                      border: Border.all(
-                          color: Colors.transparent,
-                          style: BorderStyle.solid,
-                          width: 1.0),                      
-                      color: Color.fromRGBO(215, 204, 200, 1.0),
-                      borderRadius: BorderRadius.circular(25.0),
-                      ),
+                    border: Border.all(
+                        color: Colors.transparent,
+                        style: BorderStyle.solid,
+                        width: 1.0),
+                    color: Color.fromRGBO(215, 204, 200, 1.0),
+                    borderRadius: BorderRadius.circular(25.0),
+                  ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -162,7 +162,7 @@ class _LoginPageState extends State<LoginSc> {
                   ),
                 )),
           ),
-          SizedBox(height: 25.0),
+          SizedBox(height: 20.0),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text('New to Joud ?'),
             SizedBox(width: 5.0),
@@ -192,9 +192,7 @@ class _LoginPageState extends State<LoginSc> {
   }
 }
 
-
-
-//                     
+//
 //                     InkWell(
 //                             onTap: () {
 //                               if (checkFields()) {
@@ -230,7 +228,7 @@ class _LoginPageState extends State<LoginSc> {
 //                               msg: "Please write email and password",
 //                             );
 //                           });
-//                
+//
 //               FlatButton.icon(
 //                 onPressed: () => Navigator.push(
 //                     context, MaterialPageRoute(builder: (context) => phoneP())),

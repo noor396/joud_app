@@ -2,13 +2,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:joud_app/Authentication/login.dart';
+import 'package:joud_app/Authentication/userauth.dart';
 import '../lang/language_provider.dart';
 import 'package:provider/provider.dart';
-import '../screens/sign_out_screen.dart';
 import '../screens/update_profile_screen.dart';
 import '../screens/about_screen.dart';
-import '../screens/delete_account_screen.dart';
-import '../screens/sign_out_screen.dart';
 import '../screens/statistics_screen.dart';
 import 'dart:io';
 
@@ -259,7 +257,7 @@ class _MainDrawerState extends State<MainDrawer> {
                     FirebaseAuth.instance.currentUser.delete().then((value) {
                       Navigator.pop(context);
                       Route route =
-                          MaterialPageRoute(builder: (c) => LoginSc());
+                          MaterialPageRoute(builder: (c) => UserAuth());
                       Navigator.pushReplacement(context, route);
                     }).catchError((e) {
                       print(e);
@@ -287,7 +285,7 @@ class _MainDrawerState extends State<MainDrawer> {
                 FirebaseAuth.instance.signOut().then((value) {
                   Navigator.of(context).pushReplacementNamed('/LoginSc');
                   Navigator.pop(context);
-                  Route route = MaterialPageRoute(builder: (c) => LoginSc());
+                  Route route = MaterialPageRoute(builder: (c) => UserAuth());
                   Navigator.pushReplacement(context, route);
                 }).catchError((e) {
                   print(e);

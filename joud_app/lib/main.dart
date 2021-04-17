@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:joud_app/Authentication/login.dart';
 import 'package:joud_app/Authentication/login_by_phone.dart';
+import 'package:joud_app/Authentication/userauth.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/screens/about_screen.dart';
 import 'package:joud_app/screens/delete_account_screen.dart';
@@ -35,7 +36,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => Register() , // LogoScreen(),
+        '/': (context) => UserAuth() , // LogoScreen(),
         updateProfile.routeName: (context) => updateProfile(),
         //UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
         StatisticsScreen.routeName: (context) => StatisticsScreen(),

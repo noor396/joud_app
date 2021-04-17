@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:joud_app/Authentication/login.dart';
 import 'package:joud_app/Widgets/errorAlertDialog.dart';
 import 'package:joud_app/screens/home_screen.dart';
 
@@ -14,7 +13,7 @@ class AuthService{
           if (snapshot.hasData) {
             return HomeScreen();
           } else {
-            return LoginSc();
+            //return LoginSc();
           }
         });
   }
