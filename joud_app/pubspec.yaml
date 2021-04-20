@@ -50,6 +50,7 @@ dependencies:
   cloud_firestore: 0.16.0+1 #rama ^1.0.3  #^0.16.0+1     #^1.0.1
   image: ^2.0.7
   graphql_flutter: ^2.0.0 #rama^4.0.1 #^2.0.0
+  cotter: ^0.1.3
   
 
 dev_dependencies:

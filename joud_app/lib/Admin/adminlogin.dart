@@ -1,7 +1,7 @@
-import 'dart:developer';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:joud_app/Authentication/authintication.dart';
+import 'package:joud_app/Authentication/userauth.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/widgets/customTextField.dart';
 import 'package:joud_app/widgets/errorAlertDialog.dart';
@@ -49,8 +49,6 @@ class _AdminSignInPageState extends State<AdminSignInPage> {
       ),
     );
   }
-
-  
 }
 
 class AdminSingInScreen extends StatefulWidget {
@@ -70,7 +68,8 @@ class AdminSingInScreenState extends State<AdminSingInScreen> {
     Provider.of<LanguageProvider>(context, listen: false).getLan();
     super.initState();
   }
-Widget logo() {
+
+  Widget logo() {
     return Hero(
       tag: 'hero',
       child: CircleAvatar(
@@ -80,8 +79,7 @@ Widget logo() {
       ),
     );
   }
-  // double _screenWidth = MediaQuery.of(context).size.width;
-  //MediaQuery.of(context).size.width;
+
   @override
   Widget build(BuildContext context) {
     var lan = Provider.of<LanguageProvider>(context, listen: true);
@@ -100,17 +98,18 @@ Widget logo() {
           child: Column(
             mainAxisSize: MainAxisSize.max,
             children: [
-              SizedBox(height: 15.0,),
-              Container(
-                alignment: Alignment.bottomCenter,                 
-              height: 125.0,
-              width: 200.0,
-              child: Stack(
-                children: [
-                  logo(),
-                ],
-              )
+              SizedBox(
+                height: 15.0,
               ),
+              Container(
+                  alignment: Alignment.bottomCenter,
+                  height: 125.0,
+                  width: 200.0,
+                  child: Stack(
+                    children: [
+                      logo(),
+                    ],
+                  )),
               Padding(
                 padding: EdgeInsets.all(8.0),
                 child: Text(
@@ -127,7 +126,7 @@ Widget logo() {
                   children: [
                     CustomTextFiled(
                       controllr: adminIDtextEditingController,
-                      data: Icons.person,                      
+                      data: Icons.person,
                       hintText: lan.getTexts('Admin_hint_Text1'),
                       isObsecure: false,
                     ),
@@ -176,10 +175,8 @@ Widget logo() {
                 height: 20.0,
               ),
               FlatButton.icon(
-                onPressed: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => AuthinticationScreen())),
+                onPressed: () => Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => UserAuth())),
                 icon: Icon(
                   Icons.person_outline,
                   color: Colors.white,
@@ -201,27 +198,32 @@ Widget logo() {
   }
 
   loginAdmin() {
-    // FirebaseFirestore.instance.collection("admins").get().then((snapShot){
-    //   snapShot.docs.forEach((result) {
-    //     if(result.data["id"] != adminIDtextEditingController.text.trim()){
-    //          Scaffold.of(context).showSnackBar(SnackBar(content: Text("your Id is not correct."),));
-    //     }
-    //    else if(result.data["password"] != pass_wordtextEditingController.text.trim()){
-    //       Scaffold.of(context).showSnackBar(SnackBar(content: Text("your password is not correct."),));
-    //     }
-    //     else {
-    //       Scaffold.of(context).showSnackBar(SnackBar(content: Text("Welcome Dear Admin,"+ result.data("name"),)));
-    //       setState(() {
-    //         adminIDtextEditingController.text = "";
-    //         pass_wordtextEditingController.text="";
+    FirebaseFirestore.instance.collection("admins").get().then((snapShot) {
+      snapShot.docs.forEach((result) {        
+        if (result.id!= adminIDtextEditingController.text.trim()) {
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text("your Id is not correct."),
+          ));
+        } else if (result.data().isEmpty)
+           // pass_wordtextEditingController.text.trim())
+            {
+          Scaffold.of(context).showSnackBar(SnackBar(
+            content: Text("your password is not correct."),
+          ));
+        } else {
+          Scaffold.of(context).showSnackBar(SnackBar(
+              content: Text(
+            "Welcome Dear Admin," + result.data().toString(),
+          )));
+          setState(() {
+            adminIDtextEditingController.text = "";
+            pass_wordtextEditingController.text = "";
+          });
 
-    //       });
-
-    // Route route = MaterialPageRoute(builder: (c) => UploadPage());
-    //   Navigator.pushReplacement(context, route);
-    //}
-    // });
-    //});
-    // }
+          //  Route route = MaterialPageRoute(builder: (c) => UploadPage());
+          //    Navigator.pushReplacement(context, route);
+        }
+      });
+    });
   }
 }

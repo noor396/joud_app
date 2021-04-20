@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:joud_app/Admin/adminlogin.dart';
 import 'package:joud_app/Authentication/login_by_phone.dart';
+import 'package:joud_app/Authentication/phone_login.dart';
 import 'package:joud_app/Authentication/rest.dart';
 
 
@@ -195,8 +196,11 @@ class _LoginPageState extends State<LoginSc> {
                SizedBox(height: 20.0),
           GestureDetector(
               onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => phoneP()));
+                // Navigator.of(context).push(
+                //     MaterialPageRoute(builder: (context) => phoneP()));
+
+                 Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => PhoneSignInPage()));
               },
               child: Container(
                   alignment: Alignment(1.0, 0.0),

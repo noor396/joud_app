@@ -11,6 +11,8 @@ import 'package:joud_app/screens/update_profile_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Authentication/phone_login.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,7 +39,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) => UserAuth() , // LogoScreen(),
+        '/': (context) => PhoneSignInPage(),//UserAuth() , // LogoScreen(),
         updateProfile.routeName: (context) => updateProfile(),
         //UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
         StatisticsScreen.routeName: (context) => StatisticsScreen(),
