@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:joud_app/Admin/adminlogin.dart';
 import 'package:joud_app/Authentication/login_by_phone.dart';
-import 'package:joud_app/Authentication/phone_login.dart';
+//import 'package:joud_app/Authentication/phone_login.dart';
 import 'package:joud_app/Authentication/rest.dart';
+import 'package:joud_app/Authentication/userImg.dart';
 
 
 class LoginSc extends StatefulWidget {
@@ -109,17 +109,19 @@ class _LoginPageState extends State<LoginSc> {
     return Padding(
         padding: const EdgeInsets.only(left: 25.0, right: 25.0),
         child: ListView(children: [
-          SizedBox(height: 5.0),
-          Container(
-              alignment: Alignment.bottomCenter,
-              height: 125.0,
-              width: 200.0,
-              child: Stack(
-                children: [
-                  logo(),
-                ],
-              )),
+          // SizedBox(height: 5.0),
+          // Container(
+          //     alignment: Alignment.bottomCenter,
+          //     height: 125.0,
+          //     width: 200.0,
+          //     child: Stack(
+          //       children: [
+          //         logo(),
+          //       ],
+          //     )),
           SizedBox(height: 25.0),
+
+          if (!loggedIn) UserImagePicker(pickedImageFun),
           TextFormField(
               decoration: InputDecoration(
                   labelText: 'EMAIL',
@@ -200,7 +202,7 @@ class _LoginPageState extends State<LoginSc> {
                 //     MaterialPageRoute(builder: (context) => phoneP()));
 
                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => PhoneSignInPage()));
+                    MaterialPageRoute(builder: (context) => phoneP()));
               },
               child: Container(
                   alignment: Alignment(1.0, 0.0),
@@ -213,22 +215,22 @@ class _LoginPageState extends State<LoginSc> {
                               fontSize: 11.0,
                               decoration: TextDecoration.underline))))),
           SizedBox(height: 20.0),
-          GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => AdminSignInPage()));
-              },
-              child: Container(
-                  alignment: Alignment(1.0, 0.0),
-                  padding: EdgeInsets.only(top: 5.0, right: 120.0),
-                  child: InkWell(
-                      child: Text('I am an admin',
-                          style: TextStyle(
-                              color: Colors.teal,
-                              fontFamily: 'Trueno',
-                              fontSize: 11.0,
-                              decoration: TextDecoration.underline))))),
-          SizedBox(height: 5.0),
+          // GestureDetector(
+          //     onTap: () {
+          //       Navigator.of(context).push(
+          //           MaterialPageRoute(builder: (context) => AdminSignInPage()));
+          //     },
+          //     child: Container(
+          //         alignment: Alignment(1.0, 0.0),
+          //         padding: EdgeInsets.only(top: 5.0, right: 120.0),
+          //         child: InkWell(
+          //             child: Text('I am an admin',
+          //                 style: TextStyle(
+          //                     color: Colors.teal,
+          //                     fontFamily: 'Trueno',
+          //                     fontSize: 11.0,
+          //                     decoration: TextDecoration.underline))))),
+          // SizedBox(height: 5.0),
           GestureDetector(
               onTap: () {
                 setState(() {

@@ -6,7 +6,7 @@ import 'package:joud_app/Authentication/login.dart';
 import 'dart:io';
 
 class UserAuth extends StatefulWidget {
-  static const routeName = '/loginSc';
+ // static const routeName = '/loginSc';
   @override
   State<StatefulWidget> createState() {
     return UserAuthState();
