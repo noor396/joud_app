@@ -64,6 +64,36 @@ class _phoneLog extends State<phoneP> {
             ],
           )),
     );
+  }
+  Future<void> verifyPhone(phoneNo) async {
+    final PhoneVerificationCompleted verified = (AuthCredential authResult) {
+      AuthService().signIn(authResult);
+    };
+    final PhoneVerificationFailed verificationfailed =
+        (authException) {
+      print('${authException.message}');
+    };
+
+    final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
+      this.verificationId = verId;
+      setState(() {
+        this.codeSent = true;
+      });
+    };
+
+ final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
+      this.verificationId = verId;
+    };
+
+    await FirebaseAuth.instance.verifyPhoneNumber(
+        phoneNumber: phoneNo,
+        timeout: const Duration(seconds: 5),
+        verificationCompleted: verified,
+        verificationFailed: verificationfailed,
+        codeSent: smsSent,
+        codeAutoRetrievalTimeout: autoTimeout);
+  }
+}
     // return Scaffold(
     //   body: new Center(
     //     child: Container(
@@ -92,130 +122,132 @@ class _phoneLog extends State<phoneP> {
     //   ),
     // );
 
-    final PhoneCodeAutoRetrievalTimeout phoneCodeAutoRetrievalTimeout =
-        (String verId) {
-      verificationId = verId;
-    };
+//     final PhoneCodeAutoRetrievalTimeout phoneCodeAutoRetrievalTimeout =
+//         (String verId) {
+//       verificationId = verId;
+//     };
 
-    final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeRe]) {
-      verificationId = verId;
-      // smsCodeDialog(context).then((value) {
-      //   print('sign in');
-      // });
-    };
-    final PhoneVerificationCompleted verifiedSuccess = (u) {
-      print('verified');
-    };
+//     final PhoneCodeSent smsCodeSent = (String verId, [int forceCodeRe]) {
+//       verificationId = verId;
+//       // smsCodeDialog(context).then((value) {
+//       //   print('sign in');
+//       // });
+//     };
+//     final PhoneVerificationCompleted verifiedSuccess = (u) {
+//       print('verified');
+//     };
 
-    final PhoneVerificationFailed verifiedFailed = (e) {
-      // FirebaseAuthException exception;
-      print('not verified');
-    };
+//     final PhoneVerificationFailed verifiedFailed = (e) {
+//       // FirebaseAuthException exception;
+//       print('not verified');
+//     };
 
-    Future<void> verfiyPhone() async {
-      await FirebaseAuth.instance.verifyPhoneNumber(
-          phoneNumber: phoneNo,
-          codeSent: smsCodeSent,
-          timeout: const Duration(seconds: 5),
-          verificationCompleted: verifiedSuccess,
-          verificationFailed: verifiedFailed,
-          codeAutoRetrievalTimeout: phoneCodeAutoRetrievalTimeout);
-    }
-  }
+//     Future<void> verfiyPhone() async {
+//       await FirebaseAuth.instance.verifyPhoneNumber(
+//           phoneNumber: phoneNo,
+//           codeSent: smsCodeSent,
+//           timeout: const Duration(seconds: 30),
+//           verificationCompleted: verifiedSuccess,
+//           verificationFailed: verifiedFailed,
+//           codeAutoRetrievalTimeout: phoneCodeAutoRetrievalTimeout);
+//     }
+//   }
 
-  Future<void> verifyPhone(phoneNo) async {
-    final PhoneVerificationCompleted verified = (AuthCredential authResult) {
-      AuthService().signIn(authResult);
-    };
+//   Future<void> verifyPhone(phoneNo) async {
 
-    Future<void> smsCodeDialog(BuildContext cont) {
-      return showDialog(
-          context: cont,
-          barrierDismissible: false,
-          builder: (BuildContext cont) {
-            return new AlertDialog(
-              title: Text('Enter the sms code'),
-              content: TextField(
-                onChanged: (value) {
-                  smsCode = value;
-                },
-              ),
-              contentPadding: EdgeInsets.all(10.0),
-              actions: <Widget>[
-                new TextButton(
-                    child: Text('Done'),
-                    onPressed: () {
-                      var user = FirebaseAuth.instance.currentUser;
-                      var uid;
-                      if (user != null) {
-                        uid = user.uid;
-                        Navigator.of(cont).pop();
-                        Navigator.of(cont)
-                            .pushReplacementNamed(HomeScreen.routeName);
-                      } else {
-                        Navigator.of(cont).pop();
-                        lSignIn();
-                      }
-                    }
-                    // FirebaseAuth.instance.currentUser.reload().then((user) {
-                    //   //if (user != null) {
-                    //   if (FirebaseAuth.instance.currentUser != null) {
-                    //     Navigator.of(cont).pop();
-                    //     Navigator.of(cont).pushReplacementNamed('/HomePage');
-                    //   } else {
-                    //     Navigator.of(cont).pop();
-                    //     lSignIn();
-                    //   }
-                    // });
-                    // FirebaseAuth.instance.currentUser.then((u) {
-                    //   if (u != null) {
-                    //     Navigator.of(cont).pop();
-                    //     Navigator.of(cont).pushReplacementNamed('/HomePage');
-                    //   } else {
-                    //     Navigator.of(cont).pop();
-                    //     lSignIn();
-                    //   }
-                    // });
-                    ),
-              ],
-            );
-          });
-    }
+  
+//     final PhoneVerificationCompleted verified = (AuthCredential authResult) {
+//       AuthService().signIn(authResult);
+//     };
 
-    final PhoneVerificationFailed verificationfailed = (e) {
-      print('${e.message}');
-    };
+//     Future<void> smsCodeDialog(BuildContext cont) {
+//       return showDialog(
+//           context: cont,
+//           barrierDismissible: false,
+//           builder: (BuildContext cont) {
+//             return new AlertDialog(
+//               title: Text('Enter the sms code'),
+//               content: TextField(
+//                 onChanged: (value) {
+//                   smsCode = value;
+//                 },
+//               ),
+//               contentPadding: EdgeInsets.all(10.0),
+//               actions: <Widget>[
+//                 new TextButton(
+//                     child: Text('Done'),
+//                     onPressed: () {
+//                       var user = FirebaseAuth.instance.currentUser;
+//                       var uid;
+//                       if (user != null) {
+//                         uid = user.uid;
+//                         Navigator.of(cont).pop();
+//                         Navigator.of(cont)
+//                             .pushReplacementNamed(HomeScreen.routeName);
+//                       } else {
+//                         Navigator.of(cont).pop();
+//                         lSignIn();
+//                       }
+//                     }
+//                     // FirebaseAuth.instance.currentUser.reload().then((user) {
+//                     //   //if (user != null) {
+//                     //   if (FirebaseAuth.instance.currentUser != null) {
+//                     //     Navigator.of(cont).pop();
+//                     //     Navigator.of(cont).pushReplacementNamed('/HomePage');
+//                     //   } else {
+//                     //     Navigator.of(cont).pop();
+//                     //     lSignIn();
+//                     //   }
+//                     // });
+//                     // FirebaseAuth.instance.currentUser.then((u) {
+//                     //   if (u != null) {
+//                     //     Navigator.of(cont).pop();
+//                     //     Navigator.of(cont).pushReplacementNamed('/HomePage');
+//                     //   } else {
+//                     //     Navigator.of(cont).pop();
+//                     //     lSignIn();
+//                     //   }
+//                     // });
+//                     ),
+//               ],
+//             );
+//           });
+//     }
 
-    final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
-      this.verificationId = verId;
-      setState(() {
-        this.codeSent = true;
-      });
-    };
+//     final PhoneVerificationFailed verificationfailed = (e) {
+//       print('${e.message}');
+//     };
 
-    final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
-      this.verificationId = verId;
-    };
+//     final PhoneCodeSent smsSent = (String verId, [int forceResend]) {
+//       this.verificationId = verId;
+//       setState(() {
+//         this.codeSent = true;
+//       });
+//     };
 
-    await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: phoneNo,
-        timeout: const Duration(seconds: 5),
-        verificationCompleted: verified,
-        verificationFailed: verificationfailed,
-        codeSent: smsSent,
-        codeAutoRetrievalTimeout: autoTimeout);
-  }
+//     final PhoneCodeAutoRetrievalTimeout autoTimeout = (String verId) {
+//       this.verificationId = verId;
+//     };
 
-  lSignIn() {
-    FirebaseAuth.instance
-        .signInWithPhoneNumber(
-      verificationId, //: verificationId,
-      //smsCode: smsCode
-    )
-        .then((value) {
-      Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
-    }).catchError((e) {
-      print(e);
-    });
-  }
-}
+//     await FirebaseAuth.instance.verifyPhoneNumber(
+//         phoneNumber: phoneNo,
+//         timeout: const Duration(seconds: 5),
+//         verificationCompleted: verified,
+//         verificationFailed: verificationfailed,
+//         codeSent: smsSent,
+//         codeAutoRetrievalTimeout: autoTimeout);
+//   }
+
+//   lSignIn() {
+//     FirebaseAuth.instance
+//         .signInWithPhoneNumber(
+//       verificationId, //: verificationId,
+//       smsCode
+//     )
+//         .then((value) {
+//       Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+//     }).catchError((e) {
+//       print(e);
+//     });
+ //  }
+//}

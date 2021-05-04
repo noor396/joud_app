@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:joud_app/Authentication/_auth_serv.dart';
 import 'package:joud_app/Authentication/login.dart';
 import 'package:joud_app/Authentication/login_by_phone.dart';
 import 'package:joud_app/Authentication/userauth.dart';
@@ -37,7 +38,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) =>  UserAuth() , //
+        '/': (context) =>  AuthService().handleAuth() ,//UserAuth() , //UserAuth() , //phoneP()
         updateProfile.routeName: (context) => updateProfile(),
         //UpdateProfileScreen.routeName: (context) => UpdateProfileScreen(),
         StatisticsScreen.routeName: (context) => StatisticsScreen(),

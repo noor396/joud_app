@@ -5,6 +5,8 @@ import 'package:joud_app/Authentication/login_by_phone.dart';
 import 'package:joud_app/Authentication/rest.dart';
 import 'package:joud_app/Authentication/userImg.dart';
 
+import 'login_by_phoneNum/looooog.dart';
+
 
 class LoginSc extends StatefulWidget {
   static const routeName = '/login';
@@ -109,16 +111,21 @@ class _LoginPageState extends State<LoginSc> {
     return Padding(
         padding: const EdgeInsets.only(left: 25.0, right: 25.0),
         child: ListView(children: [
-          // SizedBox(height: 5.0),
-          // Container(
-          //     alignment: Alignment.bottomCenter,
-          //     height: 125.0,
-          //     width: 200.0,
-          //     child: Stack(
-          //       children: [
-          //         logo(),
-          //       ],
-          //     )),
+          SizedBox(height: 5.0),
+          if (loggedIn)
+          (
+             
+          Container(
+              alignment: Alignment.bottomCenter,
+              height: 125.0,
+              width: 200.0,
+              child: Stack(
+                children: [
+                  logo(),
+                ],
+              ))
+          ),
+         
           SizedBox(height: 25.0),
 
           if (!loggedIn) UserImagePicker(pickedImageFun),
@@ -202,11 +209,11 @@ class _LoginPageState extends State<LoginSc> {
                 //     MaterialPageRoute(builder: (context) => phoneP()));
 
                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => phoneP()));
+                    MaterialPageRoute(builder: (context) => LoginScreencc()));
               },
               child: Container(
                   alignment: Alignment(1.0, 0.0),
-                  padding: EdgeInsets.only(top: 5.0, right: 120.0),
+                  padding: EdgeInsets.only(top: 5.0, right: 90.0),
                   child: InkWell(
                       child: Text('Login with phone number',
                           style: TextStyle(
@@ -239,7 +246,7 @@ class _LoginPageState extends State<LoginSc> {
               },
               child: Container(
                   alignment: Alignment(1.0, 0.0),
-                  padding: EdgeInsets.only(top: 5.0, right: 103.0),
+                  padding: EdgeInsets.only(top: 5.0, right: 89.0),
                   child: InkWell(
                       child: Text(
                           loggedIn

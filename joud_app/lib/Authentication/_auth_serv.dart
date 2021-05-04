@@ -1,9 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:joud_app/Authentication/login_by_phone.dart';
+import 'package:joud_app/Authentication/userauth.dart';
 import 'package:joud_app/screens/home_screen.dart';
 
-class AuthService{
+class AuthService {
   //Handles Auth
   handleAuth() {
     return StreamBuilder(
@@ -12,7 +14,7 @@ class AuthService{
           if (snapshot.hasData) {
             return HomeScreen();
           } else {
-            //return LoginSc();
+            return UserAuth();
           }
         });
   }
@@ -28,21 +30,20 @@ class AuthService{
   }
 
   signInWithOTP(smsCode, verId) {
-    AuthCredential authCreds = PhoneAuthProvider.credential(
-        //.getCredential(
-        verificationId: verId,
-        smsCode: smsCode);
+
+    AuthCredential authCreds =
+        PhoneAuthProvider.credential(verificationId: verId, smsCode: smsCode);
     signIn(authCreds);
   }
 
   //Sign in
-  signInV2(email, password , context) {
+  signInV2(email, password, context) {
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password)
         .then((user) {
       print('Signed in');
     }).catchError((e) {
-      print(e);        
+      print(e);
     });
   }
 
@@ -56,6 +57,4 @@ class AuthService{
   resetPasswordLink(String email) {
     FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   }
-
- 
 }
