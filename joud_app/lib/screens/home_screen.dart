@@ -1,9 +1,9 @@
-import 'package:carousel_slider/carousel_options.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -13,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   List resImageAndNameList = [
     {'pic': 'assets/blank-profile-picture.png', 'text': 'Res1'},
     {'pic': 'assets/blank-profile-picture.png', 'text': 'Res2'},
@@ -45,9 +46,9 @@ class _HomeScreenState extends State<HomeScreen> {
     var lan = Provider.of<LanguageProvider>(context, listen: true);
     return Directionality(
       textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
-      child: Scaffold(
-        body: buildCarousel(lan),
-      ),
+      child:Scaffold(
+          body: buildCarousel(lan),
+        ),
     );
   }
 
@@ -60,7 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
         Card(
           child: ListTile(
             leading: Icon(
-              Icons.star_rate,
+              FontAwesomeIcons.medal,
               color: Colors.yellowAccent,
               size: 50,
             ),
@@ -75,52 +76,50 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         //Stack(
-        // children: [
-
-        CarouselSlider(
-          items: resImageAndNameList.map((resInfo) {
-            return Stack(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 186.0,
-                  padding: EdgeInsets.only(top: 7),
-                  child: Image.asset(
-                    resInfo['pic'],
-                    fit: BoxFit.fill,
-                  ),
-                ),
-                Positioned(
-                  bottom: 20,
-                  right: 10,
-                  child: Container(
-                    width: 300,
-                    color: Colors.black54,
-                    padding: EdgeInsets.symmetric(vertical: 5, horizontal: 35),
-                    child: Text(
-                      resInfo["text"],
-                      style: TextStyle(fontSize: 26, color: Colors.white),
-                      softWrap: true,
-                      overflow: TextOverflow.fade,
+         // children: [
+            CarouselSlider(
+              items: resImageAndNameList.map((resInfo) {
+                return Stack(
+                  children: [
+                    Container(
+                      width: double.infinity,
+                      height: 186.0,
+                      padding: EdgeInsets.only(top: 7),
+                      child: Image.asset(
+                        resInfo['pic'],
+                        fit: BoxFit.fill,
+                      ),
                     ),
+                     Positioned(
+                        bottom: 20,
+                        right: 10,
+                        child: Container(
+                          width: 300,
+                          color: Colors.black54,
+                          padding: EdgeInsets.symmetric(vertical: 5,horizontal: 35),
+                          child: Text(resInfo["text"],
+                            style: TextStyle(fontSize: 26,
+                                color: Colors.white),
+                            softWrap: true,overflow: TextOverflow.fade,
+                          ),
                   ),
-                ),
-              ],
-            );
-          }).toList(),
-          options: CarouselOptions(
-            onPageChanged: (int index, CarouselPageChangedReason reason) {
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-            height: 186,
-            initialPage: 0,
-            enlargeCenterPage: true,
-            autoPlay: true,
-            autoPlayInterval: Duration(seconds: 3),
-          ),
-        ),
+                      ),
+                ],
+                );
+              }).toList(),
+              options: CarouselOptions(
+                onPageChanged: (int index, CarouselPageChangedReason reason) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
+                },
+                height: 186,
+                initialPage: 0,
+                enlargeCenterPage: true,
+                //autoPlay: true,
+                //autoPlayInterval: Duration(seconds: 3),
+              ),
+            ),
         SizedBox(
           height: 10,
         ),
@@ -138,9 +137,14 @@ class _HomeScreenState extends State<HomeScreen> {
             buildContainer(8),
             buildContainer(9),
           ],
-        )
+        ),
+
+      //  SizedBox(height: 20,),
+      // Posthome(),
       ],
+
     );
+
   }
 
   Container buildContainer(index) {
@@ -156,5 +160,18 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-  
 }
+
+//  Posthome(){
+//      return ListView(
+//       scrollDirection: Axis.vertical,
+//       shrinkWrap: true,
+//       children: [
+//       SizedBox(
+//       height: 400,
+//        //child: //PostHomeStream(),
+//       ),
+
+//      ],
+//     );
+// }

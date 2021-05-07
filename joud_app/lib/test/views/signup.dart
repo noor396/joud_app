@@ -4,8 +4,9 @@ import 'package:joud_app/screens/home_screen.dart';
 import 'package:joud_app/test/helper/sharedPreferences.dart';
 import 'package:joud_app/test/services/auth.dart';
 import 'package:joud_app/test/services/database.dart';
-import 'package:joud_app/test/widgets/userImagePicker.dart';
-import 'package:joud_app/test/widgets/widget.dart';
+import 'package:joud_app/Widgets/userImagePicker.dart';
+import 'package:joud_app/Widgets/widget.dart';
+import 'package:joud_app/test/views/rest.dart';
 
 
 class Signup extends StatefulWidget {
@@ -116,14 +117,23 @@ class _SignupState extends State<Signup> {
                     ),
                   ),
                   SizedBox(height: 12,),
-                  Container(
-                    alignment: Alignment.centerRight ,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      child: Text('Forgot password?'),
-                    ),
-                  ),
-                  SizedBox(height: 12,),
+                   GestureDetector(
+                      onTap: () {
+                          Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => ResetPassword()));
+                      //  ResetPassword();
+                      },
+                      child: Container(
+                          alignment: Alignment(1.0, 0.0),
+                          padding: EdgeInsets.only(top: 15.0, left: 20.0),
+                          child: InkWell(
+                              child: Text('Forgot Password',
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      fontFamily: 'Trueno',
+                                      fontSize: 11.0,
+                                      decoration: TextDecoration.underline))))),
+                   SizedBox(height: 12,),
                   GestureDetector(
                     onTap: () {
                       signUpBtn();

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '_auth_serv.dart';
+import 'package:joud_app/Authentication/_auth_serv.dart';
+
 
 class ResetPassword extends StatefulWidget {
   @override
@@ -100,6 +101,8 @@ class _ResetPasswordState extends State<ResetPassword> {
           GestureDetector(
             onTap: () {
               if (checkFields()) AuthService().resetPasswordLink(email);
+              final snackBar = SnackBar(content: Text('تم ارسال بريد الكتروني لإعادة ادخال كلمة سر جديده .... ما عرفت ايش اكتب ف كتبت هيك و بعدين بنعدل ^^'));
+              ScaffoldMessenger.of(context).showSnackBar(snackBar);
               Navigator.of(context).pop();
             },
             child: Container(

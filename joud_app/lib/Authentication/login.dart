@@ -1,9 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:joud_app/Authentication/rest.dart';
-import 'package:joud_app/Authentication/userImg.dart';
+import 'package:joud_app/test/views/rest.dart';
 import 'package:joud_app/screens/home_screen.dart';
-
+import 'package:joud_app/Widgets/userImagePicker.dart';
 
 class LoginSc extends StatefulWidget {
   static const routeName = '/login';
@@ -110,19 +109,16 @@ class _LoginPageState extends State<LoginSc> {
         child: ListView(children: [
           SizedBox(height: 5.0),
           if (loggedIn)
-          (
-             
-          Container(
-              alignment: Alignment.bottomCenter,
-              height: 125.0,
-              width: 200.0,
-              child: Stack(
-                children: [
-                  logo(),
-                ],
-              ))
-          ),
-         
+            (Container(
+                alignment: Alignment.bottomCenter,
+                height: 125.0,
+                width: 200.0,
+                child: Stack(
+                  children: [
+                    logo(),
+                  ],
+                ))),
+
           SizedBox(height: 25.0),
 
           if (!loggedIn) UserImagePicker(pickedImageFun),
@@ -142,7 +138,7 @@ class _LoginPageState extends State<LoginSc> {
               validator: (value) =>
                   value.isEmpty ? 'Email is required' : validateEmail(value)),
           if (!loggedIn)
-            TextFormField(             
+            TextFormField(
               key: ValueKey('userName'),
               validator: (val) {
                 if (val.isEmpty || val.length < 5) {
@@ -199,13 +195,13 @@ class _LoginPageState extends State<LoginSc> {
               child: Text(loggedIn ? 'Login' : 'Sign up'),
               color: Color.fromRGBO(215, 204, 200, 1.0),
               onPressed: submit),
-               SizedBox(height: 20.0),
+          SizedBox(height: 20.0),
           GestureDetector(
               onTap: () {
                 // Navigator.of(context).push(
                 //     MaterialPageRoute(builder: (context) => phoneP()));
 
-                 Navigator.of(context).push(
+                Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => HomeScreen()));
               },
               child: Container(

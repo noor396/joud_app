@@ -1,4 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:joud_app/Widgets/errorAlertDialog.dart';
 import 'package:joud_app/Widgets/loadAlertDialog.dart';
 import 'package:joud_app/test/modal/users.dart';
 
@@ -16,15 +18,23 @@ class AuthMethods {
 
     // we use try- catch so google tracks the errors and catches them
     try {
-      UserCredential result = await _auth.signInWithEmailAndPassword(
-          email: email, password: password) ;
-      User user = result.user;
-      return _userFromFirebaseUser(user);
-    } catch (e) {
-      // final snackBar = SnackBar(content: Text('You are not register yet.'));
-      // ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
 
-      LoadAlertDialog(message: 'You are not register yet.');
+      //LoadAlertDialog(message: 'You are not register yet.');
+      // UserCredential result = await _auth.signInWithEmailAndPassword(
+      //     email: email, password: password) ;
+      //  User user = result.user;
+      // return _userFromFirebaseUser(user);
+    } on FirebaseAuthException catch (e) {
+      ErrorAlertDialog(
+        msg: 'You are not register yet.',
+      );
+      ErrorAlertDialog(
+        msg: 'You are not register yet.',
+      );
+
+      ///LoadAlertDialog(message: 'You are not register yet.');
       print(e.toString());
       return null;
     }
