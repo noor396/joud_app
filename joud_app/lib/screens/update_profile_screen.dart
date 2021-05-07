@@ -1,13 +1,8 @@
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:joud_app/Authentication/login.dart';
 import 'package:joud_app/Authentication/userauth.dart';
-import 'package:joud_app/screens/selectProfileImg.dart';
 
 class updateProfile extends StatefulWidget {
   static const routeName = '/update_profile';
@@ -32,7 +27,7 @@ class UpdateProfileScreen extends State<updateProfile> {
             "Update Profile",
             style: TextStyle(color: Colors.black),
           ),
-          backgroundColor: Color.fromRGBO(230, 238, 156, 1.0),
+          backgroundColor: Colors.teal//.fromRGBO(230, 238, 156, 1.0),
         ),
         body: new Stack(
           children: <Widget>[
@@ -52,7 +47,7 @@ class UpdateProfileScreen extends State<updateProfile> {
                     width: 150.0,
                     height: 150.0,
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      //color: Colors.red,
                       image: DecorationImage(
                           image: NetworkImage(profilePicUrl),
                           fit: BoxFit.cover),
@@ -88,8 +83,7 @@ class UpdateProfileScreen extends State<updateProfile> {
                         width: 95.0,
                         child: Material(
                           borderRadius: BorderRadius.circular(20.0),
-                          shadowColor: Colors.yellowAccent,
-                          color: Colors.yellow,
+                          color: Colors.teal,
                           elevation: 7.0,
                           child: GestureDetector(
                             onTap: () {
@@ -116,8 +110,7 @@ class UpdateProfileScreen extends State<updateProfile> {
                         width: 95.0,
                         child: Material(
                           borderRadius: BorderRadius.circular(20.0),
-                          shadowColor: Colors.yellowAccent,
-                          color: Colors.yellow,
+                          color: Colors.teal,
                           elevation: 7.0,
                           child: GestureDetector(
                             onTap: () {
@@ -136,14 +129,13 @@ class UpdateProfileScreen extends State<updateProfile> {
                           ),
                         ),
                       ),
-                      //SizedBox(height: 25.0),
+                      SizedBox(height: 25.0),
                       Container(
                         height: 30.0,
                         width: 95.0,
                         child: Material(
                           borderRadius: BorderRadius.circular(20.0),
-                          shadowColor: Colors.yellowAccent,
-                          color: Colors.yellow,
+                          color: Colors.teal,
                           //color: Color.fromRgba(215, 204, 200, 1.0),
                           elevation: 7.0,
                           child: GestureDetector(

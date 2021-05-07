@@ -1,11 +1,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:joud_app/Authentication/login_by_phone.dart';
-//import 'package:joud_app/Authentication/phone_login.dart';
 import 'package:joud_app/Authentication/rest.dart';
 import 'package:joud_app/Authentication/userImg.dart';
-
-import 'login_by_phoneNum/looooog.dart';
+import 'package:joud_app/screens/home_screen.dart';
 
 
 class LoginSc extends StatefulWidget {
@@ -209,7 +206,7 @@ class _LoginPageState extends State<LoginSc> {
                 //     MaterialPageRoute(builder: (context) => phoneP()));
 
                  Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => LoginScreencc()));
+                    MaterialPageRoute(builder: (context) => HomeScreen()));
               },
               child: Container(
                   alignment: Alignment(1.0, 0.0),
