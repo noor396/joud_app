@@ -110,9 +110,9 @@ class _LoginState extends State<Login> {
                   SizedBox(height: 5.0),
                   GestureDetector(
                       onTap: () {
-                          Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => ResetPassword()));
-                      //  ResetPassword();
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => ResetPassword()));
+                        //  ResetPassword();
                       },
                       child: Container(
                           alignment: Alignment(1.0, 0.0),

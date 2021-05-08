@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'dart:core';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,12 +25,12 @@ class UpdateProfileScreen extends State<updateProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text(
-            "Update Profile",
-            style: TextStyle(color: Colors.black),
-          ),
-          backgroundColor: Colors.teal//.fromRGBO(230, 238, 156, 1.0),
-        ),
+            title: Text(
+              "Update Profile",
+              style: TextStyle(color: Colors.black),
+            ),
+            backgroundColor: Colors.teal //.fromRGBO(230, 238, 156, 1.0),
+            ),
         body: new Stack(
           children: <Widget>[
             ClipPath(
@@ -87,12 +89,19 @@ class UpdateProfileScreen extends State<updateProfile> {
                           elevation: 7.0,
                           child: GestureDetector(
                             onTap: () {
-                              // FirebaseAuth.instance.currentUser
-                              //     .updateProfile()
-                              //     .then((value) {
-
-                              //     });
-                            },
+                              TextEditingController
+                                  userNameTextEditingController =
+                                  new TextEditingController();
+                              TextFormField(
+                                controller: userNameTextEditingController,
+                                keyboardType: TextInputType.name,
+                                // decoration: textFieldInputDecoration('email'),
+                              );
+                              FirebaseAuth.instance.currentUser.updateProfile(
+                                  displayName: userNameTextEditingController
+                                      .text
+                                      .trim());
+                               },
                             child: Center(
                               child: Text(
                                 'Edit Name',
@@ -117,6 +126,8 @@ class UpdateProfileScreen extends State<updateProfile> {
                               Navigator.of(context).pop();
                               Navigator.of(context)
                                   .pushReplacementNamed('/selectImg');
+
+                              // FirebaseAuth.instance.currentUser.photoURL;
                             },
                             child: Center(
                               child: Text(
