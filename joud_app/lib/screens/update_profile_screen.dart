@@ -50,6 +50,7 @@ class UpdateProfileScreen extends State<updateProfile> {
                     height: 150.0,
                     decoration: BoxDecoration(
                       //color: Colors.red,
+                      // photo
                       image: DecorationImage(
                           image: NetworkImage(profilePicUrl),
                           fit: BoxFit.cover),
@@ -61,21 +62,13 @@ class UpdateProfileScreen extends State<updateProfile> {
                   ),
                   SizedBox(height: 90.0),
                   Text(
+                    // name
                     FirebaseAuth.instance.currentUser.displayName,
                     style: TextStyle(
                         fontSize: 30.0,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Quicksand'),
                   ),
-                  // if we like to add any thing related with profile
-                  // SizedBox(height: 15.0),
-                  // Text(
-                  //   'Subscribe',
-                  //   style: TextStyle(
-                  //       fontSize: 30.0,
-                  //       fontStyle: FontStyle.italic,
-                  //       fontFamily: 'Quicksand'),
-                  // ),
                   SizedBox(height: 25.0),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -95,7 +88,6 @@ class UpdateProfileScreen extends State<updateProfile> {
                               TextFormField(
                                 controller: userNameTextEditingController,
                                 keyboardType: TextInputType.name,
-                                // decoration: textFieldInputDecoration('email'),
                               );
                               FirebaseAuth.instance.currentUser.updateProfile(
                                   displayName: userNameTextEditingController
@@ -126,7 +118,6 @@ class UpdateProfileScreen extends State<updateProfile> {
                               Navigator.of(context).pop();
                               Navigator.of(context)
                                   .pushReplacementNamed('/selectImg');
-
                               // FirebaseAuth.instance.currentUser.photoURL;
                             },
                             child: Center(

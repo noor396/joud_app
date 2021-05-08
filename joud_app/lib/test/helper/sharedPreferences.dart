@@ -5,7 +5,6 @@ class SharedPreferencesFunctions{
   static String sharedPreferenceUserLoggedInKey = "isLoggedInKey";
   static String sharedPreferenceUserNameKey = "usernameKey";
   static String sharedPreferenceUserEmailKey = "emailKey";
-
   //Here we save data in the local device using shared preference
   //we use static to be able to use the var anywhere
   static Future<bool> saveUserLoggedInSharedPreference(bool isUserLoggedIn) async{
