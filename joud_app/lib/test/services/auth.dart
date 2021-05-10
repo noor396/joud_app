@@ -11,16 +11,14 @@ class AuthMethods {
         : null; //indicates if we are receiving some data from the firebase or not
   }
 
-  Future createUser(String firstName,
-      String lastName,
-      String email,
-      String password) async {
+  Future createUser(
+      String firstName, String lastName, String email, String password) async {
     var u = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
 
     FirebaseAuth.instance.currentUser
         .updateProfile(displayName: "$firstName $lastName");
-    return await u.user; 
+    return await u.user;
   }
 
   Future signInWithEmailAndPassword(String email, String password) async {
@@ -28,13 +26,13 @@ class AuthMethods {
     // we use try- catch so google tracks the errors and catches them
 
     try {
-      //return FirebaseAuth.instance
-      //     .signInWithEmailAndPassword(email: email, password: password);
       UserCredential result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
       User user = result.user;
       return _userFromFirebaseUser(user);
-    } on FirebaseAuthException catch (e) {
+    // } on FirebaseAuthException catch (e) {
+    }catch(e){
+      print(e);
       return ErrorAlertDialog(
         msg: 'You are not register yet.',
       );

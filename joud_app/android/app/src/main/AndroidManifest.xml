@@ -15,9 +15,11 @@
         android:name="io.flutter.app.FlutterApplication"
         android:label="joud_app"
         android:icon="@mipmap/ic_launcher">
+        android:requestLegacyExternalStorage="true"
 
         <meta-data android:name="com.google.android.geo.API_KEY"
                android:value="AIzaSyDb9K1Dj15Y4nr3YURAue5GFn3pgYky3yE"/>
+               
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
