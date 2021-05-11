@@ -43,7 +43,7 @@ class _SignupState extends State<Signup> {
   signUpBtn() {
     if (userImageFile == null) {
       final snackBar = SnackBar(
-          content: Text("Please upload an image ! "),
+          content: Text("Please upload an image ! "), //  "signup_msg1" 
           backgroundColor: Color.fromRGBO(127, 0, 0, 1));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       return;
@@ -125,12 +125,12 @@ class _SignupState extends State<Signup> {
                             children: [
                               TextFormField(
                                   decoration:
-                                      InputDecoration(labelText: 'First Name'),
+                                      InputDecoration(labelText: 'First Name'),//"signuplabel1"
                                   //onSaved: (value) => _firstName = value,
                                   controller: _firstName),
                               TextFormField(
                                   decoration:
-                                      InputDecoration(labelText: 'LastName'),
+                                      InputDecoration(labelText: 'LastName'),//"signuplabel2"
                                   controller: _lastName
                                   // onSaved: (value) => _lastName = value,
                                   ),
@@ -140,7 +140,7 @@ class _SignupState extends State<Signup> {
                                               r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                           .hasMatch(val)
                                       ? null
-                                      : "Please enter a correct email address";
+                                      : "Please enter a correct email address"; // "signup_msg2" 
                                 },
                                 controller: emailTextEditingController,
                                 keyboardType: TextInputType.emailAddress,
@@ -150,23 +150,23 @@ class _SignupState extends State<Signup> {
                                 validator: (val) {
                                   // this validator validates the entered text in the field according to the condition we have set
                                   return val.isEmpty || val.length < 5
-                                      ? 'Username is too short'
+                                      ? 'Username is too short' // "signup_msg3" 
                                       : null;
                                 },
                                 controller: userNameTextEditingController,
                                 keyboardType: TextInputType.emailAddress,
                                 decoration:
-                                    textFieldInputDecoration('username'),
+                                    textFieldInputDecoration('username'),//"signuplabel3"
                               ),
                               TextFormField(
                                 validator: (val) {
                                   return val.length > 6
                                       ? null
-                                      : 'Please enter a password with at least 6 characters';
+                                      : 'Please enter a password with at least 6 characters';// "signup_msg4" 
                                 },
                                 controller: passwordTextEditingController,
                                 decoration:
-                                    textFieldInputDecoration('password'),
+                                    textFieldInputDecoration('password'), //"signuplabel4"
                                 obscureText: true,
                               ),
                             ],
@@ -185,7 +185,7 @@ class _SignupState extends State<Signup> {
                                 alignment: Alignment(1.0, 0.0),
                                 padding: EdgeInsets.only(top: 15.0, left: 20.0),
                                 child: InkWell(
-                                    child: Text('Forgot Password',
+                                    child: Text('Forgot Password', //  "signup_msg5" 
                                         style: TextStyle(
                                             color: Colors.green,
                                             fontFamily: 'Trueno',
@@ -215,7 +215,7 @@ class _SignupState extends State<Signup> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                             child: Text(
-                              'Sign Up',
+                              'Sign Up', //"signup_up"
                               style: TextStyle(fontSize: 17),
                             ),
                           ),
@@ -249,7 +249,7 @@ class _SignupState extends State<Signup> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              "Already have an account?  ",
+                              "Already have an account?  ",//"signup_text1"
                             ),
                             SizedBox(height: 5.0),
                             GestureDetector(
@@ -261,7 +261,7 @@ class _SignupState extends State<Signup> {
                                     padding:
                                         EdgeInsets.only(top: 15.0, left: 20.0),
                                     child: InkWell(
-                                        child: Text('Login',
+                                        child: Text('Login',//"signup_text2"
                                             style: TextStyle(
                                                 color: Colors.green,
                                                 fontFamily: 'Trueno',

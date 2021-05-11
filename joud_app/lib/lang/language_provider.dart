@@ -47,7 +47,7 @@ class LanguageProvider with ChangeNotifier {
     "privateRegister_hintText3": "كلمة السر",
     "privateRegister_hintText4": "تأكيد كلمة المرور",
     "privateRegister_Text1": "تسجيل",
-    //"privateRegister_AlertDialog_msg1": "الرجاء تحديد ملف صورة.",
+    "privateRegister_AlertDialog_msg1": "الرجاء تحديد ملف صورة.",
     "privateRegister_AlertDialog_msg2": "يرجى ملء استمارة التسجيل كاملة ...",
     "privateRegister_AlertDialog_msg3": "كلمة السر غير مطابقة.",
     "privateRegister_LoadAlertDialog_msg1": "جاري التسجيل من فضلك انتظر .....",
@@ -67,14 +67,33 @@ class LanguageProvider with ChangeNotifier {
     "bussRegister_AlertDialog_msg2": "يرجى ملء استمارة التسجيل كاملة ...",
     "bussRegister_AlertDialog_msg3": "كلمة السر غير مطابقة.",
     "bussRegister_LoadAlertDialog_msg1": "جاري التسجيل من فضلك انتظر .....",
-    "Admin_login_Text": "مسؤول",
+
+    /* "Admin_login_Text": "مسؤول",
     "Admin_hint_Text1": " رقم الهوية الشخصية",
     "Admin_hint_Text2": "كلمة السر",
     "Admin_ErrorAlertDialog_msg": "الرجاء ادخال البريد الألكتروني و كلمة السر",
-    "Admin_login_Text2": "تسجيل الدخول",
-    "Admin_Flat_button": "أنا لست مسؤول",
+    //"Admin_login_Text2": "تسجيل الدخول",
+    //"Admin_Flat_button": "أنا لست مسؤول",
     "Admin_Screen_AppBar_Text": "جود",
-    "error_Alert_Dialog_Text": "نعم"
+    */
+    "error_Alert_Dialog_Text": "نعم",
+    //nefal
+    "Update_Prof_title": "تعديل الملف الشخصي",
+    "Update_Prof_edit_name": "تعديل الاسم",
+    "Update_Prof_edit_photo": "تغيير الصورة",
+    "Update_Prof_logout": "تسجيل خروج",
+    "signup_msg1": "من فضلك قم بإختيار صورة.",
+    "signuplabel1": "الاسم الأول",
+    "signuplabel2": "الاسم الأخير",
+    "signup_msg2": "من فضلك قم بإدخال بريد الكتروني صحيح",
+    "signup_msg3": "اسم المستخدم قصير",
+    "signuplabel3": "اسم المستخدم",
+    "signuplabel4": "كلمة المرور",
+    "signup_msg4": "من فضلك قم بإدخال كلمة مرور على الاقل 6 أحرف",
+    "signup_msg5": "مسيت كلمة المرور",
+    "signup_up": "فتح حساب جديد",
+    "signup_text1": "هل لديك حساب ؟ ",
+    "signup_text2": "تسجيل دخول",
   };
 
   Map<String, Object> textsEn = {
@@ -142,6 +161,7 @@ class LanguageProvider with ChangeNotifier {
         "Please fill up the registration complete form...",
     "bussRegister_AlertDialog_msg3": "Password do not match.",
     "bussRegister_LoadAlertDialog_msg1": "Registering, Please wait.....",
+    /*
     "Admin_login_Text": "Admin",
     "Admin_hint_Text1": "id",
     "Admin_hint_Text2": "Password",
@@ -149,7 +169,25 @@ class LanguageProvider with ChangeNotifier {
     "Admin_login_Text2": "Login",
     "Admin_Flat_button": "I'm not Admin",
     "Admin_Screen_AppBar_Text": "Joud",
+    */
     "error_Alert_Dialog_Text": "OK",
+    //nefal
+    "Update_Prof_title": "Update Profile",
+    "Update_Prof_edit_name": "Edit Name",
+    "Update_Prof_edit_photo": "Edit Photo",
+    "Update_Prof_logout": "Log out",
+    "signup_msg1": "Please upload an image ! ",
+    "signuplabel1": "First Name",
+    "signuplabel2": "Last Name",
+    "signup_msg2": "Please enter a correct email address",
+    "signup_msg3": "Username is too short",
+    "signuplabel3": "username",
+    "signuplabel4": "password",
+    "signup_msg4": "Please enter a password with at least 6 characters",
+    "signup_msg5": "Forgot Password",
+    "signup_up": "Sign Up",
+    "signup_text1": "Already have an account?  ",
+    "signup_text2": "Login",
   };
 
   changeLan(bool lan) async {

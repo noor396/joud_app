@@ -46,12 +46,13 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) =>isLoggedIn != null ?  
-        isLoggedIn ? Authenticate() : updateProfile()
-        : Container(
-       child: Center(child: HomeScreen() ,       
-       ),
-            ),   
+        '/': (context) =>SignOutScreen(),
+        //isLoggedIn != null ?  
+        //isLoggedIn ? SignOutScreen() : updateProfile()
+       // : Container(
+     //  child: Center(child: HomeScreen() ,       
+      // ),
+           // ),   
       },
     );
   }

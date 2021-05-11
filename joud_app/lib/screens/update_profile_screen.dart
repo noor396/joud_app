@@ -26,7 +26,7 @@ class UpdateProfileScreen extends State<updateProfile> {
     return Scaffold(
         appBar: AppBar(
             title: Text(
-              "Update Profile",
+              "Update Profile", //"Update_Prof_title 
               style: TextStyle(color: Colors.black),
             ),
             backgroundColor: Colors.teal //.fromRGBO(230, 238, 156, 1.0),
@@ -96,7 +96,7 @@ class UpdateProfileScreen extends State<updateProfile> {
                                },
                             child: Center(
                               child: Text(
-                                'Edit Name',
+                                'Edit Name', // "Update_Prof_edit_name"
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'Quicksand'),
@@ -122,7 +122,7 @@ class UpdateProfileScreen extends State<updateProfile> {
                             },
                             child: Center(
                               child: Text(
-                                'Edit Photo',
+                                'Edit Photo', //"Update_Prof_edit_photo"
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontFamily: 'Quicksand'),
@@ -155,7 +155,7 @@ class UpdateProfileScreen extends State<updateProfile> {
                               },
                               child: Center(
                                 child: Text(
-                                  'Log out',
+                                  'Log out',//"Update_Prof_logout"
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontFamily: 'Quicksand'),
