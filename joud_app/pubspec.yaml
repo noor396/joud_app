@@ -54,6 +54,7 @@ dependencies:
   #intl_phone_number_input: ^0.7.0+2
   font_awesome_flutter: ^9.0.0
   package_info: ^2.0.0
+  location: ^3.0.0
 
 dev_dependencies:
   flutter_test:
