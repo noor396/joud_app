@@ -8,7 +8,6 @@ import '../screens/search_screen.dart';
 import '../screens/chat_screen.dart';
 import '../main.dart';
 import '../screens/map_screen.dart';
-import 'package:joud_app/screens/Map2.dart';
 import '../screens/post_screen.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -60,7 +59,7 @@ class _TabsScreenState extends State<TabsScreen> {
         'title': lan.getTexts('tab_item5'),
       },
       {
-        'page': MyLocation(), //MapScreen(),
+        'page': MapScreen(),
         'title': lan.getTexts('tab_item6'),
       },
     ];

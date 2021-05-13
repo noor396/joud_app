@@ -8,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/home_screen.dart';
 import 'test/helper/authenticate.dart';
 import 'test/helper/sharedPreferences.dart';
-import 'package:joud_app/screens/Map2.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,7 +46,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) =>  MyLocation()  ,//SignOutScreen(),
+        '/': (context) =>SignOutScreen(),
         //isLoggedIn != null ?  
         //isLoggedIn ? SignOutScreen() : updateProfile()
        // : Container(
