@@ -17,8 +17,10 @@
         android:icon="@mipmap/ic_launcher">
         android:requestLegacyExternalStorage="true"
 
-        <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyDb9K1Dj15Y4nr3YURAue5GFn3pgYky3yE"/>
+       <!-- <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyDb9K1Dj15Y4nr3YURAue5GFn3pgYky3yE"/>
+// comment it because i am adding google map by google cloud platform ^-^
+-->
+        <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBGhKuSXeP2jKBDEcunMX911blO65x4oAs"/>
                
         <activity
             android:name=".MainActivity"
