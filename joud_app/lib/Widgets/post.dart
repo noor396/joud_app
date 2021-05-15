@@ -6,9 +6,11 @@ import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/screens/comments.dart';
 import 'package:joud_app/screens/profile_screen.dart';
 import 'package:joud_app/screens/profile_stream.dart';
-import 'package:joud_app/widgets/custom_image.dart';
+//import 'package:joud_app/widgets/custom_image.dart';
 import 'package:provider/provider.dart';
 import 'package:time_ago_provider/time_ago_provider.dart' as timeAgo;
+
+import 'custom_image.dart';
 
 class Post extends StatefulWidget {
   Post(this.postId, this.ownerId, this.imageUrl, this.username, this.mediaUrl,
