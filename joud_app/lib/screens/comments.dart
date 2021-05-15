@@ -41,6 +41,7 @@ class CommentsState extends State<Comments> {
   final String postMediaUrl;
   final String postUserName;
   final String postImageUrl;
+  DateTime timestamp;
 
   CommentsState({
     this.postId,
