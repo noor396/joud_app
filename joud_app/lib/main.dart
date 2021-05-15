@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:joud_app/lang/language_provider.dart';
+import 'package:joud_app/screens/map_screen.dart';
+import 'package:joud_app/screens/map_using_google.dart';
 import 'package:joud_app/screens/update_profile_screen.dart';
 import 'package:joud_app/test/views/sign_out_screen.dart';
 import 'package:provider/provider.dart';
@@ -46,13 +48,13 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) =>SignOutScreen(),
-        //isLoggedIn != null ?  
-        //isLoggedIn ? SignOutScreen() : updateProfile()
-       // : Container(
-     //  child: Center(child: HomeScreen() ,       
-      // ),
-           // ),   
+        '/': (context) =>  //MapScreen() ,//SignOutScreen(), MapPage() ,//
+        isLoggedIn != null ?  
+        isLoggedIn ? SignOutScreen() : updateProfile()
+       : Container(
+      child: Center(child: HomeScreen() ,       
+      ),
+           ),   
       },
     );
   }

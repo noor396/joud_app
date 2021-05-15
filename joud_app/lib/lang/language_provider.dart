@@ -90,10 +90,23 @@ class LanguageProvider with ChangeNotifier {
     "signuplabel3": "اسم المستخدم",
     "signuplabel4": "كلمة المرور",
     "signup_msg4": "من فضلك قم بإدخال كلمة مرور على الاقل 6 أحرف",
-    "signup_msg5": "مسيت كلمة المرور",
+    "signup_msg5": "نسيت كلمةا لمرور",
     "signup_up": "فتح حساب جديد",
     "signup_text1": "هل لديك حساب ؟ ",
     "signup_text2": "تسجيل دخول",
+    "login_text1": "من فضلك قم بإدخال بريد الكتروني صحيح",
+    "login_text2": "من فضلك قم بإدخال كلمة مرور على الاقل 6 أحرف",
+    "login_text3": "نسيت كلمة المرور",
+    "login_text4": "تسجيل دخول",
+    "login_text5": "هل لديك حساب ؟ ",
+    "login_text6": "انظم الآن لنا",
+    "rest_text1": "إعادة تعيين كلمة المرور",
+    //"rest_text2" : "EMAIL",
+    "rest_text3": "البريد الاكتروني مطلوب",
+    "rest_text4":
+        "تم ارسال بريد الكتروني لإعادة ادخال كلمة سر جديده .... ما عرفت ايش اكتب ف كتبت هيك و بعدين بنعدل ^^",
+    "rest_text5": "إعادة تعيين",
+    "rest_text6": "الرجوع للخلف",
   };
 
   Map<String, Object> textsEn = {
@@ -188,6 +201,19 @@ class LanguageProvider with ChangeNotifier {
     "signup_up": "Sign Up",
     "signup_text1": "Already have an account?  ",
     "signup_text2": "Login",
+    "login_text1": "Please enter a correct email address",
+    "login_text2": "Please enter a password with at least 6 characters",
+    "login_text3": "Forgot Password",
+    "login_text4": "Login",
+    "login_text5": "Don't have account?  ",
+    "login_text6": "Register now",
+    "rest_text1": "Rest Password",
+    "rest_text2": "EMAIL",
+    "rest_text3": "Email is required",
+    "rest_text4":
+        "تم ارسال بريد الكتروني لإعادة ادخال كلمة سر جديده .... ما عرفت ايش اكتب ف كتبت هيك و بعدين بنعدل ^^",
+    "rest_text5": "RESET",
+    "rest_text6": "Go back",
   };
 
   changeLan(bool lan) async {

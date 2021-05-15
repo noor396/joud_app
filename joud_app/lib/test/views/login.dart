@@ -1,11 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:joud_app/Widgets/tabs_screen.dart';
+import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/screens/home_screen.dart';
 import 'package:joud_app/test/helper/sharedPreferences.dart';
 import 'package:joud_app/test/services/auth.dart';
 import 'package:joud_app/test/services/database.dart';
 import 'package:joud_app/Widgets/widget.dart';
 import 'package:joud_app/test/views/rest.dart';
+import 'package:provider/provider.dart';
 
 class Login extends StatefulWidget {
   final Function toggle;
@@ -61,8 +64,12 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: appBarCustom(context),
+
+    var lan = Provider.of<LanguageProvider>(context, listen: true);
+    return Directionality(
+      textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
+      child: Scaffold(
+        appBar: appBarCustom(context),
       body: Center(
         child: Card(
           margin: EdgeInsets.all(20),
@@ -85,7 +92,7 @@ class _LoginState extends State<Login> {
                                         r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                     .hasMatch(val)
                                 ? null
-                                : "Please enter a correct email address";
+                                : lan.getTexts('login_text1') ;//"Please enter a correct email address";
                           },
                           controller: emailTextEditingController,
                           keyboardType: TextInputType.emailAddress,
@@ -95,7 +102,7 @@ class _LoginState extends State<Login> {
                           validator: (val) {
                             return val.length > 5
                                 ? null
-                                : 'Please enter a password with at least 6 characters';
+                                : lan.getTexts('login_text2');// 'Please enter a password with at least 6 characters';
                           },
                           controller: passwordTextEditingController,
                           decoration: textFieldInputDecoration('password'),
@@ -118,7 +125,7 @@ class _LoginState extends State<Login> {
                           alignment: Alignment(1.0, 0.0),
                           padding: EdgeInsets.only(top: 15.0, left: 20.0),
                           child: InkWell(
-                              child: Text('Forgot Password',
+                              child: Text(lan.getTexts('login_text3') ,//'Forgot Password',
                                   style: TextStyle(
                                       color: Colors.green,
                                       fontFamily: 'Trueno',
@@ -146,8 +153,7 @@ class _LoginState extends State<Login> {
                         ]),
                         borderRadius: BorderRadius.circular(30),
                       ),
-                      child: Text(
-                        'Login',
+                      child: Text( lan.getTexts('login_text4'), //                        'Login',
                         style: TextStyle(fontSize: 17),
                       ),
                     ),
@@ -176,8 +182,8 @@ class _LoginState extends State<Login> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
-                        "Don't have account?  ",
+                      Text( lan.getTexts('login_text5') ,
+                      //  "Don't have account?  ",
                       ),
                       GestureDetector(
                         onTap: () {
@@ -185,7 +191,7 @@ class _LoginState extends State<Login> {
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Text("Register now",
+                          child: Text( lan.getTexts('login_text6') ,//"Register now",
                               style: TextStyle(
                                   color: Colors.green,
                                   fontFamily: 'Trueno',
@@ -204,6 +210,6 @@ class _LoginState extends State<Login> {
           ),
         ),
       ),
-    );
+    ));
   }
 }

@@ -12,8 +12,8 @@ class MapPage extends StatefulWidget {
 
 // test#2
 class _MapPage extends State<MapPage> {
-  double _lat = 13.0827;
-  double _lng = 80.2707;
+  double _lat =31.963158;
+  double _lng =35.930359 ;//13.0827 80.2707;
   Completer<GoogleMapController> _controller = Completer();
   Location location = new Location();
   bool _serviceEnabled;
@@ -25,7 +25,7 @@ class _MapPage extends State<MapPage> {
     super.initState();
     _currentPosition = CameraPosition(
       target: LatLng(_lat, _lng),
-      zoom: 12,
+      zoom: 15,
     );
   }
 
