@@ -9,6 +9,7 @@ import '../screens/update_profile_screen.dart';
 import '../screens/about_screen.dart';
 import '../screens/statistics_screen.dart';
 import 'dart:io';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class MainDrawer extends StatefulWidget {
   //static const routeName = '/drawer';
@@ -62,112 +63,20 @@ class _MainDrawerState extends State<MainDrawer> {
                 alignment:
                     lan.isEn ? Alignment.centerLeft : Alignment.centerRight,
                 color: Color.fromRGBO(230, 238, 156, 1.0),
-                child: Stack(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        var ad = AlertDialog(
-                          title: Text(lan.getTexts('Alert_dialog1'),
-                              textDirection: lan.isEn
-                                  ? TextDirection.ltr
-                                  : TextDirection.rtl),
-                          content: Container(
-                            height: 150,
-                            child: Column(
-                              children: [
-                                Divider(
-                                  color: Colors.black,
-                                ),
-                                Container(
-                                  width: 300,
-                                  color: Color.fromRGBO(230, 238, 156, 1.0),
-                                  child: ListTile(
-                                    leading: Icon(Icons.image,
-                                        textDirection: lan.isEn
-                                            ? TextDirection.ltr
-                                            : TextDirection.rtl),
-                                    title: Text(lan.getTexts('Alert_dialog2'),
-                                        textDirection: lan.isEn
-                                            ? TextDirection.ltr
-                                            : TextDirection.rtl),
-                                    onTap: () {
-                                      getImage(ImageSource.gallery);
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Container(
-                                  width: 300,
-                                  color: Color.fromRGBO(230, 238, 156, 1.0),
-                                  child: ListTile(
-                                    leading: Icon(Icons.add_a_photo,
-                                        textDirection: lan.isEn
-                                            ? TextDirection.ltr
-                                            : TextDirection.rtl),
-                                    title: Text(lan.getTexts('Alert_dialog3'),
-                                        textDirection: lan.isEn
-                                            ? TextDirection.ltr
-                                            : TextDirection.rtl),
-                                    onTap: () {
-                                      getImage(ImageSource.camera);
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-                        showDialog(
-                          context: context,
-                          builder: (BuildContext ctx) => ad,
-                        );
-                      },
-                      child: _image == null
-                          ? Container(
-                              height: 90,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                    color: Color.fromRGBO(215, 204, 200, 1.0),
-                                    width: 2.0),
-                                //color: Color.fromRGBO(230, 238, 156, 1.0),
-                                image: DecorationImage(
-                                  alignment: Alignment.bottomCenter,
-                                  image: AssetImage(
-                                      'assets/update_profile_page.jpg'),
-                                  fit: BoxFit.fitHeight,
-                                ),
-                              ),
-                            )
-                          : Container(
-                              height: 90,
-                              width: double.infinity,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                    color: Color.fromRGBO(215, 204, 200, 1.0),
-                                    width: 2.0),
-                                image: DecorationImage(
-                                  alignment: Alignment.bottomCenter,
-                                  image: FileImage(_image),
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            ),
+                child: Container(
+                  height: 90,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                        color: Color.fromRGBO(215, 204, 200, 1.0), width: 2.0),
+                    //color: Color.fromRGBO(230, 238, 156, 1.0),
+                    image: DecorationImage(
+                      alignment: Alignment.bottomCenter,
+                      image: AssetImage('assets/Joud_Logo.png'),
+                      fit: BoxFit.fitHeight,
                     ),
-                    Container(
-                        margin: EdgeInsets.only(top: 70),
-                        alignment: Alignment.center,
-                        child: Text(
-                          "Rama",
-                          style: TextStyle(fontSize: 20),
-                        )),
-                  ],
+                  ),
                 ),
               ),
               Container(
@@ -271,9 +180,8 @@ class _MainDrawerState extends State<MainDrawer> {
                 color: Colors.black12,
               ),
               bulidListTile(
-                  lan.getTexts('drawer_item7'),
-                  Icons
-                      .question_answer /*IconData(0xf29c, fontFamily:'_kFontFam')*/,
+                  lan.getTexts('drawer_item7'), FontAwesomeIcons.questionCircle,
+                  /*IconData(0xf29c, fontFamily:'_kFontFam')*/
                   () {
                 Navigator.of(context).pushNamed(AboutScreen.routeName);
               }),

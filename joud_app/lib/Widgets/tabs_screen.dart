@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:joud_app/lang/language_provider.dart';
+import 'package:joud_app/screens/post_stream.dart';
+import 'package:joud_app/screens/profile_stream.dart';
 import 'package:provider/provider.dart';
 import '../widgets/main_drawer.dart';
 import '../screens/home_screen.dart';
@@ -43,7 +45,7 @@ class _TabsScreenState extends State<TabsScreen> {
         'title': lan.getTexts('tab_item1'),
       },
       {
-        'page': PostScreen(),
+        'page': PostStream(),
         'title': lan.getTexts('tab_item2'),
       },
       {
@@ -55,7 +57,7 @@ class _TabsScreenState extends State<TabsScreen> {
         'title': lan.getTexts('tab_item4'),
       },
       {
-        'page': ProfileScreen(),
+        'page': ProfileStream(),
         'title': lan.getTexts('tab_item5'),
       },
       {
@@ -90,14 +92,30 @@ class _TabsScreenState extends State<TabsScreen> {
           backgroundColor: Color.fromRGBO(215, 204, 200, 1.0),
           type: BottomNavigationBarType.fixed,
           items: [
-            BottomNavigationBarItem(icon: Icon(Icons.home), title: Text("")),
             BottomNavigationBarItem(
-                icon: Icon(Icons.add_box_outlined), title: Text("")),
-            BottomNavigationBarItem(icon: Icon(Icons.search), title: Text("")),
-            BottomNavigationBarItem(icon: Icon(Icons.chat), title: Text("")),
-            BottomNavigationBarItem(icon: Icon(Icons.person), title: Text("")),
+              icon: Icon(Icons.home),
+              label: lan.getTexts('HomeTab').toString(),
+            ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.location_on), title: Text("")),
+              icon: Icon(Icons.add_box_outlined),
+              label: lan.getTexts('AddPostTab').toString(),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search),
+              label: lan.getTexts('SearchTab').toString(),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.chat),
+              label: lan.getTexts('ChatTab').toString(),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person),
+              label: lan.getTexts('ProfileTab').toString(),
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.location_on),
+              label: lan.getTexts('MapTab').toString(),
+            ),
           ],
         ),
         drawer: MainDrawer(),
