@@ -10,6 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/home_screen.dart';
 import 'test/helper/authenticate.dart';
 import 'test/helper/sharedPreferences.dart';
+//import 'package:upgrader/upgrader.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,10 +24,12 @@ Future<void> main() async {
     ),
   );
 }
+
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 }
+
 class _MyAppState extends State<MyApp> {
   bool isLoggedIn = false;
 
@@ -34,6 +37,7 @@ class _MyAppState extends State<MyApp> {
     getLoginState();
     super.initState();
   }
+
   getLoginState() async {
     await SharedPreferencesFunctions.getUserLoggedInSharedPreference()
         .then((val) {
@@ -42,19 +46,32 @@ class _MyAppState extends State<MyApp> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
+    // Only call clearSavedSettings() during testing to reset internal values.
+    //Upgrader().clearSavedSettings(); // REMOVE this for release builds
+// final appcastURL =
+//         'https://raw.githubusercontent.com/larryaasen/upgrader/master/test/testappcast.xml';
+//     final cfg = AppcastConfiguration(url: appcastURL, supportedOS: ['android']);
     return MaterialApp(
+      // UpgradeAlert(
+      //       appcastConfig: cfg,
+      //       debugLogging: true,
+      //       child: Center(child: Text('Checking...')),
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-        '/': (context) =>  //MapScreen() ,//SignOutScreen(), MapPage() ,//
-        isLoggedIn != null ?  
-        isLoggedIn ? SignOutScreen() : updateProfile()
-       : Container(
-      child: Center(child: HomeScreen() ,       
-      ),
-           ),   
+        '/': (context) => //MapScreen() ,//SignOutScreen(), MapPage() ,//
+            isLoggedIn != null
+                ? isLoggedIn
+                    ? SignOutScreen()
+                    : updateProfile()
+                : Container(
+                    child: Center(
+                      child: HomeScreen(),
+                    ),
+                  ),
       },
     );
   }

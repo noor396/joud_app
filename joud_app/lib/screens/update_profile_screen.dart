@@ -16,12 +16,12 @@ class updateProfile extends StatefulWidget {
 }
 
 class UpdateProfileScreen extends State<updateProfile> {
-  var profilePicUrl;
+  //var profilePicUrl;
 
   @override
   void initState() {
     super.initState();
-    profilePicUrl = FirebaseAuth.instance.currentUser.photoURL;
+   // profilePicUrl = FirebaseAuth.instance.currentUser.photoURL;
   }
 
   @override
@@ -79,7 +79,7 @@ class UpdateProfileScreen extends State<updateProfile> {
                           //color: Colors.red,
                           // photo
                           image: DecorationImage(
-                              image: NetworkImage(profilePicUrl),
+                              image: NetworkImage(FirebaseAuth.instance.currentUser.photoURL),
                               fit: BoxFit.cover),
                           borderRadius: BorderRadius.all(Radius.circular(75.0)),
                           boxShadow: [

@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   List resImageAndNameList = [
     {'pic': 'assets/blank-profile-picture.png', 'text': 'Res1'},
     {'pic': 'assets/blank-profile-picture.png', 'text': 'Res2'},
@@ -44,8 +45,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     var lan = Provider.of<LanguageProvider>(context, listen: true);
-    return Directionality(
+       return Directionality(
       textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
+      
       child: Scaffold(
         body: buildCarousel(lan),
       ),
@@ -54,7 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   ListView buildCarousel(lan) {
     return ListView(
+
       children: [
+       //  colors: themeProvider.themeMode().gradient,
         SizedBox(
           height: 10,
         ),
