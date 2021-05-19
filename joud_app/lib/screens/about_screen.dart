@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:joud_app/lang/language_provider.dart';
-import 'package:joud_app/widgets/main_drawer.dart';
 import 'package:joud_app/widgets/tabs_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -26,20 +25,23 @@ class _AboutScreenState extends State<AboutScreen> {
       child: Scaffold(
         appBar: AppBar(
           leading: Padding(
-            padding: EdgeInsets.only(left: 1),
-            child:Row(
-              children: [
-                IconButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => TabsScreen()));
-                  },
-                  icon:Icon(Icons.arrow_back_ios,color: Colors.black,),
-          ),
-
-              ],
-            )
-          ),
+              padding: EdgeInsets.only(left: 1),
+              child: Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => TabsScreen()));
+                    },
+                    icon: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.black,
+                    ),
+                  ),
+                ],
+              )),
           title: Text(
             lan.getTexts('drawer_item7'),
             style: TextStyle(color: Colors.black),

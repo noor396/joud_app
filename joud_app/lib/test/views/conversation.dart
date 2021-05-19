@@ -1,16 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:joud_app/Widgets/widget.dart';
+import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/test/helper/constants.dart';
 import 'package:joud_app/test/services/database.dart';
 import 'package:joud_app/widgets/widget.dart';
+import 'package:provider/provider.dart';
 
 class ConversationScreen extends StatefulWidget {
   final String chatRoomId;
   final String msgReceiver;
+  final String chatImage;
 
-  ConversationScreen(this.chatRoomId, this.msgReceiver);
+  ConversationScreen(this.chatRoomId, this.msgReceiver, this.chatImage);
 
   @override
   _ConversationScreenState createState() => _ConversationScreenState();
@@ -54,10 +56,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
         'sender': Constants.myName,
         'time': DateTime.now(),
         'receiver': widget.msgReceiver,
-        //here add picture
+        'image': widget.chatImage,
       };
       databaseMethods.addConversationMessages(
-          widget.chatRoomId, messageMap, widget.msgReceiver);
+          widget.chatRoomId, messageMap, widget.msgReceiver, widget.chatImage);
       messageController.text = "";
     }
     messageController.clear();
@@ -75,54 +77,59 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var lan = Provider.of<LanguageProvider>(context, listen: true);
     return Scaffold(
-      appBar: appBarCustomBackBtnReceiverImage(context, widget.msgReceiver),
-      body: Container(
-        child: Stack(
-          children: [
-            chatMessageList(),
-            Container(
-              alignment: Alignment.bottomCenter,
-              padding: EdgeInsets.symmetric(vertical: 8, horizontal: 6),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.photo),
-                    iconSize: 25.0,
-                    color: Color.fromRGBO(166, 155, 151, 1),
-                    onPressed: () {},
-                  ),
-                  Expanded(
-                    child: TextField(
-                      controller: messageController,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
+      appBar: appBarCustomBackBtnReceiverImage(
+          context, widget.msgReceiver, widget.chatImage),
+      body: Directionality(
+        textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
+        child: Container(
+          child: Stack(
+            children: [
+              chatMessageList(),
+              Container(
+                alignment: Alignment.bottomCenter,
+                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 6),
+                child: Row(
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.photo),
+                      iconSize: 25.0,
+                      color: Color.fromRGBO(166, 155, 151, 1),
+                      onPressed: () {},
+                    ),
+                    Expanded(
+                      child: TextField(
+                        controller: messageController,
+                        decoration: InputDecoration(
+                          border: InputBorder.none,
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                                color: Color.fromRGBO(166, 155, 151, 1)),
+                          ),
+                          hintText: lan.getTexts('Conversation'),
+                          hintStyle: TextStyle(
                               color: Color.fromRGBO(166, 155, 151, 1)),
                         ),
-                        hintText: 'Send a message...',
-                        hintStyle:
-                            TextStyle(color: Color.fromRGBO(166, 155, 151, 1)),
                       ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      sendMessage();
-                    },
-                    child: IconButton(
-                      color: Color.fromRGBO(189, 193, 146, 1),
-                      disabledColor: Color.fromRGBO(166, 155, 151, 1),
-                      iconSize: 25.0,
-                      icon: Icon(Icons.send_rounded),
-                      onPressed: null,
+                    GestureDetector(
+                      onTap: () {
+                        sendMessage();
+                      },
+                      child: IconButton(
+                        color: Color.fromRGBO(189, 193, 146, 1),
+                        disabledColor: Color.fromRGBO(166, 155, 151, 1),
+                        iconSize: 25.0,
+                        icon: Icon(Icons.send_rounded),
+                        onPressed: null,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -178,7 +185,6 @@ class MessageTile extends StatelessWidget {
                 style: TextStyle(
                     color: Colors.black,
                     fontSize: 16,
-                    fontFamily: 'OverpassRegular',
                     fontWeight: FontWeight.w400)),
           ],
         ),

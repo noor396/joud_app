@@ -1,21 +1,17 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:joud_app/lang/language_provider.dart';
-import 'package:joud_app/screens/map_screen.dart';
-import 'package:joud_app/screens/map_using_google.dart';
+import 'package:joud_app/screens/about_screen.dart';
+import 'package:joud_app/screens/logo_screen.dart';
+import 'package:joud_app/screens/statistics_screen.dart';
 import 'package:joud_app/screens/update_profile_screen.dart';
-import 'package:joud_app/test/views/sign_out_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'screens/home_screen.dart';
+import 'lang/language_provider.dart';
 import 'test/helper/authenticate.dart';
 import 'test/helper/sharedPreferences.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  // await Firebase.initializeApp();
   runApp(
     ChangeNotifierProvider<LanguageProvider>(
       create: (ctx) => LanguageProvider(),
@@ -23,10 +19,13 @@ Future<void> main() async {
     ),
   );
 }
+
 class MyApp extends StatefulWidget {
+  // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();
 }
+
 class _MyAppState extends State<MyApp> {
   bool isLoggedIn = false;
 
@@ -34,6 +33,7 @@ class _MyAppState extends State<MyApp> {
     getLoginState();
     super.initState();
   }
+
   getLoginState() async {
     await SharedPreferencesFunctions.getUserLoggedInSharedPreference()
         .then((val) {
@@ -42,20 +42,28 @@ class _MyAppState extends State<MyApp> {
       });
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) =>  //MapScreen() ,//SignOutScreen(), MapPage() ,//
-        isLoggedIn != null ?  
-        isLoggedIn ? SignOutScreen() : updateProfile()
-       : Container(
-      child: Center(child: HomeScreen() ,       
-      ),
-           ),   
-      },
-    );
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        routes: {
+          updateProfile.routeName: (context) => updateProfile(),
+          StatisticsScreen.routeName: (context) => StatisticsScreen(),
+          AboutScreen.routeName: (context) =>
+              ChangeNotifierProvider<LanguageProvider>(
+                create: (ctx) => LanguageProvider(),
+                child: AboutScreen(),
+              ),
+        },
+        home: isLoggedIn != null
+            ? isLoggedIn
+                ? LogoScreen()
+                : Authenticate()
+            : Container(
+                child: Center(
+                child: Authenticate(),
+              )));
   }
 }

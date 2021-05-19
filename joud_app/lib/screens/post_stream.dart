@@ -12,12 +12,6 @@ class PostStream extends StatefulWidget {
 }
 
 class _PostStreamState extends State<PostStream> {
-/*  @override
-  void initState() {
-    Provider.of<LanguageProvider>(context, listen: true).getLan();
-    super.initState();
-  }*/
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -38,9 +32,8 @@ class _PostStreamState extends State<PostStream> {
           itemBuilder: (ctx, index) => PostForm(
             docs[index]['id'],
             docs[index]['imageUrl'],
-            docs[index]['password'],
             docs[index]['timestamp'].toDate(),
-            docs[index]['userName'],
+            docs[index]['username'],
             key: ValueKey(snapShot.data.docs[index]),
           ),
         );

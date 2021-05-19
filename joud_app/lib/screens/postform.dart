@@ -5,12 +5,11 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:joud_app/Authentication/userAuth.dart';
-import 'package:joud_app/Widgets/progress.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-//import 'package:joud_app/widgets/progress.dart';
+import 'package:joud_app/widgets/progress.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 import 'package:image/image.dart' as Im;
@@ -20,14 +19,12 @@ class PostForm extends StatefulWidget {
   @override
   _PostFormState createState() => _PostFormState();
   static const routeName = '/postform';
-  PostForm(this.id, this.imageUrl, this.password, this.timestamp, this.userName,
-      {this.key});
+  PostForm(this.id, this.imageUrl, this.timestamp, this.username, {this.key});
 
   final String id;
   final String imageUrl;
-  final String password;
   final DateTime timestamp;
-  final String userName;
+  final String username;
   final Key key;
 }
 
@@ -41,7 +38,8 @@ class _PostFormState extends State<PostForm>
   File _image;
   final picker = ImagePicker();
   UserCredential authResult;
-  DateTime timestamp;
+  final DateTime timestamp = DateTime.now();
+  //DateTime timestamp;
 
   selectImage(parentContext, lan) {
     return showDialog(
@@ -120,7 +118,7 @@ class _PostFormState extends State<PostForm>
               ),
               Align(
                   alignment: Alignment.bottomLeft,
-                  child: Text(widget.userName)),
+                  child: Text(widget.username)),
             ],
           ),
           Align(
@@ -188,7 +186,7 @@ class _PostFormState extends State<PostForm>
     FirebaseFirestore.instance.collection('posts').doc(postId).set({
       "postId": postId,
       "ownerId": widget.id,
-      "username": widget.userName,
+      "username": widget.username,
       "imageUrl": widget.imageUrl,
       "mediaUrl": mediaUrl,
       "description": description,

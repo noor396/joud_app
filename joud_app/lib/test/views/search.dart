@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:joud_app/test/helper/constants.dart';
 import 'package:joud_app/test/services/database.dart';
 import 'package:joud_app/widgets/widget.dart';
+import 'package:provider/provider.dart';
+import '../../lang/language_provider.dart';
 import 'conversation.dart';
 
 class Search extends StatefulWidget {
@@ -25,6 +27,7 @@ class _SearchState extends State<Search> {
               return SearchTile(
                 username: searchSnapshot.docs[index].data()["username"],
                 email: searchSnapshot.docs[index].data()["email"],
+                imageUrl: searchSnapshot.docs[index].data()["imageUrl"],
               );
             })
         : Container();
@@ -42,7 +45,7 @@ class _SearchState extends State<Search> {
     });
   }
 
-  createChatRoomStartConversation({String userName}) {
+  createChatRoomStartConversation({String userName, String imageUrl}) {
     if (userName != Constants.myName) {
       String chatRoomId = getChatRoomId(userName, Constants.myName);
       List<String> users = [
@@ -51,14 +54,16 @@ class _SearchState extends State<Search> {
       ]; // to store the data locally we used the share preference method
       Map<String, dynamic> chatRoomMap = {
         "users": users,
-        "chatRoomId": chatRoomId
+        "chatRoomId": chatRoomId,
+        "chatImage": imageUrl,
       };
 
       DatabaseMethods().createChatRoom(chatRoomId, chatRoomMap);
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => ConversationScreen(chatRoomId, userName)));
+              builder: (context) =>
+                  ConversationScreen(chatRoomId, userName, imageUrl)));
     } else {
       final snackBar = SnackBar(
           content: Text("you can't send a messages to yourself ! "),
@@ -68,11 +73,19 @@ class _SearchState extends State<Search> {
     }
   }
 
-  Widget SearchTile({String username, String email}) {
+  Widget SearchTile({String username, String email, String imageUrl}) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
       child: Row(
         children: [
+          CircleAvatar(
+            radius: 18.0,
+            backgroundColor: Colors.grey,
+            backgroundImage: NetworkImage(imageUrl),
+          ),
+          SizedBox(
+            width: 10,
+          ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -91,7 +104,8 @@ class _SearchState extends State<Search> {
           Spacer(),
           GestureDetector(
             onTap: () {
-              createChatRoomStartConversation(userName: username);
+              createChatRoomStartConversation(
+                  userName: username, imageUrl: imageUrl);
             },
             child: Container(
               decoration: BoxDecoration(
@@ -112,60 +126,64 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
+    var lan = Provider.of<LanguageProvider>(context, listen: true);
     return Scaffold(
-      appBar: appBarCustomBackBtn(context, 'Search'),
-      body: Container(
-        padding: EdgeInsets.only(top: 10),
-        child: Column(
-          children: [
-            Center(
-              child: Container(
-                width: 340,
-                height: 50,
-                decoration: new BoxDecoration(
-                  borderRadius: new BorderRadius.circular(30.0),
-                  gradient: LinearGradient(colors: [
-                    //Green Fading
-                    //const Color.fromRGBO( 240,244,195,0.4),
-                    //const Color.fromRGBO( 255,255,246,1),
-                    // const Color.fromRGBO( 189,193,146,1),
+      //appBar: appBarCustomBackBtn(context, 'Search'),
+      body: Directionality(
+        textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
+        child: Container(
+          padding: EdgeInsets.only(top: 25),
+          child: Column(
+            children: [
+              Center(
+                child: Container(
+                  width: 340,
+                  height: 50,
+                  decoration: new BoxDecoration(
+                    borderRadius: new BorderRadius.circular(30.0),
+                    gradient: LinearGradient(colors: [
+                      //Green Fading
+                      //const Color.fromRGBO( 240,244,195,0.4),
+                      //const Color.fromRGBO( 255,255,246,1),
+                      // const Color.fromRGBO( 189,193,146,1),
 
-                    //Brownish Fading
-                    const Color.fromRGBO(215, 204, 200, 1.5),
-                    const Color.fromRGBO(255, 255, 251, 1),
-                  ]),
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        controller:
-                            searchTextEditingController, // gets the text written in the search bar
-                        decoration: InputDecoration(
-                          hintText: 'Search...',
-                          hintStyle: TextStyle(color: Colors.black54),
-                          border: InputBorder.none,
+                      //Brownish Fading
+                      const Color.fromRGBO(215, 204, 200, 1.5),
+                      const Color.fromRGBO(255, 255, 251, 1),
+                    ]),
+                  ),
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller:
+                              searchTextEditingController, // gets the text written in the search bar
+                          decoration: InputDecoration(
+                            hintText: lan.getTexts('Chat_Search'),
+                            hintStyle: TextStyle(color: Colors.black54),
+                            border: InputBorder.none,
+                          ),
                         ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        initiateSearch();
-                      },
-                      child: IconButton(
-                        icon: Icon(Icons.search),
-                        iconSize: 28.0,
-                        color: Colors.black54,
-                        onPressed: null,
+                      GestureDetector(
+                        onTap: () {
+                          initiateSearch();
+                        },
+                        child: IconButton(
+                          icon: Icon(Icons.search),
+                          iconSize: 28.0,
+                          color: Colors.black54,
+                          onPressed: null,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-            searchList(),
-          ],
+              searchList(),
+            ],
+          ),
         ),
       ),
     );
