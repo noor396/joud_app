@@ -59,14 +59,14 @@ dependencies:
   cached_network_image: ^2.0.0
   geocoding: ^1.0.3
   image: ^2.0.0
-  integration_test: ^1.0.2+3
+  # integration_test: ^1.0.2+3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_driver:
-    sdk: flutter
-  test: any
+  #flutter_driver:
+   # sdk: flutter
+  # test: any
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

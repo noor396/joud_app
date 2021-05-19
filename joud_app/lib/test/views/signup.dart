@@ -11,6 +11,7 @@ import 'package:joud_app/test/services/database.dart';
 import 'package:joud_app/Widgets/userImagePicker.dart';
 import 'package:joud_app/Widgets/widget.dart';
 import 'package:joud_app/test/views/rest.dart';
+import 'package:joud_app/widgets/tabs_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -99,8 +100,8 @@ class _SignupState extends State<Signup> {
         databaseMethods.uploadUserInfo(userInfoMap, userId);
         SharedPreferencesFunctions.saveUserLoggedInSharedPreference(
             true); // the user will be loggen in here so we have to save his state
-        /* Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => updateProfile()));*/
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => TabsScreen()));
       });
 /**************************************************************************/
       //2
