@@ -7,8 +7,9 @@ class ProfilePostStream extends StatefulWidget {
   @override
   _ProfilePostStreamState createState() => _ProfilePostStreamState();
   static const routeName = '/profilepoststream';
-  ProfilePostStream(this.id);
   final String id;
+  ProfilePostStream(this.id);
+  
 }
 
 class _ProfilePostStreamState extends State<ProfilePostStream> {

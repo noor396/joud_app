@@ -8,6 +8,7 @@ import 'package:joud_app/screens/update_profile_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../test/helper/constants.dart';
+import 'nefal/nefal_test.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = '/profile';
@@ -320,6 +321,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   fontSize: 16.0,
                 ),
               ),
+            ),
+             FlatButton(
+              onPressed: () {
+                Navigator.push(context,MaterialPageRoute(builder: (context)=> EditProfileStream()));
+              },
+              child: IconButton(
+                icon: const Icon(Icons.edit),
+                tooltip: 'edit your name',
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => EditProfileStream()));
+                    // TextEditingController userNameTextEditingController =
+                    //     new TextEditingController();
+                    // TextFormField(
+                    //   controller: userNameTextEditingController,
+                    //   keyboardType: TextInputType.name,
+                    //   onChanged: (value) {
+                    //     value =  FirebaseAuth.instance.currentUser.displayName;
+                },
+              ),
+
+              // DocumentSnapshot documentSnapshot =
+              //     await FirebaseFirestore.instance
+              //         .collection('user_data')
+              //         .doc('username')
+              //         .get();
+              //  FirebaseAuth.instance.currentUser.updateProfile(
+              //   displayName: userNameTextEditingController.text.trim());
+              //displayName:
+              //  userNameTextEditingController.text
+              //     .trim());
             ),
           ],
         ),

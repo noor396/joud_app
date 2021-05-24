@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:joud_app/Authentication/login.dart';
 import 'package:joud_app/Authentication/userauth.dart';
+import 'package:joud_app/test/modal/users.dart';
 import '../lang/language_provider.dart';
 import 'package:provider/provider.dart';
 import '../screens/update_profile_screen.dart';
@@ -163,17 +165,38 @@ class _MainDrawerState extends State<MainDrawer> {
                     ),
                   ),
                   onPressed: () {
-                    FirebaseAuth.instance.currentUser.delete().then((value) {
-                      Navigator.pop(context);
-                      Route route =
-                          MaterialPageRoute(builder: (c) => UserAuth());
-                      Navigator.pushReplacement(context, route);
-                    }).catchError((e) {
+                    // added by Nefal **
+                    FirebaseFirestore.instance.doc('users').delete();
+                    CollectionReference c =
+                        FirebaseFirestore.instance.collection('users');
+                    c
+                        .doc(Users.userUId)
+                        .delete()
+                        .then((value) => {
+                              //       //Navigator.pop(context)
+                              // Route route =
+                              //     MaterialPageRoute(builder: (c) => UserAuth());
+                              Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(builder: (c) => UserAuth()),
+                              ),
+                            })
+                        .catchError((e) {
                       print(e);
                     });
                   },
                 );
               }),
+
+              // Uuid().v4()
+              //FirebaseAuth.instance.currentUser.delete();
+              //  FirebaseAuth.instance.currentUser.delete().then((value) {
+
+              // FirebaseAuth.instance.currentUser.delete().then((value) {
+              //   Navigator.pop(context);
+              //   Route route =
+              //       MaterialPageRoute(builder: (c) => UserAuth());
+              //   Navigator.pushReplacement(context, route);
               Divider(
                 color: Colors.black12,
               ),
