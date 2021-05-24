@@ -7,15 +7,17 @@ import 'package:joud_app/screens/Profile_post_stream.dart';
 import 'package:joud_app/screens/update_profile_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../test/helper/constants.dart';
+
 class ProfileScreen extends StatefulWidget {
   static const routeName = '/profile';
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
-  ProfileScreen(this.id, this.imageUrl, this.userName, {this.key});
+  ProfileScreen(this.id, this.imageUrl, this.username, {this.key});
 
   final String id;
   final String imageUrl;
-  final String userName;
+  final String username;
   final Key key;
 }
 
@@ -81,7 +83,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     });
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('posts')
-        .where('ownerId', isEqualTo: user.uid)
+        .where('ownerId', isEqualTo: widget.id)
         .orderBy('timestamp', descending: true)
         .get();
 
@@ -169,7 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   buildProfileButton(lan) {
-    bool isProfileOwner = user.uid == widget.id;
+    bool isProfileOwner = Constants.myName == widget.username;
     if (isProfileOwner) {
       return buildButton(text: lan.getTexts('Profile4'), function: editProfile);
     } else if (isFollowing) {
@@ -312,7 +314,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   lan.isEn ? Alignment.centerLeft : Alignment.centerRight,
               padding: EdgeInsets.only(top: 12.0),
               child: Text(
-                widget.userName,
+                widget.username,
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16.0,
@@ -328,7 +330,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   buildHeaderData() {
-    bool isProfileOwner = user.uid == widget.id;
+    bool isProfileOwner = Constants.myName == widget.username;
     if (isProfileOwner) {
       return Row(
         mainAxisSize: MainAxisSize.max,
@@ -353,14 +355,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   buildProfilePosts(lan) {
-    bool isProfileOwner = user.uid == widget.id;
+    bool isProfileOwner = Constants.myName == widget.username;
     if (isProfileOwner) {
-      return ProfilePostStream();
+      return ProfilePostStream(widget.id);
     } else {
       return Directionality(
           textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
           child: OtherProfilePostStream(
-              widget.id)); //Center(child: Text("No Posts"));
+              widget.id)); //Center(child: Text("No Posts")
+      // ));
     }
   }
 

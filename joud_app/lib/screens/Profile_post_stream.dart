@@ -7,6 +7,8 @@ class ProfilePostStream extends StatefulWidget {
   @override
   _ProfilePostStreamState createState() => _ProfilePostStreamState();
   static const routeName = '/profilepoststream';
+  ProfilePostStream(this.id);
+  final String id;
 }
 
 class _ProfilePostStreamState extends State<ProfilePostStream> {
@@ -16,7 +18,7 @@ class _ProfilePostStreamState extends State<ProfilePostStream> {
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance
           .collection('posts')
-          .where('ownerId', isEqualTo: user.uid)
+          .where('ownerId', isEqualTo: widget.id)
           .orderBy('timestamp', descending: true)
           .snapshots(), // after executing stream the below snapShot fetches the data
       builder: (ctx, snapShot) {

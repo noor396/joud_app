@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:joud_app/lang/language_provider.dart';
+import '../screens/map_screen.dart';
 import 'package:joud_app/screens/post_stream.dart';
 import 'package:joud_app/screens/profile_stream.dart';
 import 'package:provider/provider.dart';
+import '../test/views/chatRooms.dart';
+import '../test/views/search.dart';
 import '../widgets/main_drawer.dart';
 import '../screens/home_screen.dart';
-import '../screens/profile_screen.dart';
-import '../screens/search_screen.dart';
-import '../screens/chat_screen.dart';
-import '../main.dart';
-import '../screens/map_screen.dart';
-import '../screens/post_screen.dart';
 
 class TabsScreen extends StatefulWidget {
   static const routeName = '/tab';
@@ -49,11 +46,11 @@ class _TabsScreenState extends State<TabsScreen> {
         'title': lan.getTexts('tab_item2'),
       },
       {
-        'page': SearchScreen(),
+        'page': Search(),
         'title': lan.getTexts('tab_item3'),
       },
       {
-        'page': ChatScreen(),
+        'page': ChatRoom(),
         'title': lan.getTexts('tab_item4'),
       },
       {

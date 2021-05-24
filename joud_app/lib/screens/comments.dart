@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:joud_app/Authentication/userAuth.dart';
-import 'package:joud_app/Widgets/progress.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/screens/profile_screen.dart';
-//import 'package:joud_app/widgets/progress.dart';
+import 'package:joud_app/widgets/progress.dart';
 import 'package:joud_app/widgets/tabs_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:time_ago_provider/time_ago_provider.dart' as timeAgo;
@@ -42,7 +41,7 @@ class CommentsState extends State<Comments> {
   final String postMediaUrl;
   final String postUserName;
   final String postImageUrl;
-  DateTime timestamp;
+  final DateTime timestamp = DateTime.now();
 
   CommentsState({
     this.postId,

@@ -6,18 +6,21 @@ import 'package:joud_app/test/services/database.dart';
 import 'package:joud_app/test/views/conversation.dart';
 import 'package:joud_app/test/views/search.dart';
 import 'package:joud_app/widgets/widget.dart';
+import 'package:provider/provider.dart';
+
+import '../../lang/language_provider.dart';
 
 class ChatRoom extends StatefulWidget {
   @override
   _ChatRoomState createState() => _ChatRoomState();
 
-  // ChatRoom(this.message, this.sender, this.receiver, this.time,
-  //     {this.key});
-  // final String message;
-  // final String sender;
-  // final String receiver;
-  // final DateTime time;
-  // final Key key;
+  /*ChatRoom(this.message, this.sender, this.receiver, this.time,
+      {this.key});
+  final String message;
+  final String sender;
+  final String receiver;
+  final DateTime time;
+  final Key key;*/
 }
 
 class _ChatRoomState extends State<ChatRoom> {
@@ -42,6 +45,7 @@ class _ChatRoomState extends State<ChatRoom> {
                         .replaceAll("_", "")
                         .replaceAll(Constants.myName, ""),
                     chatRoomId: snapshot.data.docs[index].data()["chatRoomId"],
+                    chatImage: snapshot.data.docs[index].data()["chatImage"],
                     //  message: snapshot.data.docs[index].data()["chats"[0]],
                   );
                 })
@@ -69,63 +73,67 @@ class _ChatRoomState extends State<ChatRoom> {
 
   @override
   Widget build(BuildContext context) {
+    var lan = Provider.of<LanguageProvider>(context, listen: true);
     return Scaffold(
-      appBar: appBarCustomBackLogoutBtn(context),
-      body: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.only(top: 10),
-            child: Column(
-              children: [
-                Center(
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Search()));
-                    },
-                    child: Container(
-                      width: 340,
-                      height: 50,
-                      decoration: new BoxDecoration(
-                        borderRadius: new BorderRadius.circular(30.0),
-                        gradient: LinearGradient(colors: [
-                          //Brownish Fading
-                          const Color.fromRGBO(215, 204, 200, 1.5),
-                          const Color.fromRGBO(215, 204, 200, 1.5),
-                        ]),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        children: [
-                          Expanded(
-                            child: Text(
-                              'Search...',
-                              style: TextStyle(
-                                  fontSize: 16, color: Colors.black54),
+      //appBar: appBarCustomBackLogoutBtn(context),
+      body: Directionality(
+        textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.only(top: 25),
+              child: Column(
+                children: [
+                  Center(
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) => Search()));
+                      },
+                      child: Container(
+                        width: 340,
+                        height: 50,
+                        decoration: new BoxDecoration(
+                          borderRadius: new BorderRadius.circular(30.0),
+                          gradient: LinearGradient(colors: [
+                            //Brownish Fading
+                            const Color.fromRGBO(215, 204, 200, 1.5),
+                            const Color.fromRGBO(215, 204, 200, 1.5),
+                          ]),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(
+                                lan.getTexts('Chat_Search'),
+                                style: TextStyle(
+                                    fontSize: 16, color: Colors.black54),
+                              ),
                             ),
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              // initiateSearch();
-                            },
-                            child: IconButton(
-                              icon: Icon(Icons.search),
-                              iconSize: 28.0,
-                              color: Colors.black54,
-                              onPressed: null,
+                            GestureDetector(
+                              onTap: () {
+                                // initiateSearch();
+                              },
+                              child: IconButton(
+                                icon: Icon(Icons.search),
+                                iconSize: 28.0,
+                                color: Colors.black54,
+                                onPressed: null,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                //  searchList(),
-              ],
+                  //  searchList(),
+                ],
+              ),
             ),
-          ),
-          Container(color: Colors.blue, child: chatRoomList()),
-        ],
+            Container(color: Colors.blue, child: chatRoomList()),
+          ],
+        ),
       ),
 
       // floatingActionButton: FloatingActionButton(
@@ -143,9 +151,9 @@ class _ChatRoomState extends State<ChatRoom> {
 class chatRoomTile extends StatelessWidget {
   final String userName;
   final String chatRoomId;
-  final String message; // not final
+  final String chatImage;
 
-  chatRoomTile({this.userName, this.chatRoomId, this.message});
+  chatRoomTile({this.userName, this.chatRoomId, this.chatImage});
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +163,7 @@ class chatRoomTile extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (context) =>
-                    ConversationScreen(chatRoomId, userName)));
+                    ConversationScreen(chatRoomId, userName, chatImage)));
       },
       child: SingleChildScrollView(
         child: Container(
@@ -166,19 +174,26 @@ class chatRoomTile extends StatelessWidget {
               Row(
                 children: [
                   Container(
-                    height: 35,
-                    width: 35,
+                    //height: 35,
+                    //width: 35,
                     alignment: Alignment.center,
-                    decoration: BoxDecoration(
+                    /*decoration: BoxDecoration(
                         color: Colors.lightGreen,
-                        borderRadius: BorderRadius.circular(35)),
-                    child: Text(userName.substring(0, 1),
+                        borderRadius: BorderRadius.circular(35)),*/
+                    child: CircleAvatar(
+                      radius: 24.0,
+                      backgroundColor: Colors.grey,
+                      backgroundImage: (chatImage == null)
+                          ? AssetImage('assets/blank-profile-picture.png')
+                          : NetworkImage(chatImage),
+                    ),
+                    /*Text(userName.substring(0, 1),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 16,
                             fontFamily: 'OverpassRegular',
-                            fontWeight: FontWeight.w300)),
+                            fontWeight: FontWeight.w300)),*/
                   ),
                   SizedBox(
                     width: 10,

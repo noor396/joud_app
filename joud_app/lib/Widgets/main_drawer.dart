@@ -11,6 +11,10 @@ import '../screens/statistics_screen.dart';
 import 'dart:io';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../test/helper/authenticate.dart';
+import '../test/helper/authenticate.dart';
+import '../test/services/auth.dart';
+
 class MainDrawer extends StatefulWidget {
   //static const routeName = '/drawer';
   @override
@@ -50,6 +54,7 @@ class _MainDrawerState extends State<MainDrawer> {
   @override
   Widget build(BuildContext context) {
     var lan = Provider.of<LanguageProvider>(context, listen: true);
+    AuthMethods authMethods = new AuthMethods();
     return Directionality(
       textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
       child: Drawer(
@@ -93,20 +98,14 @@ class _MainDrawerState extends State<MainDrawer> {
                     )),
               ),
               bulidListTile(lan.getTexts('drawer_item2'), Icons.sync, () {
-                Navigator.of(context).pushNamed(updateProfile.routeName);
+                Navigator.of(context)
+                    .pushReplacementNamed(updateProfile.routeName);
               }),
               Divider(
                 color: Colors.black12,
               ),
-              /*  bulidListTile(lan.getTexts('drawer_item3'), Icons.history, () {
-                Navigator.of(context).pushNamed(HistoryScreen.routeName);
-              }),
-              Divider(
-                color: Colors.black12,
-              ),*/
-              bulidListTile(lan.getTexts('drawer_item3'), Icons.translate, () {
-                /* Navigator.of(context).pushNamed(LanguageScreen.routeName);*/
-              }),
+              bulidListTile(
+                  lan.getTexts('drawer_item3'), Icons.translate, () {}),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -133,7 +132,8 @@ class _MainDrawerState extends State<MainDrawer> {
               ),
               bulidListTile(
                   lan.getTexts('drawer_item5'), Icons.bar_chart_outlined, () {
-                Navigator.of(context).pushNamed(StatisticsScreen.routeName);
+                Navigator.of(context)
+                    .pushReplacementNamed(StatisticsScreen.routeName);
               }),
               Divider(
                 color: Colors.black12,
@@ -173,31 +173,33 @@ class _MainDrawerState extends State<MainDrawer> {
                     });
                   },
                 );
-
-                // Navigator.of(context).pushNamed(DeleteAccountScreen.routeName);
               }),
               Divider(
                 color: Colors.black12,
               ),
               bulidListTile(
                   lan.getTexts('drawer_item7'), FontAwesomeIcons.questionCircle,
-                  /*IconData(0xf29c, fontFamily:'_kFontFam')*/
                   () {
-                Navigator.of(context).pushNamed(AboutScreen.routeName);
+                Navigator.of(context)
+                    .pushReplacementNamed(AboutScreen.routeName);
               }),
               Divider(
                 color: Colors.black12,
               ),
               bulidListTile(lan.getTexts('drawer_item8'), Icons.logout, () {
                 // Navigator.of(context).pushNamed(SignOutScreen.routeName);
-                FirebaseAuth.instance.signOut().then((value) {
-                  Navigator.of(context).pushReplacementNamed('/LoginSc');
-                  Navigator.pop(context);
-                  Route route = MaterialPageRoute(builder: (c) => UserAuth());
+                authMethods.signOut();
+                // when we sign out we don't want the user to be able to go back to the chat screen so we used pushReplacement
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => Authenticate()));
+                /* FirebaseAuth.instance.signOut().then((value) {
+                  Navigator.of(context).pushReplacementNamed('/LoginSc');*/
+                //Navigator.pop(context);
+                /*Route route = MaterialPageRoute(builder: (c) => UserAuth());
                   Navigator.pushReplacement(context, route);
                 }).catchError((e) {
                   print(e);
-                });
+                });*/
               }),
               Divider(
                 color: Colors.black12,

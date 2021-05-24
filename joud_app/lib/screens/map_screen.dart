@@ -118,13 +118,13 @@
 //   }
 // }
 
-
-
 import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:geocoder/geocoder.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:joud_app/lang/language_provider.dart';
+import 'package:provider/provider.dart';
 
 class MapScreen extends StatefulWidget {
   @override
@@ -189,47 +189,45 @@ class _MapState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var lan = Provider.of<LanguageProvider>(context, listen: true);
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Google Map'),
-          //shadowColor: Colors.green,
-          //backgroundColor: Colors.green,
-        ),
-        body: Stack(
-          children: [
-            GoogleMap(
-              myLocationButtonEnabled: true,
-              initialCameraPosition: CameraPosition(
-                  target: LatLng(31.963158, 35.930359), zoom: 11),
-              myLocationEnabled: true,
-              zoomGesturesEnabled: true,
-              zoomControlsEnabled: true,
-              onMapCreated: (GoogleMapController controlar) {
-                googleMapControlar = controlar;
-                //locatePosition();
-                setState(() {
-                  mmarkers.add(
-                    Marker(
-                      markerId: MarkerId('1'),
-                      position: LatLng(31.963158, 35.930359),
-                      // icon: customMarker,
-                    ),
-                  );
+        body: Directionality(
+      textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
+      child: Stack(
+        children: [
+          GoogleMap(
+            myLocationButtonEnabled: true,
+            initialCameraPosition:
+                CameraPosition(target: LatLng(31.963158, 35.930359), zoom: 11),
+            myLocationEnabled: true,
+            zoomGesturesEnabled: true,
+            zoomControlsEnabled: true,
+            onMapCreated: (GoogleMapController controlar) {
+              googleMapControlar = controlar;
+              //locatePosition();
+              setState(() {
+                mmarkers.add(
+                  Marker(
+                    markerId: MarkerId('1'),
+                    position: LatLng(31.963158, 35.930359),
+                    // icon: customMarker,
+                  ),
+                );
 
-                  googleMapControlar = controlar;
-                  locatePosition();
-                });
-              },
-              markers: mmarkers,
-            ),
-            // if we would like to add pic for example the app logo or pic
-            // Container(child: Image.asset(name),)
-            Container(
-              child: Text('welcome To JOUD'),
-              alignment: Alignment.bottomCenter,
-            )
-          ],
-        ));
+                googleMapControlar = controlar;
+                locatePosition();
+              });
+            },
+            markers: mmarkers,
+          ),
+          // if we would like to add pic for example the app logo or pic
+          // Container(child: Image.asset(name),)
+          Container(
+            child: Text(lan.getTexts('Map_screen_sentence')),
+            alignment: Alignment.bottomCenter,
+          )
+        ],
+      ),
+    ));
   }
 }
-

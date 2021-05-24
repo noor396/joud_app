@@ -137,6 +137,8 @@ class LanguageProvider with ChangeNotifier {
         "تم ارسال بريد الكتروني لإعادة ادخال كلمة سر جديده .... ما عرفت ايش اكتب ف كتبت هيك و بعدين بنعدل ^^",
     "rest_text5": "إعادة تعيين",
     "rest_text6": "الرجوع للخلف",
+    "Chat_Search": "بحث...",
+    "Conversation": "أرسل رسالة...",
   };
 
   Map<String, Object> textsEn = {
@@ -274,6 +276,8 @@ class LanguageProvider with ChangeNotifier {
         "تم ارسال بريد الكتروني لإعادة ادخال كلمة سر جديده .... ما عرفت ايش اكتب ف كتبت هيك و بعدين بنعدل ^^",
     "rest_text5": "RESET",
     "rest_text6": "Go back",
+    "Chat_Search": "Search...",
+    "Conversation": "Send a message...",
   };
 
   changeLan(bool lan) async {

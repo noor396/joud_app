@@ -1,15 +1,22 @@
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:joud_app/Widgets/tabs_screen.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/screens/update_profile_screen.dart';
 import 'package:joud_app/test/helper/sharedPreferences.dart';
+import 'package:joud_app/test/modal/users.dart';
 import 'package:joud_app/test/services/auth.dart';
 import 'package:joud_app/test/services/database.dart';
 import 'package:joud_app/Widgets/userImagePicker.dart';
 import 'package:joud_app/Widgets/widget.dart';
 import 'package:joud_app/test/views/rest.dart';
+import 'package:joud_app/widgets/tabs_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../screens/joudApp.dart';
+import '../helper/constants.dart';
 
 class Signup extends StatefulWidget {
   final Function toggle;
@@ -26,11 +33,12 @@ class _SignupState extends State<Signup> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
 
   File userImageFile;
-
   void addedImage(File pickedImage) {
     userImageFile = pickedImage;
   }
 
+  String imageId = Uuid().v4();
+  String userId = Uuid().v4();
   final formKey = GlobalKey<FormState>();
   TextEditingController emailTextEditingController =
       new TextEditingController();
@@ -40,8 +48,9 @@ class _SignupState extends State<Signup> {
       new TextEditingController();
   TextEditingController _firstName = new TextEditingController();
   TextEditingController _lastName = new TextEditingController();
+  final DateTime timestamp = DateTime.now();
 
-  signUpBtn() {
+  signUpBtn() async {
     if (userImageFile == null) {
       final snackBar = SnackBar(
           content: Text("Please upload an image ! "), //  "signup_msg1"
@@ -49,13 +58,25 @@ class _SignupState extends State<Signup> {
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       return;
     }
+
+    final imageRef = FirebaseStorage.instance
+        .ref()
+        .child('userImage')
+        .child("$imageId.jpg"); // all camera pictures have this extension
+    await imageRef.putFile(userImageFile);
+    final imageUrl = await imageRef.getDownloadURL();
     //FirebaseAuth.instance.currentUser.displayName.
+    final user = FirebaseAuth.instance.currentUser;
+
     if (formKey.currentState.validate()) {
-      Map<String, String> userInfoMap = {
+      Map<String, dynamic> userInfoMap = {
         'username': userNameTextEditingController.text,
         'email': emailTextEditingController.text,
         'firstname': _firstName.text,
         'lastname': _lastName.text,
+        'imageUrl': imageUrl,
+        'timestamp': timestamp,
+        'id': userId,
       };
 
       SharedPreferencesFunctions.saveUserEmailSharedPreference(
@@ -70,18 +91,19 @@ class _SignupState extends State<Signup> {
       //1
       authMethods
           .createUser(
-              _firstName.text,
-              _lastName.text,
-              emailTextEditingController.text,
-              passwordTextEditingController.text)
+        _firstName.text,
+        _lastName.text,
+        emailTextEditingController.text,
+        passwordTextEditingController.text,
+      )
           .then((value) {
-        databaseMethods.uploadUserInfo(userInfoMap);
+        databaseMethods.uploadUserInfo(userInfoMap, userId);
         SharedPreferencesFunctions.saveUserLoggedInSharedPreference(
             true); // the user will be loggen in here so we have to save his state
         Navigator.pushReplacement(
-            context, MaterialPageRoute(builder: (context) => updateProfile()));
+            context, MaterialPageRoute(builder: (context) => TabsScreen()));
       });
-
+/**************************************************************************/
       //2
       // authMethods
       //     .signUpWithEmailAndPassword(emailTextEditingController.text,

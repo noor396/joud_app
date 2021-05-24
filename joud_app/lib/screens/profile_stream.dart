@@ -28,7 +28,7 @@ class _ProfileStreamState extends State<ProfileStream> {
           itemBuilder: (ctx, index) => ProfileScreen(
             docs[index]['id'],
             docs[index]['imageUrl'],
-            docs[index]['userName'],
+            docs[index]['username'],
             key: ValueKey(snapShot.data.docs[index]),
           ),
         );

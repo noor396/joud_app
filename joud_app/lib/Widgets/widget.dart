@@ -8,7 +8,7 @@ Widget appBarCustom(BuildContext context) {
       'JOUD',
       style: TextStyle(color: Colors.black54),
     ),
-    backgroundColor: Color.fromRGBO(240, 244, 195, 1),
+    backgroundColor: Color.fromRGBO(230, 238, 156, 1.0),
   );
 }
 
@@ -32,7 +32,8 @@ Widget appBarCustomBackBtn(BuildContext context, String text) {
   );
 }
 
-Widget appBarCustomBackBtnReceiverImage(BuildContext context, String text) {
+Widget appBarCustomBackBtnReceiverImage(
+    BuildContext context, String text, String image) {
   return AppBar(
     leading: IconButton(
       icon: Icon(Icons.arrow_back_ios_rounded),
@@ -40,18 +41,23 @@ Widget appBarCustomBackBtnReceiverImage(BuildContext context, String text) {
       color: Colors.black54,
       onPressed: () => Navigator.pop(context, false),
     ),
-    backgroundColor: Color.fromRGBO(240, 244, 195, 1.0),
+    backgroundColor: Color.fromRGBO(230, 238, 156, 1.0),
     titleSpacing: 0,
     title: Row(
       children: [
         Container(
-          height: 35,
-          width: 35,
+          //height: 35,
+          // width: 35,
           padding: EdgeInsets.only(right: 8),
           margin: EdgeInsets.only(right: 8),
-          decoration: BoxDecoration(
+          child: CircleAvatar(
+            radius: 22.0,
+            backgroundColor: Colors.grey,
+            backgroundImage: NetworkImage(image),
+          ),
+          /*decoration: BoxDecoration(
               color: Colors.lightGreen,
-              borderRadius: BorderRadius.circular(35)),
+              borderRadius: BorderRadius.circular(35)),*/
         ),
         Text(
           '$text',
@@ -75,7 +81,7 @@ Widget appBarCustomBackLogoutBtn(BuildContext context) {
       color: Colors.black54,
       onPressed: () => Navigator.pop(context, false),
     ),
-    backgroundColor: Color.fromRGBO(240, 244, 195, 1.0),
+    backgroundColor: Color.fromRGBO(230, 238, 156, 1.0),
     title: Text(
       'Chat',
       style: TextStyle(
