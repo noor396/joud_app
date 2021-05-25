@@ -50,12 +50,12 @@ Uses Material Design components for a beautiful, consistent design.
 Liana Zahran, Nefal Mohammad and Rama Irsheidat.
 
 ## 📸 Screenshots
-<img src="./screenshots/Screenshot_20200714-134549.jpg" width="30%" height="30%">&ensp;<img src="./screenshots/Screenshot_20200714-134838.jpg" width="30%" height="30%">&ensp;<img src="./screenshots/Screenshot_20200714-134845.jpg" width="30%" height="30%">&ensp;
+<img src="./assets/1.jpg" width="30%" height="30%">&ensp;<img src="./assets/2.jpg" width="30%" height="30%">&ensp;<img src="./assets/3.jpg" width="30%" height="30%">&ensp;
 ------
-<img src="./screenshots/Screenshot_20200714-134857_Android System.jpg" width="30%" height="30%">&ensp;<img src="./screenshots/Screenshot_20200714-134915_Messages.jpg" width="30%" height="30%">&ensp;<img src="./screenshots/_reply_apple_screenshot_1.png" width="30%" height="30%">&ensp;
+<img src="./assets/4.jpg" width="30%" height="30%">&ensp;<img src="./assets/5.jpg" width="30%" height="30%">&ensp;<img src="./assets/6.png" width="30%" height="30%">&ensp;
 ------
-<img src="./screenshots/_reply_apple_screenshot_2.png" width="30%" height="30%">&ensp;<img src="./screenshots/_reply_apple_screenshot_3.png" width="30%" height="30%">&ensp;
-<img src="./screenshots/_reply_apple_screenshot_4.png" width="30%" height="30%">&ensp;
+<img src="./assets/7.png" width="30%" height="30%">&ensp;<img src="./assets/8.png" width="30%" height="30%">&ensp;
+
    
    
     
