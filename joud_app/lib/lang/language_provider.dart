@@ -137,6 +137,10 @@ class LanguageProvider with ChangeNotifier {
         "تم ارسال بريد الكتروني لإعادة ادخال كلمة سر جديده .... ما عرفت ايش اكتب ف كتبت هيك و بعدين بنعدل ^^",
     "rest_text5": "إعادة تعيين",
     "rest_text6": "الرجوع للخلف",
+    "edit1":"          تعديل          ",
+    "edit2":"  تسجيل خروج  ",
+    "edit4":"تم تغيير اسم المستخدم بنجاح",
+    "edit3":"تعدبل الملف الشخصي",
     "Chat_Search": "بحث...",
     "Conversation": "أرسل رسالة...",
   };
@@ -276,6 +280,10 @@ class LanguageProvider with ChangeNotifier {
         "تم ارسال بريد الكتروني لإعادة ادخال كلمة سر جديده .... ما عرفت ايش اكتب ف كتبت هيك و بعدين بنعدل ^^",
     "rest_text5": "RESET",
     "rest_text6": "Go back",
+    "edit1":"          Update          ",
+    "edit2":"  Log Out  ",
+    "edit3":"Edit Profile",
+    "edit4":"Name Updated Successfully ! ",
     "Chat_Search": "Search...",
     "Conversation": "Send a message...",
   };

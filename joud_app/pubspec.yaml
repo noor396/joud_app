@@ -60,7 +60,7 @@ dependencies:
   geocoding: ^1.0.3
   image: ^2.0.0
   #integration_test: ^1.0.2+3
-  upgrader: ^3.3.0
+  #upgrader: ^3.3.0
 
 dev_dependencies:
   flutter_test:

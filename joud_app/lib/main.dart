@@ -4,7 +4,6 @@ import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/screens/map_screen.dart';
 import 'package:joud_app/screens/map_using_google.dart';
 import 'package:joud_app/screens/update_profile_screen.dart';
-import 'package:joud_app/test/views/sign_out_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'screens/home_screen.dart';
@@ -63,15 +62,15 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/',
       routes: {
         '/': (context) => //MapScreen() ,//SignOutScreen(), MapPage() ,//
-            isLoggedIn != null
-                ? isLoggedIn
-                    ? SignOutScreen()
-                    : updateProfile()
-                : Container(
-                    child: Center(
-                      child: HomeScreen(),
-                    ),
-                  ),
+         //   isLoggedIn != null
+                //? isLoggedIn
+                //    ? //SignOutScreen()                    :
+                     updateProfile(),
+      //           Container(
+      //               child: Center(
+      //                 child: HomeScreen(),
+      //               ),
+      //             ),
       },
     );
   }
