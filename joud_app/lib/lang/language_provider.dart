@@ -141,6 +141,7 @@ class LanguageProvider with ChangeNotifier {
     "edit2":"  تسجيل خروج  ",
     "edit4":"تم تغيير اسم المستخدم بنجاح",
     "edit3":"تعدبل الملف الشخصي",
+    "edit5":"اسم المستخدم",
     "Chat_Search": "بحث...",
     "Conversation": "أرسل رسالة...",
   };
@@ -284,6 +285,7 @@ class LanguageProvider with ChangeNotifier {
     "edit2":"  Log Out  ",
     "edit3":"Edit Profile",
     "edit4":"Name Updated Successfully ! ",
+    "edit5":"Profile Name",
     "Chat_Search": "Search...",
     "Conversation": "Send a message...",
   };
