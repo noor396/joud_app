@@ -168,7 +168,7 @@ class chatRoomTile extends StatelessWidget {
       child: SingleChildScrollView(
         child: Container(
           color: Color.fromRGBO(255, 255, 246, 1),
-          padding: EdgeInsets.symmetric(horizontal: 24, vertical: 15),
+          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 15),
           child: Column(
             children: [
               Row(

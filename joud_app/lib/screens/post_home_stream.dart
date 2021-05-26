@@ -36,7 +36,7 @@ class _PostHomeStreamState extends State<PostHomeStream> {
             docs[index]['mediaUrl'],
             docs[index]['description'],
             docs[index]['location'],
-            docs[index]['timestamp'].toDate(),
+            docs[index]['timestamp'],
             key: ValueKey(snapShot.data.docs[index]),
           ),
         );

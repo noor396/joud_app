@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:joud_app/Widgets/tabs_screen.dart';
 import 'package:joud_app/test/views/rest.dart';
 import 'package:joud_app/screens/home_screen.dart';
 import 'package:joud_app/Widgets/userImagePicker.dart';
@@ -121,7 +122,7 @@ class _LoginPageState extends State<LoginSc> {
 
           SizedBox(height: 25.0),
 
-          if (!loggedIn) UserImagePicker(pickedImageFun),
+          // if (!loggedIn) UserImagePicker(pickedImageFun),
           TextFormField(
               decoration: InputDecoration(
                   labelText: 'EMAIL',
@@ -202,7 +203,7 @@ class _LoginPageState extends State<LoginSc> {
                 //     MaterialPageRoute(builder: (context) => phoneP()));
 
                 Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => HomeScreen()));
+                    MaterialPageRoute(builder: (context) => TabsScreen()));
               },
               child: Container(
                   alignment: Alignment(1.0, 0.0),

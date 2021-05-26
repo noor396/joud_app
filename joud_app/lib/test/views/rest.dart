@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:joud_app/Authentication/_auth_serv.dart';
 import 'package:joud_app/Widgets/tabs_screen.dart';
 import 'package:joud_app/lang/language_provider.dart';
+import 'package:joud_app/test/helper/authenticate.dart';
 import 'package:provider/provider.dart';
-
 
 class ResetPassword extends StatefulWidget {
   @override
@@ -42,40 +42,33 @@ class _ResetPasswordState extends State<ResetPassword> {
   Widget build(BuildContext context) {
     var lan = Provider.of<LanguageProvider>(context, listen: true);
     return Directionality(
-      textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(
-          leading: Padding(
-            padding: EdgeInsets.only(left: 1),
-            child:Row(
-              children: [
-                IconButton(
+        textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
+        child: Scaffold(
+            appBar: AppBar(
+              leading: Padding(
+                  padding: EdgeInsets.only(left: 1),
+                  child: Row(
+                    children: [
+                      /*  IconButton(
                   onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(
-                        builder: (context) => TabsScreen()));
+                    Navigator.pushReplacement(context, MaterialPageRoute(
+                        builder: (context) =>  Authenticate()));
                   },
                   icon:Icon(Icons.arrow_back_ios,color: Colors.black,),
-          ),
-
-              ],
-            )
-          ),
-          title: Text(
-            lan.getTexts('rest_text1'), //'Rest Password',
-            style: TextStyle(color: Colors.black),
-          ),
-          backgroundColor: Color.fromRGBO(230, 238, 156, 1.0),
-          centerTitle: true,
-        ),
-         
-        body: Container(
-            height: MediaQuery.of(context).size.height,
-            width: MediaQuery.of(context).size.width,
-            child: Form(key: formKey, child: _buildResetForm())
-            
-      )
-    )
-    );
+          ),*/
+                    ],
+                  )),
+              title: Text(
+                lan.getTexts('rest_text1'), //'Rest Password',
+                style: TextStyle(color: Colors.black),
+              ),
+              backgroundColor: Color.fromRGBO(230, 238, 156, 1.0),
+              centerTitle: true,
+            ),
+            body: Container(
+                height: MediaQuery.of(context).size.height,
+                width: MediaQuery.of(context).size.width,
+                child: Form(key: formKey, child: _buildResetForm()))));
   }
 
   _buildResetForm() {
@@ -85,7 +78,7 @@ class _ResetPasswordState extends State<ResetPassword> {
         child: ListView(children: [
           SizedBox(height: 75.0),
           Container(
-             alignment: Alignment.bottomCenter,
+              alignment: Alignment.bottomCenter,
               height: 125.0,
               width: 200.0,
               child: Stack(
@@ -96,7 +89,7 @@ class _ResetPasswordState extends State<ResetPassword> {
           SizedBox(height: 25.0),
           TextFormField(
               decoration: InputDecoration(
-                  labelText: lan.getTexts('rest_text2'),//'EMAIL',
+                  labelText: lan.getTexts('rest_text2'), //'EMAIL',
                   labelStyle: TextStyle(
                       fontFamily: 'Trueno',
                       fontSize: 12.0,
@@ -107,16 +100,17 @@ class _ResetPasswordState extends State<ResetPassword> {
               onChanged: (value) {
                 this.email = value;
               },
-              validator: (value) =>
-                  value.isEmpty ?  lan.getTexts('rest_text3') //'Email is required' 
+              validator: (value) => value.isEmpty
+                  ? lan.getTexts('rest_text3') //'Email is required'
                   : validateEmail(value)),
           SizedBox(height: 50.0),
           GestureDetector(
             onTap: () {
               if (checkFields()) AuthService().resetPasswordLink(email);
-              final snackBar = SnackBar(content: Text(lan.getTexts('rest_test4')
-                //'تم ارسال بريد الكتروني لإعادة ادخال كلمة سر جديده .... ما عرفت ايش اكتب ف كتبت هيك و بعدين بنعدل ^^'
-                ));
+              final snackBar = SnackBar(
+                  content: Text(lan.getTexts('rest_test4')
+                      //'تم ارسال بريد الكتروني لإعادة ادخال كلمة سر جديده .... ما عرفت ايش اكتب ف كتبت هيك و بعدين بنعدل ^^'
+                      ));
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
               Navigator.of(context).pop();
             },
@@ -124,11 +118,11 @@ class _ResetPasswordState extends State<ResetPassword> {
                 height: 50.0,
                 child: Material(
                     borderRadius: BorderRadius.circular(25.0),
-                  //  shadowColor: Colors.greenAccent,
+                    //  shadowColor: Colors.greenAccent,
                     color: Color.fromRGBO(215, 204, 200, 1.0),
                     elevation: 7.0,
                     child: Center(
-                        child: Text( lan.getTexts('rest_text5'),//'RESET',
+                        child: Text(lan.getTexts('rest_text5'), //'RESET',
                             style: TextStyle(
                                 color: Colors.black, fontFamily: 'Trueno'))))),
           ),
@@ -138,9 +132,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                 onTap: () {
                   Navigator.of(context).pop();
                 },
-                child: Text( lan.getTexts('rest_text6'),//'Go back',
+                child: Text(lan.getTexts('rest_text6'), //'Go back',
                     style: TextStyle(
-                       color: Colors.teal,
+                        color: Colors.teal,
                         fontFamily: 'Trueno',
                         decoration: TextDecoration.underline)))
           ])

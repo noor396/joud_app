@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:joud_app/Authentication/userauth.dart';
+import 'package:joud_app/Widgets/tabs_screen.dart';
 import 'package:joud_app/screens/home_screen.dart';
 
 class AuthService {
@@ -11,7 +12,7 @@ class AuthService {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (BuildContext context, snapshot) {
           if (snapshot.hasData) {
-            return HomeScreen();
+            return TabsScreen();
           } else {
             return UserAuth();
           }
@@ -29,7 +30,6 @@ class AuthService {
   }
 
   signInWithOTP(smsCode, verId) {
-
     AuthCredential authCreds =
         PhoneAuthProvider.credential(verificationId: verId, smsCode: smsCode);
     signIn(authCreds);

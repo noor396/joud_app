@@ -12,14 +12,15 @@ import 'package:joud_app/test/helper/authenticate.dart';
 import 'package:uuid/uuid.dart';
 
 class EditProfilePage extends StatefulWidget {
-  EditProfilePage(this.id,  this.username, {this.key});
+  EditProfilePage(this.id, this.username, {this.key});
   final String id;
- // final String imageUrl;
+  // final String imageUrl;
   final String username;
   final Key key;
 
   @override
   _EditProfilePage createState() => _EditProfilePage();
+  static const routeName = '/editprofile';
 }
 
 class _EditProfilePage extends State<EditProfilePage> {
@@ -104,6 +105,7 @@ class _EditProfilePage extends State<EditProfilePage> {
         backgroundColor: Color.fromRGBO(127, 0, 0, 1));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,14 +124,14 @@ class _EditProfilePage extends State<EditProfilePage> {
                 color: Colors.white,
                 size: 30.0,
               ),
-              onPressed: () async{
+              onPressed: () async {
                 // UpdateUserData();
-              // mediaUrl= await uploadImage(_image);
+                // mediaUrl= await uploadImage(_image);
                 //  selectImage(context);
                 usersReference.doc(widget.id).update({
                   "id": widget.id,
                   "username": nametext.text,
-                 // "imageUrl": mediaUrl //_image
+                  // "imageUrl": mediaUrl //_image
                 });
                 Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => ProfileStream()));
@@ -184,15 +186,12 @@ class _EditProfilePage extends State<EditProfilePage> {
                             padding: EdgeInsets.only(
                                 top: 29.0, left: 50.0, right: 50.0),
                             child: ElevatedButton(
-                              
                               child: Text(
                                 '          Update          ',
                                 style: TextStyle(
                                     color: Colors.black, fontSize: 16.0),
                               ),
-                                                         
-                              onPressed: 
-                                  updateUserData(),
+                              onPressed: updateUserData(),
                             ),
                           ),
                           Padding(
@@ -223,7 +222,7 @@ class _EditProfilePage extends State<EditProfilePage> {
             ]),
     );
   }
-    // void addedImage(File pickedImage) {
+  // void addedImage(File pickedImage) {
   //   userImageFile = pickedImage;
   // }
 

@@ -24,18 +24,4 @@ class Users {
         .doc('document')
         .snapshots();
   }
-
-// StreamBuilder (
-//   stream : 
-// )
-  // factory Users.fromDocument(DocumentSnapshot doc) {
-  //   return Users(
-  //     userId: doc.id,
-  //     email: doc["email"],
-  //     username: doc["username"],
-  //     //url: doc["url"],
-  //     profileName: doc["profileName"],
-  //     bio: doc["bio"],
-  //   );
-  // }
 }

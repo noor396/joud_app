@@ -41,7 +41,7 @@ class _OtherProfilePostStreamState extends State<OtherProfilePostStream> {
                     docs[index]['mediaUrl'],
                     docs[index]['description'],
                     docs[index]['location'],
-                    docs[index]['timestamp'].toDate(),
+                    docs[index]['timestamp'],
                   )),
         );
       },

@@ -9,7 +9,6 @@ class ProfilePostStream extends StatefulWidget {
   static const routeName = '/profilepoststream';
   final String id;
   ProfilePostStream(this.id);
-  
 }
 
 class _ProfilePostStreamState extends State<ProfilePostStream> {
@@ -42,7 +41,7 @@ class _ProfilePostStreamState extends State<ProfilePostStream> {
                     docs[index]['mediaUrl'],
                     docs[index]['description'],
                     docs[index]['location'],
-                    docs[index]['timestamp'].toDate(),
+                    docs[index]['timestamp'],
                   )),
         );
       },

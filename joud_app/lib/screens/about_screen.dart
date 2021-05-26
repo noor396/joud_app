@@ -30,7 +30,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 children: [
                   IconButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => TabsScreen()));

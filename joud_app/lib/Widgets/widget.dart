@@ -6,7 +6,7 @@ Widget appBarCustom(BuildContext context) {
   return AppBar(
     title: Text(
       'JOUD',
-      style: TextStyle(color: Colors.black54),
+      style: TextStyle(color: Colors.black),
     ),
     backgroundColor: Color.fromRGBO(230, 238, 156, 1.0),
   );

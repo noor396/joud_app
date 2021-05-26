@@ -64,153 +64,160 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-
     var lan = Provider.of<LanguageProvider>(context, listen: true);
     return Directionality(
-      textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
-      child: Scaffold(
-        appBar: appBarCustom(context),
-      body: Center(
-        child: Card(
-          margin: EdgeInsets.all(20),
-          child: SingleChildScrollView(
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    height: 20,
-                  ),
-                  Form(
-                    key: formKey,
-                    child: Column(
-                      children: [
-                        TextFormField(
-                          validator: (val) {
-                            return RegExp(
-                                        r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                    .hasMatch(val)
-                                ? null
-                                : lan.getTexts('login_text1') ;//"Please enter a correct email address";
-                          },
-                          controller: emailTextEditingController,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: textFieldInputDecoration('email'),
-                        ),
-                        TextFormField(
-                          validator: (val) {
-                            return val.length > 5
-                                ? null
-                                : lan.getTexts('login_text2');// 'Please enter a password with at least 6 characters';
-                          },
-                          controller: passwordTextEditingController,
-                          decoration: textFieldInputDecoration('password'),
-                          obscureText: true,
-                        ),
-                      ],
-                      
-                    ),
-                  ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  SizedBox(height: 5.0),
-                  GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ResetPassword()));
-                        //  ResetPassword();
-                      },
-                      child: Container(
-                          alignment: Alignment(1.0, 0.0),
-                          padding: EdgeInsets.only(top: 15.0, left: 20.0),
-                          child: InkWell(
-                              child: Text(lan.getTexts('login_text3') ,//'Forgot Password',
-                                  style: TextStyle(
-                                      color: Colors.green,
-                                      fontFamily: 'Trueno',
-                                      fontSize: 11.0,
-                                      decoration: TextDecoration.underline))))),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Login();
-                      // ResetPassword();
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: 45,
-                      width: MediaQuery.of(context)
-                          .size
-                          .width, //makes container expand vertically
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(colors: [
-                          const Color.fromRGBO(215, 204, 200, 1),
-                          const Color.fromRGBO(166, 155, 151, 0.7),
-                        ]),
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Text( lan.getTexts('login_text4'), //                        'Login',
-                        style: TextStyle(fontSize: 17),
-                      ),
-                    ),
-                  ),
-                  // SizedBox(height: 12,),
-                  // Container(
-                  //   alignment: Alignment.center,
-                  //   height: 45,
-                  //   width:MediaQuery.of(context).size.width , //makes container expand vertically
-                  //   padding: EdgeInsets.symmetric(horizontal: 20),
-                  //   decoration: BoxDecoration(
-                  //     gradient: LinearGradient(
-                  //         colors: [
-                  //           const Color.fromRGBO(240,244,195,1),
-                  //           const Color.fromRGBO(189,193,146,0.8),
-                  //         ]
-                  //     ),
-                  //     borderRadius: BorderRadius.circular(30),
-                  //   ),
-                  //   child: Text('Sign In with Google', style: TextStyle(fontSize: 17),
-                  //   ),
-                  // ),
-                  SizedBox(
-                    height: 12,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+        textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
+        child: Scaffold(
+          appBar: appBarCustom(context),
+          body: Center(
+            child: Card(
+              margin: EdgeInsets.all(20),
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text( lan.getTexts('login_text5') ,
-                      //  "Don't have account?  ",
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Form(
+                        key: formKey,
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              validator: (val) {
+                                return RegExp(
+                                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                        .hasMatch(val)
+                                    ? null
+                                    : lan.getTexts(
+                                        'login_text1'); //"Please enter a correct email address";
+                              },
+                              controller: emailTextEditingController,
+                              keyboardType: TextInputType.emailAddress,
+                              decoration: textFieldInputDecoration('email'),
+                            ),
+                            TextFormField(
+                              validator: (val) {
+                                return val.length > 5
+                                    ? null
+                                    : lan.getTexts(
+                                        'login_text2'); // 'Please enter a password with at least 6 characters';
+                              },
+                              controller: passwordTextEditingController,
+                              decoration: textFieldInputDecoration('password'),
+                              obscureText: true,
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      SizedBox(height: 5.0),
+                      GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => ResetPassword()));
+                            //  ResetPassword();
+                          },
+                          child: Container(
+                              alignment: Alignment(1.0, 0.0),
+                              padding: EdgeInsets.only(top: 15.0, left: 20.0),
+                              child: InkWell(
+                                  child: Text(
+                                      lan.getTexts(
+                                          'login_text3'), //'Forgot Password',
+                                      style: TextStyle(
+                                          color: Colors.green,
+                                          fontFamily: 'Trueno',
+                                          fontSize: 11.0,
+                                          decoration:
+                                              TextDecoration.underline))))),
+                      SizedBox(
+                        height: 12,
                       ),
                       GestureDetector(
                         onTap: () {
-                          widget.toggle();
+                          Login();
+                          // ResetPassword();
                         },
                         child: Container(
-                          padding: EdgeInsets.symmetric(vertical: 8),
-                          child: Text( lan.getTexts('login_text6') ,//"Register now",
-                              style: TextStyle(
-                                  color: Colors.green,
-                                  fontFamily: 'Trueno',
-                                  fontSize: 12.0,
-                                  decoration: TextDecoration.underline)),
+                          alignment: Alignment.center,
+                          height: 45,
+                          width: MediaQuery.of(context)
+                              .size
+                              .width, //makes container expand vertically
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(colors: [
+                              const Color.fromRGBO(215, 204, 200, 1),
+                              const Color.fromRGBO(166, 155, 151, 0.7),
+                            ]),
+                            borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: Text(
+                            lan.getTexts(
+                                'login_text4'), //                        'Login',
+                            style: TextStyle(fontSize: 17),
+                          ),
                         ),
+                      ),
+                      // SizedBox(height: 12,),
+                      // Container(
+                      //   alignment: Alignment.center,
+                      //   height: 45,
+                      //   width:MediaQuery.of(context).size.width , //makes container expand vertically
+                      //   padding: EdgeInsets.symmetric(horizontal: 20),
+                      //   decoration: BoxDecoration(
+                      //     gradient: LinearGradient(
+                      //         colors: [
+                      //           const Color.fromRGBO(240,244,195,1),
+                      //           const Color.fromRGBO(189,193,146,0.8),
+                      //         ]
+                      //     ),
+                      //     borderRadius: BorderRadius.circular(30),
+                      //   ),
+                      //   child: Text('Sign In with Google', style: TextStyle(fontSize: 17),
+                      //   ),
+                      // ),
+                      SizedBox(
+                        height: 12,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            lan.getTexts('login_text5'),
+                            //  "Don't have account?  ",
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              widget.toggle();
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(vertical: 8),
+                              child: Text(
+                                  lan.getTexts('login_text6'), //"Register now",
+                                  style: TextStyle(
+                                      color: Colors.green,
+                                      fontFamily: 'Trueno',
+                                      fontSize: 12.0,
+                                      decoration: TextDecoration.underline)),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 50,
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 50,
-                  ),
-                ],
+                ),
               ),
             ),
           ),
-        ),
-      ),
-    ));
+        ));
   }
 }

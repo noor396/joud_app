@@ -13,7 +13,7 @@
 
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="joud_app"
+        android:label="Joud"
         android:icon="@mipmap/ic_launcher">
         android:requestLegacyExternalStorage="true"
 

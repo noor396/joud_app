@@ -6,6 +6,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:joud_app/Authentication/userAuth.dart';
 import 'package:joud_app/lang/language_provider.dart';
+import 'package:joud_app/screens/map_using_google.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -23,13 +24,12 @@ class PostForm extends StatefulWidget {
 
   final String id;
   final String imageUrl;
-  final DateTime timestamp;
+  final Timestamp timestamp;
   final String username;
   final Key key;
 }
 
-class _PostFormState extends State<PostForm>
-    with AutomaticKeepAliveClientMixin<PostForm> {
+class _PostFormState extends State<PostForm> {
   final user = FirebaseAuth.instance.currentUser;
   TextEditingController captionController = TextEditingController();
   TextEditingController locationController = TextEditingController();
@@ -175,7 +175,10 @@ class _PostFormState extends State<PostForm>
   }
 
   Future<String> uploadImage(imageFile) async {
-    final imageRef = FirebaseStorage.instance.ref().child("post_$postId.jpg");
+    final imageRef = FirebaseStorage.instance
+        .ref()
+        .child('postImage')
+        .child("post_$postId.jpg");
     await imageRef.putFile(imageFile);
     final downloadUrl = await imageRef.getDownloadURL();
     return downloadUrl;
@@ -339,14 +342,13 @@ class _PostFormState extends State<PostForm>
     print(completeAddress);
     String formattedAddress = "${placemark.locality}, ${placemark.country}";
     locationController.text = formattedAddress;
+    //MapPage(position.latitude,position.longitude);
   }
-
-  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
     var lan = Provider.of<LanguageProvider>(context, listen: true);
-    //super.build(context);
+
     return _image == null ? buildSplashScreen(lan) : buildUploadForm(lan);
   }
 }

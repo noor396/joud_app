@@ -1,21 +1,22 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:joud_app/lang/language_provider.dart';
-import 'package:joud_app/screens/map_screen.dart';
-import 'package:joud_app/screens/map_using_google.dart';
+import 'package:joud_app/screens/about_screen.dart';
+import 'package:joud_app/screens/logo_screen.dart';
+import 'package:joud_app/screens/nefal/edit_profile_page.dart';
+import 'package:joud_app/screens/nefal/nefal_test.dart';
+import 'package:joud_app/screens/notification_screen.dart';
+import 'package:joud_app/screens/notification_stream.dart';
 import 'package:joud_app/screens/update_profile_screen.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'screens/home_screen.dart';
+import 'Widgets/tabs_screen.dart';
+import 'lang/language_provider.dart';
 import 'test/helper/authenticate.dart';
 import 'test/helper/sharedPreferences.dart';
-//import 'package:upgrader/upgrader.dart';
+import 'test/views/chatRooms.dart';
 
-Future<void> main() async {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-  // await Firebase.initializeApp();
   runApp(
     ChangeNotifierProvider<LanguageProvider>(
       create: (ctx) => LanguageProvider(),
@@ -25,6 +26,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
+  // This widget is the root of your application.
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -48,30 +50,25 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    // Only call clearSavedSettings() during testing to reset internal values.
-    //Upgrader().clearSavedSettings(); // REMOVE this for release builds
-// final appcastURL =
-//         'https://raw.githubusercontent.com/larryaasen/upgrader/master/test/testappcast.xml';
-//     final cfg = AppcastConfiguration(url: appcastURL, supportedOS: ['android']);
     return MaterialApp(
-      // UpgradeAlert(
-      //       appcastConfig: cfg,
-      //       debugLogging: true,
-      //       child: Center(child: Text('Checking...')),
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/': (context) => //MapScreen() ,//SignOutScreen(), MapPage() ,//
-         //   isLoggedIn != null
-                //? isLoggedIn
-                //    ? //SignOutScreen()                    :
-                     updateProfile(),
-      //           Container(
-      //               child: Center(
-      //                 child: HomeScreen(),
-      //               ),
-      //             ),
-      },
-    );
+        debugShowCheckedModeBanner: false,
+        initialRoute: '/',
+        routes: {
+          EditProfileStream.routeName: (context) => EditProfileStream(),
+          AboutScreen.routeName: (context) =>
+              ChangeNotifierProvider<LanguageProvider>(
+                create: (ctx) => LanguageProvider(),
+                child: AboutScreen(),
+              ),
+          NotificationScreen.routeName: (context) => NotificationStream(),
+        },
+        home: isLoggedIn != null
+            ? isLoggedIn
+                ? LogoScreen()
+                : Authenticate()
+            : Container(
+                child: Center(
+                child: Authenticate(),
+              )));
   }
 }

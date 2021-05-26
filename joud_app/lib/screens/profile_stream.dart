@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:joud_app/screens/profile_screen.dart';
+import 'package:joud_app/test/modal/users.dart';
 
 class ProfileStream extends StatefulWidget {
   @override
@@ -26,9 +27,11 @@ class _ProfileStreamState extends State<ProfileStream> {
         return PageView.builder(
           itemCount: 1,
           itemBuilder: (ctx, index) => ProfileScreen(
-            docs[index]['id'],
+            Users.userUId = docs[index]['id'],
+            //docs[index]['id'],
             docs[index]['imageUrl'],
             docs[index]['username'],
+            docs[index]['timestamp'],
             key: ValueKey(snapShot.data.docs[index]),
           ),
         );

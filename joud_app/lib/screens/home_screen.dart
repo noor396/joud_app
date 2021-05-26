@@ -14,40 +14,26 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   List resImageAndNameList = [
-    {'pic': 'assets/blank-profile-picture.png', 'text': 'Res1'},
-    {'pic': 'assets/blank-profile-picture.png', 'text': 'Res2'},
-    {'pic': 'assets/blank-profile-picture.png', 'text': 'Res3'},
-    {'pic': 'assets/blank-profile-picture.png', 'text': 'Res4'},
-    {'pic': 'assets/blank-profile-picture.png', 'text': 'Res5'},
-    {'pic': 'assets/blank-profile-picture.png', 'text': 'Res6'},
-    {'pic': 'assets/blank-profile-picture.png', 'text': 'Res7'},
-    {'pic': 'assets/blank-profile-picture.png', 'text': 'Res8'},
-    {'pic': 'assets/blank-profile-picture.png', 'text': 'Res9'},
-    {'pic': 'assets/blank-profile-picture.png', 'text': 'Res10'},
+    {'pic': 'assets/pic1.jpg', 'text': 'Lara Lynn'},
+    {'pic': 'assets/pic2.jpg', 'text': 'Michele Henderson'},
+    {'pic': 'assets/pic3.jpg', 'text': 'Jessica Miles'},
+    {'pic': 'assets/pic4.jpg', 'text': 'Natasha Gamble'},
+    {'pic': 'assets/pic5.jpg', 'text': 'Kerry Herrera'},
+    {'pic': 'assets/pic6.jpg', 'text': 'Martin Peck'},
+    {'pic': 'assets/pic7.jpg', 'text': 'Tricia Yang'},
+    {'pic': 'assets/pic8.jpg', 'text': 'Julia Petersen'},
+    {'pic': 'assets/pic9.jpg', 'text': 'Erna Alexander'},
+    {'pic': 'assets/pic10.jpg', 'text': 'Graciela Mitchell'},
   ];
 
-  /*List restNameList = [
-    'Res1',
-    'Res2',
-    'Res3',
-    'Res4',
-    'Res5',
-    'Res6',
-    'Res7',
-    'Res8',
-    'Res9',
-    'Res10',
-  ];*/
   int _currentIndex;
 
   @override
   Widget build(BuildContext context) {
     var lan = Provider.of<LanguageProvider>(context, listen: true);
-       return Directionality(
+    return Directionality(
       textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
-      
       child: Scaffold(
         body: buildCarousel(lan),
       ),
@@ -56,9 +42,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   ListView buildCarousel(lan) {
     return ListView(
-
       children: [
-       //  colors: themeProvider.themeMode().gradient,
+        //  colors: themeProvider.themeMode().gradient,
         SizedBox(
           height: 10,
         ),

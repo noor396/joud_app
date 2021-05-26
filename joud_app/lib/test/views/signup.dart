@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:joud_app/Widgets/tabs_screen.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/screens/update_profile_screen.dart';
 import 'package:joud_app/test/helper/sharedPreferences.dart';
@@ -11,7 +12,6 @@ import 'package:joud_app/test/services/database.dart';
 import 'package:joud_app/Widgets/userImagePicker.dart';
 import 'package:joud_app/Widgets/widget.dart';
 import 'package:joud_app/test/views/rest.dart';
-import 'package:joud_app/widgets/tabs_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
@@ -65,8 +65,6 @@ class _SignupState extends State<Signup> {
         .child("$imageId.jpg"); // all camera pictures have this extension
     await imageRef.putFile(userImageFile);
     final imageUrl = await imageRef.getDownloadURL();
-    //FirebaseAuth.instance.currentUser.displayName.
-    final user = FirebaseAuth.instance.currentUser;
 
     if (formKey.currentState.validate()) {
       Map<String, dynamic> userInfoMap = {

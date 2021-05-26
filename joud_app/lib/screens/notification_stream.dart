@@ -1,17 +1,21 @@
+// import 'package:cloud_firestore/cloud_firestore.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:joud_app/lang/language_provider.dart';
+import 'package:joud_app/screens/home_screen.dart';
+import 'package:joud_app/screens/notification_screen.dart';
 import 'package:joud_app/screens/postform.dart';
+import 'package:joud_app/test/modal/users.dart';
 import 'package:provider/provider.dart';
 
-class PostStream extends StatefulWidget {
+class NotificationStream extends StatefulWidget {
   @override
-  _PostStreamState createState() => _PostStreamState();
-  static const routeName = '/poststream';
+  _NotificationStreamState createState() => _NotificationStreamState();
+  static const routeName = '/notificationstream';
 }
 
-class _PostStreamState extends State<PostStream> {
+class _NotificationStreamState extends State<NotificationStream> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -29,12 +33,11 @@ class _PostStreamState extends State<PostStream> {
         return PageView.builder(
           // reverse: true,
           itemCount: 1,
-          itemBuilder: (ctx, index) => PostForm(
+          itemBuilder: (ctx, index) => NotificationScreen(
+            //Users.userUId = docs[index]['id'],
             docs[index]['id'],
             docs[index]['imageUrl'],
-            docs[index]['timestamp'],
             docs[index]['username'],
-            key: ValueKey(snapShot.data.docs[index]),
           ),
         );
       },

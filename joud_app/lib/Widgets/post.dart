@@ -6,13 +6,17 @@ import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/screens/comments.dart';
 import 'package:joud_app/screens/profile_screen.dart';
 import 'package:joud_app/screens/profile_stream.dart';
+import 'package:joud_app/test/helper/constants.dart';
+import 'package:joud_app/test/modal/users.dart';
 import 'package:joud_app/widgets/custom_image.dart';
 import 'package:provider/provider.dart';
 import 'package:time_ago_provider/time_ago_provider.dart' as timeAgo;
+import 'package:toast/toast.dart';
 
 class Post extends StatefulWidget {
   Post(this.postId, this.ownerId, this.imageUrl, this.username, this.mediaUrl,
       this.description, this.location, this.timestamp,
+      /*this.userid,this.userImageUrl,this.userUsername*/
       {this.key});
 
   final String postId;
@@ -22,15 +26,18 @@ class Post extends StatefulWidget {
   final String mediaUrl;
   final String description;
   final String location;
-  final DateTime timestamp;
+  final Timestamp timestamp;
+  /*final String userid;
+  final String userImageUrl;
+  final String userUsername;*/
   final Key key;
+
   @override
   _PostState createState() => _PostState();
 }
 
 class _PostState extends State<Post> {
   final user = FirebaseAuth.instance.currentUser;
-
   buildPostHeader(lan) {
     timeAgo.setLocale('Ar', timeAgo.Arabic());
     /* return FutureBuilder(
@@ -47,12 +54,11 @@ class _PostState extends State<Post> {
             backgroundColor: Colors.grey,
           ),
           title: GestureDetector(
-            onTap: () => showProfile(
-              context,
-              ownerId: widget.ownerId,
-              username: widget.username,
-              imageUrl: widget.imageUrl,
-            ),
+            onTap: () => showProfile(context,
+                ownerId: widget.ownerId,
+                username: widget.username,
+                imageUrl: widget.imageUrl,
+                timestamp: widget.timestamp),
             child: Text(
               widget.username,
               style: TextStyle(
@@ -62,10 +68,12 @@ class _PostState extends State<Post> {
             ),
           ),
           subtitle: lan.isEn
-              ? Text(widget.location + "\n" + timeAgo.format(widget.timestamp))
+              ? Text(widget.location +
+                  "\n" +
+                  timeAgo.format(widget.timestamp.toDate()))
               : Text(widget.location +
                   "\n" +
-                  timeAgo.format(widget.timestamp, locale: 'Ar')),
+                  timeAgo.format(widget.timestamp.toDate(), locale: 'Ar')),
           trailing: IconButton(
             onPressed: () => handleDeletePost(context, lan),
             icon: Icon(Icons.more_vert),
@@ -87,33 +95,74 @@ class _PostState extends State<Post> {
   //
 
   handleDeletePost(BuildContext parentContext, lan) {
-    return showDialog(
-        context: parentContext,
-        builder: (context) {
-          return Directionality(
-            textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
-            child: SimpleDialog(
-              title: Text(lan.getTexts('Post1')),
-              children: <Widget>[
-                SimpleDialogOption(
-                    onPressed: () {
-                      Navigator.pop(context);
-                      deletePost();
-                    },
-                    child: Text(
-                      lan.getTexts('Post2'),
-                      style: TextStyle(color: Colors.red),
-                    )),
-                SimpleDialogOption(
-                    onPressed: () => Navigator.pop(context),
-                    child: Text(lan.getTexts('Post3'))),
-              ],
-            ),
-          );
-        });
+    bool isPostOwner = Users.userUId ==
+            widget.ownerId /*Constants.myName ==
+        widget.username*/
+        ;
+    if (isPostOwner) {
+      return showDialog(
+          context: parentContext,
+          builder: (context) {
+            return Directionality(
+              textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
+              child: SimpleDialog(
+                title: Text(lan.getTexts('Post1')),
+                children: <Widget>[
+                  SimpleDialogOption(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        deletePost(lan);
+                      },
+                      child: Text(
+                        lan.getTexts('Post2'),
+                        style: TextStyle(color: Colors.red),
+                      )),
+                  SimpleDialogOption(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(lan.getTexts('Post3'))),
+                ],
+              ),
+            );
+          });
+    } else {
+      return showDialog(
+          context: parentContext,
+          builder: (context) {
+            return Directionality(
+              textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
+              child: SimpleDialog(
+                title: Text(lan.getTexts('Post4')),
+                children: <Widget>[
+                  SimpleDialogOption(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        reportPost(lan);
+                      },
+                      child: Text(
+                        lan.getTexts('Post5'),
+                        style: TextStyle(color: Colors.red),
+                      )),
+                  SimpleDialogOption(
+                      onPressed: () => Navigator.pop(context),
+                      child: Text(lan.getTexts('Post3'))),
+                ],
+              ),
+            );
+          });
+    }
   }
 
-  deletePost() async {
+  reportPost(lan) {
+    FirebaseFirestore.instance
+        .collection('posts')
+        .doc(widget.postId)
+        .collection('report')
+        .doc(widget.ownerId)
+        .set({'report': true});
+    Toast.show(lan.getTexts('Post6'), context, duration: 3);
+  }
+
+  deletePost(lan) async {
     // delete post itself
     FirebaseFirestore.instance
         .collection('posts')
@@ -124,8 +173,13 @@ class _PostState extends State<Post> {
         doc.reference.delete();
       }
     });
+    Toast.show(lan.getTexts('Post7'), context, duration: 3);
     // delete uploaded image for thep ost
-    FirebaseStorage.instance.ref().child("post_$widget.postId.jpg").delete();
+    FirebaseStorage.instance
+        .ref()
+        .child('postImage')
+        .child("post_${widget.postId}.jpg")
+        .delete();
     // then delete all comments
     QuerySnapshot commentsSnapshot = await FirebaseFirestore.instance
         .collection('comments')
@@ -133,6 +187,17 @@ class _PostState extends State<Post> {
         .collection("comments")
         .get();
     commentsSnapshot.docs.forEach((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+    QuerySnapshot activityFeedSnapshot = await FirebaseFirestore.instance
+        .collection('feed')
+        .doc(widget.ownerId)
+        .collection("feedItems")
+        .where('postId', isEqualTo: widget.postId)
+        .get();
+    activityFeedSnapshot.docs.forEach((doc) {
       if (doc.exists) {
         doc.reference.delete();
       }
@@ -148,6 +213,12 @@ class _PostState extends State<Post> {
         doc.reference.delete();
       }
     });
+    FirebaseFirestore.instance
+        .collection('posts')
+        .doc(widget.postId)
+        .collection('report')
+        .doc(widget.ownerId)
+        .delete();
   }
 
   addLike(bool liked) {
@@ -159,6 +230,7 @@ class _PostState extends State<Post> {
           .collection('likes')
           .doc(widget.ownerId)
           .set({'like': true});
+      //addLikeToActivityFeed();
     } else {
       FirebaseFirestore.instance
           .collection('posts')
@@ -166,6 +238,7 @@ class _PostState extends State<Post> {
           .collection('likes')
           .doc(widget.ownerId)
           .delete();
+      // removeLikeFromActivityFeed();
     }
   }
 
@@ -283,16 +356,13 @@ class _PostState extends State<Post> {
 }
 
 showProfile(BuildContext context,
-    {String ownerId, String imageUrl, DateTime timestamp, String username}) {
+    {String ownerId, String imageUrl, Timestamp timestamp, String username}) {
   //Navigator.of(context).pushNamed(ProfileScreen.routeName);
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => ProfileScreen(
-        ownerId,
-        imageUrl,
-        username,
-      ),
+      builder: (context) =>
+          ProfileScreen(ownerId, imageUrl, username, timestamp),
     ),
   );
 }
@@ -303,13 +373,36 @@ showComments(BuildContext context,
     String mediaUrl,
     String username,
     String imageUrl}) {
-  Navigator.push(context, MaterialPageRoute(builder: (context) {
-    return Comments(
-      postId: postId,
-      postOwnerId: ownerId,
-      postMediaUrl: mediaUrl,
-      postUserName: username,
-      postImageUrl: imageUrl,
-    );
-  }));
+  Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => StreamBuilder(
+          stream: FirebaseFirestore.instance
+              .collection('users')
+              .orderBy('timestamp', descending: true)
+              .snapshots(), // after executing stream the below snapShot fetches the data
+          builder: (ctx, snapShot) {
+            if (/*snapShot.data == null*/ snapShot.connectionState ==
+                ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+
+            final docs = snapShot.data.docs;
+            return PageView.builder(
+              // reverse: true,
+              itemCount: 1,
+              itemBuilder: (ctx, index) => Comments(
+                postId: postId,
+                postOwnerId: ownerId,
+                postMediaUrl: mediaUrl,
+                postUserName: username,
+                postImageUrl: imageUrl,
+                Id: docs[index]['id'],
+                UserName: docs[index]['username'],
+                ImageUrl: docs[index]['imageUrl'],
+              ),
+            );
+          },
+        ),
+      ));
 }

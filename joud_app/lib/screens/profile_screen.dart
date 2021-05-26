@@ -4,21 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/screens/Other_Profile_post_stream.dart';
 import 'package:joud_app/screens/Profile_post_stream.dart';
+import 'package:joud_app/screens/nefal/nefal_test.dart';
 import 'package:joud_app/screens/update_profile_screen.dart';
+import 'package:joud_app/test/helper/constants.dart';
+import 'package:joud_app/test/modal/users.dart';
 import 'package:provider/provider.dart';
-
-import '../test/helper/constants.dart';
-import 'nefal/nefal_test.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = '/profile';
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
-  ProfileScreen(this.id, this.imageUrl, this.username, {this.key});
+  ProfileScreen(this.id, this.imageUrl, this.username, this.timestamp,
+      {this.key});
 
   final String id;
   final String imageUrl;
   final String username;
+  final Timestamp timestamp;
   final Key key;
 }
 
@@ -30,15 +32,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final user = FirebaseAuth.instance.currentUser;
   int followerCount = 0;
   int followingCount = 0;
-  int otherPostCount = 0;
-  int otherFollowerCount = 0;
-  int otherFollowingCount = 0;
 
   @override
   void initState() {
     super.initState();
     getProfilePosts();
-    getOtherProfilePosts();
     getFollowers();
     getFollowing();
     checkIfFollowing();
@@ -49,7 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         .collection('followers')
         .doc(widget.id)
         .collection('userFollowers')
-        .doc(user.uid)
+        .doc(Users.userUId) //user.uid
         .get();
     setState(() {
       isFollowing = doc.exists;
@@ -59,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   getFollowers() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('followers')
-        .doc(user.uid)
+        .doc(widget.id) //user.uid
         .collection('userFollowers')
         .get();
     setState(() {
@@ -70,7 +68,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   getFollowing() async {
     QuerySnapshot snapshot = await FirebaseFirestore.instance
         .collection('following')
-        .doc(user.uid)
+        .doc(widget.id) //user.uid
         .collection('userFollowing')
         .get();
     setState(() {
@@ -91,23 +89,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     setState(() {
       isLoading = false;
       postCount = snapshot.docs.length;
-      // posts = snapshot.docs.map<Widget>((e) => PostHomeStream()).toList();
-    });
-  }
-
-  getOtherProfilePosts() async {
-    setState(() {
-      isLoading = true;
-    });
-    QuerySnapshot snapshot = await FirebaseFirestore.instance
-        .collection('posts')
-        .where('ownerId', isEqualTo: widget.id)
-        .orderBy('timestamp', descending: true)
-        .get();
-
-    setState(() {
-      isLoading = false;
-      otherPostCount = snapshot.docs.length;
     });
   }
 
@@ -168,11 +149,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   editProfile() {
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => updateProfile()));
+        context, MaterialPageRoute(builder: (context) => EditProfileStream()));
   }
 
   buildProfileButton(lan) {
-    bool isProfileOwner = Constants.myName == widget.username;
+    bool isProfileOwner =
+        Users.userUId == widget.id /* Constants.myName == widget.username*/;
     if (isProfileOwner) {
       return buildButton(text: lan.getTexts('Profile4'), function: editProfile);
     } else if (isFollowing) {
@@ -197,7 +179,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         .collection('followers')
         .doc(widget.id)
         .collection('userFollowers')
-        .doc(user.uid)
+        .doc(Users.userUId) //user.uid
         .get()
         .then((doc) {
       if (doc.exists) {
@@ -207,7 +189,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     // remove following
     FirebaseFirestore.instance
         .collection('following')
-        .doc(user.uid)
+        .doc(Users.userUId) //user.uid
         .collection('userFollowing')
         .doc(widget.id)
         .get()
@@ -216,17 +198,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
         doc.reference.delete();
       }
     });
-    // delete activity feed item for them
-    /*  activityFeedRef
-        .document(widget.profileId)
-        .collection('feedItems')
-        .document(currentUserId)
-        .get()
-        .then((doc) {
-      if (doc.exists) {
-        doc.reference.delete();
-      }
-    });*/
   }
 
   handleFollowUser() {
@@ -238,37 +209,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
         .collection('followers')
         .doc(widget.id)
         .collection('userFollowers')
-        .doc(user.uid)
+        .doc(Users.userUId) //user.uid
         .set({});
     // Put THAT user on YOUR following collection (update your following collection)
     FirebaseFirestore.instance
         .collection('following')
-        .doc(user.uid)
+        .doc(Users.userUId) //user.uid
         .collection('userFollowing')
         .doc(widget.id)
         .set({});
-    // add activity feed item for that user to notify about new follower (us)
-    /* activityFeedRef
-        .document(widget.profileId)
-        .collection('feedItems')
-        .document(currentUserId)
-        .setData({
-      "type": "follow",
-      "ownerId": widget.profileId,
-      "username": currentUser.username,
-      "userId": currentUserId,
-      "userProfileImg": currentUser.photoUrl,
-      "timestamp": timestamp,
-    });*/
   }
 
   buildProfileHeader(lan) {
-    /* return FutureBuilder(
-      future:FirebaseFirestore.instance.collection('users').doc(widget.id).get(),
-      builder: (context, snapshot) {
-        if (!snapshot.hasData) {
-          return circularProgress();
-        }*/
     return Padding(
       padding: EdgeInsets.all(16.0),
       child: Directionality(
@@ -291,8 +243,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
                           // buildHeaderData()
-                          buildCountColumn(lan.getTexts('Profile1'),
-                              postCount), //lan.getTexts('PostForm11')
+                          buildCountColumn(lan.getTexts('Profile1'), postCount),
                           buildCountColumn(
                               lan.getTexts('Profile2'), followerCount),
                           buildCountColumn(
@@ -322,81 +273,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
-             FlatButton(
-              onPressed: () {
-                Navigator.push(context,MaterialPageRoute(builder: (context)=> EditProfileStream()));
-              },
-              child: IconButton(
-                icon: const Icon(Icons.edit),
-                tooltip: 'edit your name',
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => EditProfileStream()));
-                    // TextEditingController userNameTextEditingController =
-                    //     new TextEditingController();
-                    // TextFormField(
-                    //   controller: userNameTextEditingController,
-                    //   keyboardType: TextInputType.name,
-                    //   onChanged: (value) {
-                    //     value =  FirebaseAuth.instance.currentUser.displayName;
-                },
-              ),
-
-              // DocumentSnapshot documentSnapshot =
-              //     await FirebaseFirestore.instance
-              //         .collection('user_data')
-              //         .doc('username')
-              //         .get();
-              //  FirebaseAuth.instance.currentUser.updateProfile(
-              //   displayName: userNameTextEditingController.text.trim());
-              //displayName:
-              //  userNameTextEditingController.text
-              //     .trim());
-            ),
           ],
         ),
       ),
     );
-    // },
-    //);
-  }
-
-  buildHeaderData() {
-    bool isProfileOwner = Constants.myName == widget.username;
-    if (isProfileOwner) {
-      return Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          buildCountColumn("posts  ", postCount),
-          buildCountColumn("followers  ", followerCount),
-          buildCountColumn("following  ", followingCount),
-        ],
-      );
-    } else {
-      Row(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          buildCountColumn("posts  ", 0 /*otherPostCount*/),
-          buildCountColumn("followers  ", 0 /*otherFollowerCount*/),
-          buildCountColumn("following  ", 0 /*otherFollowingCount*/),
-        ],
-      );
-    }
   }
 
   buildProfilePosts(lan) {
-    bool isProfileOwner = Constants.myName == widget.username;
+    bool isProfileOwner =
+        Users.userUId == widget.id /*Constants.myName == widget.username*/;
     if (isProfileOwner) {
-      return ProfilePostStream(widget.id);
+      return ProfilePostStream(widget.id /*,widget.imageUrl,widget.username*/);
     } else {
       return Directionality(
           textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
           child: OtherProfilePostStream(
-              widget.id)); //Center(child: Text("No Posts")
+            widget.id, /*widget.imageUrl,widget.username*/
+          )); //Center(child: Text("No Posts")
       // ));
     }
   }

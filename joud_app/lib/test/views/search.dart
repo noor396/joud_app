@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:joud_app/screens/profile_screen.dart';
 import 'package:joud_app/test/helper/constants.dart';
 import 'package:joud_app/test/services/database.dart';
 import 'package:joud_app/widgets/widget.dart';
@@ -18,7 +19,7 @@ class _SearchState extends State<Search> {
   DatabaseMethods databaseMethods = new DatabaseMethods();
   QuerySnapshot searchSnapshot;
 
-  Widget searchList() {
+  Widget searchList(lan) {
     return searchSnapshot != null
         ? ListView.builder(
             itemCount: searchSnapshot.docs.length,
@@ -28,6 +29,7 @@ class _SearchState extends State<Search> {
                 username: searchSnapshot.docs[index].data()["username"],
                 email: searchSnapshot.docs[index].data()["email"],
                 imageUrl: searchSnapshot.docs[index].data()["imageUrl"],
+                lan: lan,
               );
             })
         : Container();
@@ -45,7 +47,7 @@ class _SearchState extends State<Search> {
     });
   }
 
-  createChatRoomStartConversation({String userName, String imageUrl}) {
+  createChatRoomStartConversation({String userName, String imageUrl, lan}) {
     if (userName != Constants.myName) {
       String chatRoomId = getChatRoomId(userName, Constants.myName);
       List<String> users = [
@@ -66,16 +68,16 @@ class _SearchState extends State<Search> {
                   ConversationScreen(chatRoomId, userName, imageUrl)));
     } else {
       final snackBar = SnackBar(
-          content: Text("you can't send a messages to yourself ! "),
+          content: Text(lan.getTexts('search1')),
           backgroundColor: Color.fromRGBO(127, 0, 0, 1));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
       print('you cannot send messages to yourself');
     }
   }
 
-  Widget SearchTile({String username, String email, String imageUrl}) {
+  Widget SearchTile({String username, String email, String imageUrl, lan}) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 20),
       child: Row(
         children: [
           CircleAvatar(
@@ -105,7 +107,7 @@ class _SearchState extends State<Search> {
           GestureDetector(
             onTap: () {
               createChatRoomStartConversation(
-                  userName: username, imageUrl: imageUrl);
+                  userName: username, imageUrl: imageUrl, lan: lan);
             },
             child: Container(
               decoration: BoxDecoration(
@@ -141,16 +143,17 @@ class _SearchState extends State<Search> {
                   height: 50,
                   decoration: new BoxDecoration(
                     borderRadius: new BorderRadius.circular(30.0),
-                    gradient: LinearGradient(colors: [
+                    color: Color.fromRGBO(215, 204, 200, 1.5),
+                    /*gradient: LinearGradient(colors: [
                       //Green Fading
                       //const Color.fromRGBO( 240,244,195,0.4),
                       //const Color.fromRGBO( 255,255,246,1),
                       // const Color.fromRGBO( 189,193,146,1),
 
                       //Brownish Fading
-                      const Color.fromRGBO(215, 204, 200, 1.5),
+                      //const Color.fromRGBO(215, 204, 200, 1.5),
                       const Color.fromRGBO(255, 255, 251, 1),
-                    ]),
+                    ]),*/
                   ),
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Row(
@@ -181,7 +184,7 @@ class _SearchState extends State<Search> {
                   ),
                 ),
               ),
-              searchList(),
+              searchList(lan),
             ],
           ),
         ),

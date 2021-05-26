@@ -1,5 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:joud_app/lang/language_provider.dart';
+import 'package:joud_app/screens/map_using_google.dart';
+import 'package:joud_app/screens/notification_stream.dart';
+import 'package:joud_app/screens/notification_screen.dart';
+import 'package:joud_app/test/modal/users.dart';
 import '../screens/map_screen.dart';
 import 'package:joud_app/screens/post_stream.dart';
 import 'package:joud_app/screens/profile_stream.dart';
@@ -78,6 +84,19 @@ class _TabsScreenState extends State<TabsScreen> {
             color: Colors.black,
             onPressed: () => _scaffoldKey.currentState.openDrawer(),
           ),
+          actions: [
+            Padding(
+                padding: EdgeInsets.only(right: 20.0, left: 20.0),
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context)
+                      .pushReplacementNamed(NotificationScreen.routeName),
+                  child: Icon(
+                    FontAwesomeIcons.bell,
+                    size: 26.0,
+                    color: Colors.black,
+                  ),
+                )),
+          ],
         ),
         body: _pages[_selectedPageIndex]['page'],
         bottomNavigationBar: BottomNavigationBar(
