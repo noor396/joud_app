@@ -4,11 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/screens/Other_Profile_post_stream.dart';
 import 'package:joud_app/screens/Profile_post_stream.dart';
-import 'package:joud_app/screens/nefal/nefal_test.dart';
 import 'package:joud_app/screens/update_profile_screen.dart';
 import 'package:joud_app/test/helper/constants.dart';
 import 'package:joud_app/test/modal/users.dart';
 import 'package:provider/provider.dart';
+
+import 'edit_profile_stream.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = '/profile';
