@@ -66,15 +66,11 @@ Liana Zahran, Nefal Mohammad, and Rama Irsheidat
 
 
 ## 📸 Screenshots
-<img src="../assets/1.jpeg" width="30%" height="30%">&ensp;<img src="../assets/7.jpeg" width="30%" height="30%">&ensp;<img src="./assets/3.jpeg" width="30%" height="30%">&ensp;
+<img src="assets/1.jpeg" width="30%" height="30%">&ensp;<img src="assets/7.jpeg" width="30%" height="30%">&ensp;<img src="assets/3.jpeg" width="30%" height="30%">&ensp;
 ------
-<img src="./assets/4.jpeg" width="30%" height="30%">&ensp;<img src="./assets/5.jpeg" width="30%" height="30%">&ensp;<img src="./assets/6.jpeg" width="30%" height="30%">&ensp;
+<img src="assets/4.jpeg" width="30%" height="30%">&ensp;<img src="assets/5.jpeg" width="30%" height="30%">&ensp;<img src="assets/6.jpeg" width="30%" height="30%">&ensp;
 ------
-<img src="./assets/2.jpeg" width="30%" height="30%">&ensp;<img src="./assets/8.jpeg" width="30%" height="30%">&ensp;
+<img src="assets/2.jpeg" width="30%" height="30%">&ensp;<img src="assets/8.jpeg" width="30%" height="30%">&ensp;    
+------
 
-   
-   
-    
-
-
-<img src="./assets/11.jpeg" width="30%" height="30%">&ensp;<img src="./assets/12.jpeg" width="30%" height="30%">&ensp;
+<img src="assets/11.jpeg" width="30%" height="30%">&ensp;<img src="assets/12.jpeg" width="30%" height="30%">&ensp;
