@@ -1,10 +1,11 @@
 import 'dart:io';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
+import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/test/helper/authenticate.dart';
+import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 import '../test/helper/authenticate.dart';
 import '../test/services/auth.dart';
@@ -33,6 +34,8 @@ class _EditProfileState extends State<EditProfilePage> {
   bool _displayNameValid = true;
   bool _bioValid = true;
   AuthMethods authMethods = new AuthMethods();
+
+  //
   @override
   void initState() {
     super.initState();
@@ -57,118 +60,112 @@ class _EditProfileState extends State<EditProfilePage> {
     });
   }
 
-  Column buildDisplayNameField() {
+  
+
+  
+
+  @override
+  Widget build(BuildContext context) {
+    var lan = Provider.of<LanguageProvider>(context, listen: true);
+    return Directionality(
+      textDirection: lan.isEn ? TextDirection.ltr : TextDirection.rtl,
+      child: Scaffold(
+        body: buildCarousel(lan),
+      ),
+    );
+  }
+
+  buildCarousel(lan) {
+    Column buildDisplayNameField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
             padding: EdgeInsets.only(top: 12.0),
             child: Text(
-              "Display Name",
+              lan.getText("edit5"),
               style: TextStyle(color: Colors.grey),
             )),
         TextField(
           controller: nametext,
           decoration: InputDecoration(
-           // hintText: "Update Display Name",
-            errorText: _displayNameValid ? null : "Display Name too short",
-          ),
+              // hintText: "Update Display Name",
+              //   errorText: _displayNameValid ? null : "Display Name too short",
+              ),
         )
       ],
     );
   }
-Column buildFirstNameField() {
+
+    Column buildFirstNameField() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Padding(
             padding: EdgeInsets.only(top: 12.0),
-            child: Text(
-              "First Name",
+            child: Text( lan.getText("edit8"),
+              //"First Name",
               style: TextStyle(color: Colors.grey),
             )),
         TextField(
           controller: _firstname,
           decoration: InputDecoration(
-           // hintText: "Update Display Name",
-            errorText: _displayNameValid ? null : "Display Name too short",
-          ),
-        )
-      ],
-    );
-  }
-  Column buildLastNameField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-            padding: EdgeInsets.only(top: 12.0),
-            child: Text(
-              "Last Name",
-              style: TextStyle(color: Colors.grey),
-            )),
-        TextField(
-          controller: _lastname,
-          decoration: InputDecoration(
-           // hintText: "Update Display Name",
-            errorText: _displayNameValid ? null : "Display Name too short",
-          ),
+              // hintText: "Update Display Name",
+              // errorText: _displayNameValid ? null : "Display Name too short",
+              ),
         )
       ],
     );
   }
 
-
-  // Column buildBioField() {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: <Widget>[
-  //       Padding(
-  //         padding: EdgeInsets.only(top: 12.0),
-  //         child: Text(
-  //           "Bio",
-  //           style: TextStyle(color: Colors.grey),
-  //         ),
-  //       ),
-  //       TextField(
-  //         controller: bioController,
-  //         decoration: InputDecoration(
-  //           hintText: "Update Bio",
-  //           errorText: _bioValid ? null : "Bio too long",
-  //         ),
-  //       )
-  //     ],
-  //   );
-  // }
-
-  updateProfileData() {
-    setState(() {
-      nametext.text.trim().length < 3 || nametext.text.isEmpty
-          ? _displayNameValid = false
-          : _displayNameValid = true;
-    });
-
-    if (_displayNameValid) {
-      usersRef.doc(widget.id).update({
-        "username": nametext.text,
-        "firstname": _firstname.text,
-        "lastname": _lastname.text
-      });
-      Toast.show("Profile updated!", context,
-          duration: 3); //lan.getTexts('Post6')
-      // SnackBar snackbar = SnackBar(content: Text("Profile updated!"));
-      // _scaffoldKey.currentState.showSnackBar(snackbar);
+    Column buildLastNameField() {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Padding(
+              padding: EdgeInsets.only(top: 12.0),
+              child: Text(
+               lan.getText("edit8"),
+                style: TextStyle(color: Colors.grey),
+              )),
+          TextField(
+            controller: _lastname,
+            decoration: InputDecoration(
+                // hintText: "Update Display Name",
+                //   errorText: _displayNameValid ? null : "Display Name too short",
+                ),
+          )
+        ],
+      );
     }
-  }
 
-  @override
-  Widget build(BuildContext context) {
+    updateProfileData() {
+      setState(() {
+        nametext.text.trim().length < 3 || nametext.text.isEmpty
+            ? _displayNameValid = false
+            : _displayNameValid = true;
+      });
+
+      if (_displayNameValid) {
+        usersRef.doc(widget.id).update({
+          "username": nametext.text,
+          "firstname": _firstname.text,
+          "lastname": _lastname.text
+        });
+
+        Toast.show(lan.getText('edit7'), context, duration: 3);
+        //lan.getTexts('Post6')
+        // SnackBar snackbar = SnackBar(content: Text("Profile updated!"));
+        // _scaffoldKey.currentState.showSnackBar(snackbar);
+      }
+    }
+
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(230, 238, 156, 1.0),
         title: Text(
-          "Edit Profile",
+          lan.getTexts('edit3'), // "Edit Profile",
           style: TextStyle(
             color: Colors.black,
           ),
@@ -233,7 +230,7 @@ Column buildFirstNameField() {
                       borderRadius: BorderRadius.circular(30),
                     ),
                     child: Text(
-                      '    Update Profile    ',
+                      lan.getTexts('edit1'), // '    Update Profile    ',
                       style: TextStyle(fontSize: 17),
                     ),
                   ),
@@ -263,7 +260,7 @@ Column buildFirstNameField() {
                     }, //logout,
                     icon: Icon(Icons.cancel, color: Colors.black),
                     label: Text(
-                      "Logout",
+                      lan.getTexts('edit2'), // "Logout",
                       style: TextStyle(color: Colors.black, fontSize: 20.0),
                     ),
                   ),
