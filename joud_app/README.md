@@ -4,7 +4,7 @@ New idea for saving food and give it to people who need it.
 
 
 ## 🚀 Motivation
-Our application implemented in Arabic and English languages, we wanted to build the application for android and ios devices
+Our application implemented in Arabic and English languages, we wanted to build the application for android devices
 
 ## 🕹 Features
 Uses Material Design components for a beautiful, consistent design.
