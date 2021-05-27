@@ -1,23 +1,28 @@
 # joud_app
-Liana, Nefal and Rama graduation project.
-New idea for saving food and give it to people who need it.
+An App that carries a humane cause and does charity work by distributing surplus food to people in need.
 
 
 ## 🚀 Motivation
-Our application implemented in Arabic and English languages, we wanted to build the application for android devices
+An App with this idea hasn't been proposed before. There are lots of Apps that carry out similar missions, but 
+they do not compare to Joud which gave its users a combination of social interaction along-side its main purpose.
 
 ## 🕹 Features
-Uses Material Design components for a beautiful, consistent design.
+Joud supports the following features: Posting an announcement, private and public communication, and social media experience
+for good cause.
 
 ## 🖥 Technologies used
 <b>Built with</b>
 - Flutter SDK
-- Dart
+- Dart programming language
 - [Firebase Authentication](https://firebase.google.com/docs/auth)
 - [Cloud Firestore](https://firebase.google.com/products/firestore)
 - [Material Design](https://material.io/)
 
- 
+## Developer Distribution Agreement
+Due to Google Play policies, we were not able to publish Joud for public installations for the time it takes for
+Google to approve the App.
+
+
 ## 📚 Libraries used
   * [firebase_auth](https://pub.dev/packages/firebase_auth)
   * [cupertino_icons](https://pub.dev/packages/cupertino_icons)
@@ -47,13 +52,25 @@ Uses Material Design components for a beautiful, consistent design.
   * [image](https://pub.dev/packages/image)
 
 ## 👨🏻‍💻 Developed By
-Liana Zahran, Nefal Mohammad and Rama Irsheidat.
+Liana Zahran, Nefal Mohammad, and Rama Irsheidat
+
+## Contact info
+Liana Zahran,    E-mail address: lianazahran@yahoo.com
+Nefal Mohammad,  E-mail address: nmmasad17@cit.just.edu.jo
+Rama Irsheidat,  E-mail address: rorusheidat17@cit.just.edu.jo
+
+
 
 ## 📸 Screenshots
 <img src="./assets/1.jpeg" width="30%" height="30%">&ensp;<img src="./assets/7.jpeg" width="30%" height="30%">&ensp;<img src="./assets/3.jpeg" width="30%" height="30%">&ensp;
 ------
 <img src="./assets/4.jpeg" width="30%" height="30%">&ensp;<img src="./assets/5.jpeg" width="30%" height="30%">&ensp;<img src="./assets/6.jpeg" width="30%" height="30%">&ensp;
 ------
-<img src="./assets/3.jpeg" width="30%" height="30%">&ensp;<img src="./assets/8.jpeg" width="30%" height="30%">&ensp;
-------
+<img src="./assets/2.jpeg" width="30%" height="30%">&ensp;<img src="./assets/8.jpeg" width="30%" height="30%">&ensp;
+
+   
+   
+    
+
+
 <img src="./assets/11.jpeg" width="30%" height="30%">&ensp;<img src="./assets/12.jpeg" width="30%" height="30%">&ensp;
