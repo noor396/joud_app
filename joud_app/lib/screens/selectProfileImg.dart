@@ -1,14 +1,11 @@
 import 'dart:io';
 import 'dart:math';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:joud_app/Authentication/login.dart';
 import 'package:joud_app/screens/joudApp.dart';
-import 'package:joud_app/screens/update_profile_screen.dart';
 
 class SelectProfilePic extends StatefulWidget {
 static const routeName = '/selectImg';
@@ -198,5 +195,18 @@ class _SelectImg extends State<SelectProfilePic> {
     }).catchError((e) {
       print(e);
     });
+  }
+}
+class getClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    var path = new Path();
+    path.lineTo(0.0, size.height / 1.9);
+    path.lineTo(size.width + 125, 0.0);
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper<Path> oldClipper) {
+    return true;
   }
 }

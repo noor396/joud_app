@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:joud_app/Widgets/tabs_screen.dart';
 import 'package:joud_app/lang/language_provider.dart';
 import 'package:joud_app/screens/home_screen.dart';
 import 'package:joud_app/test/helper/sharedPreferences.dart';

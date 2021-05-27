@@ -28,9 +28,10 @@ class _EditProfileState extends State<EditProfileStream> {
           itemCount: 1,
           itemBuilder: (ctx, index) => EditProfilePage(
             docs[index]['id'],
-         //   docs[index]['imageUrl'],
-           // docs[index]['timestamp'].toDate(),
             docs[index]['username'],
+           docs[index]['firstname'],
+            docs[index]['lastname'],
+            
             key: ValueKey(snapShot.data.docs[index]),
           ),
         );
