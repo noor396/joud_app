@@ -55,9 +55,9 @@ Google to approve the App.
 Liana Zahran, Nefal Mohammad, and Rama Irsheidat
 
 ## Contact info
-Liana Zahran,    E-mail address: lianazahran@yahoo.com
-Nefal Mohammad,  E-mail address: nmmasad17@cit.just.edu.jo
-Rama Irsheidat,  E-mail address: rorusheidat17@cit.just.edu.jo
+- Liana Zahran,    E-mail address: lianazahran@yahoo.com          Tel.: 0799208445
+- Nefal Mohammad,  E-mail address: nmmasad17@cit.just.edu.jo      Tel.: 0781769173
+- Rama Irsheidat,  E-mail address: rorusheidat17@cit.just.edu.jo  Tel.: 0799104167
 
 ## Links
 * [Joud APK](https://drive.google.com/file/d/1_Cp7Mck2A1QumR2YHNHrkCxKhxeETn64/view?usp=sharing)
